@@ -1,9 +1,10 @@
 const express = require('express');
 const helmet = require('helmet');
 const bodyParser = require('body-parser');
-const mysql = require('mysql');
-
 const app = express();
+const usersRoutes = require('./routes/users')
+const path = require('path')
+
 
 
 /*CROSS ORIGIN RESOURCE SHARING */
@@ -16,23 +17,14 @@ app.use((req, res, next) => {
 
 /* BODY PARSER */
 app.use(bodyParser.json()); //.json est une méthode de l'objet bodyParser qui va transformer le corps des requêtes en objets JSON 
+app.use(bodyParser.urlencoded({ extended: true }))
 /* HELMET */
-app.use(helmet());
-const db = mysql.createConnection({
+// app.use(helmet());
 
-  host: "localhost",
 
-  user: "root",
+// routes
 
-  password: "Terence972"
+app.use('/api/', usersRoutes)
 
-});
-db.connect(function (err) {
 
-  if (err) throw err;
-
-  console.log("Connecté à la base de données MySQL!");
-
-});
-
-module.exports = app;
+module.exports = app
