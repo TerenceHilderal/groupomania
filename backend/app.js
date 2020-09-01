@@ -19,7 +19,9 @@ app.use((req, res, next) => {
 app.use(bodyParser.json()); //.json est une méthode de l'objet bodyParser qui va transformer le corps des requêtes en objets JSON 
 app.use(bodyParser.urlencoded({ extended: true }))
 /* HELMET */
-// app.use(helmet());
+app.use(helmet());
+/*MULTER*/
+app.use('/images', express.static(path.join(__dirname, 'images')));
 
 
 // routes

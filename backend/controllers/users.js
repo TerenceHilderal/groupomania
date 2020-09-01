@@ -63,51 +63,82 @@ exports.signup = (req, res, next) => {
 }
 
 
-exports.login = (req, res, next) => {
+exports.login = async (req, res, next) => {
 
-  // params
-  const email = req.body.email;
-  const password = req.body.password;
-
-  if (email === null || password === null) {
-    return res.status(400).json({ 'error': "user didn't exist" })
-  }
-  // things to check
-  models.User.findOne({
-    where: { email: email }
-  })
-    .then(user => {
-      if (user) {
-        bcrypt.compare(password, user.password, (err, resByBcrypt) => {
-          if (resByBcrypt) {
-            res.status(200).json({
-              'user_id': user.id,
-              'token': utils.generateToken(user),
-            })
-          } else {
-            res.status(403).json({ 'error': 'invalid password' })
-          }
-        })
-      } else {
-        res.status(404).json({ 'error': 'user didnt exist in DB' })
+  try {
+    const user = await models.User.findOne({
+      where: {
+        email: req.body.email
       }
     })
+    if (!user) {
+      return res.status(404).send({ error: "Utilisateur introuvable" })
+    }
+    const isMatch = await bcrypt.compare(req.body.password, user.password)
+    if (!isMatch) {
+      return res.status(401).send({ error: "Mot de passe incorrecte" })
+    }
+    const token = jwt.sign({ id: user.id }, 'SECRET_KEY', { expiresIn: '24h' })
+    res.status(200).send({ user_id: user.id, token })
+  } catch (err) {
+    res.status(500).send(err)
+  }
+
+
+
+  // params
+  // const email = req.body.email;
+  // const password = req.body.password;
+
+  // if (email === null || password === null) {
+  //   return res.status(400).json({ 'error': "user didn't exist" })
+  // }
+  // // things to check
+  // models.User.findOne({
+  //   where: { email: email }
+  // })
+  //   .then(user => {
+  //     if (user) {
+  //       bcrypt.compare(password, user.password, (err, resByBcrypt) => {
+  //         if (resByBcrypt) {
+  //           res.status(200).json({
+  //             'user_id': user.id,
+  //             'token': utils.generateToken(user),
+  //           })
+  //         } else {
+  //           res.status(403).json({ 'error': 'invalid password' })
+  //         }
+  //       })
+  //     } else {
+  //       res.status(404).json({ 'error': 'user didnt exist in DB' })
+  //     }
+  //   })
 }
 
-exports.userProfile = (req, res, next) => {
-  const user_id = utils.getUserId(req.headers.authorization)
+exports.userProfile = async (req, res) => {
+  // const user_id = utils.getUserId(req.headers.authorization)
 
-  models.User.findOne({
-    attributes: ['id', 'email', 'username', "role", "isAdmin"],
-    where: { id: user_id }
-  })
-    .then(user => res.status(200).json(user))
-    .catch(error => res.status(500).json({ "error": "can't find user" }))
+  // await models.User.findOne({
+  //   attributes: ['id', 'email', 'username', "role", "isAdmin"],
+  //   where: { id: user_id }
+  // })
+  //   .then(user => res.status(200).json(user))
+  //   .catch(error => res.status(500).json({ "error": "can't find user" }))
+  try {
+    const user = await models.User.findOne({
+      attributes: ['id', 'email', 'username', "role", "isAdmin"],
+      where: {
+        id: req.user.id
+      }
+    })
+    res.status(200).send(user)
+  } catch (err) {
+    res.status(500).send(err)
+  }
 };
 
 // exports.deleteProfile = (req, res, next) => {
 //   // params
-//   const user_id = utils.getUserId(req.headers.authorization)
 
 //   User.destroy({
 //     where: { id: user.id }

@@ -1,8 +1,15 @@
-const express = require('express');
 const router = express.Router();
-const postsCtrl = require('../controllers/posts')
 
-router.post('/post/new', postsCtrl.createPost)
+// Imports
+const express = require('express');
+const postsCtrl = require('../controllers/posts')
+const auth = require('../middleware/auth')
+const multer = require('../middleware/multer-config')
+
+
+
+
+router.post('/post/new', auth, multer, postsCtrl.createPost)
 
 
 
