@@ -137,14 +137,24 @@ exports.userProfile = async (req, res) => {
   }
 };
 
-// exports.deleteProfile = (req, res, next) => {
-//   // params
+exports.deleteProfile = (req, res) => {
+  // params
+  models.User.findOne({
+    where: { id: req.user.id }
+  })
+    .then((userFoundForDelete) => {
+      if (userFoundForDelete) {
+        userFoundForDelete.destroy({
+          email: userFoundForDelete.email
+        })
+          .then(() => res.status(200).json({ message: 'Utilisateur supprimé !' }))
+          .catch(error => res.status(500).json({ error, message: "L'utilisateur n'a pas été supprimé." }));
+      } else {
+        return res.status(400).json({ message: "L'utilisateur n'a pas été trouvé, il ne peut être supprimé." });
 
-//   User.destroy({
-//     where: { id: user.id }
-//   })
-
-
-// }
+      }
+    })
+    .catch(error => res.status(500).json({ error, message: 'Impossible de supprimer le compte.' }))
+}
 
 
