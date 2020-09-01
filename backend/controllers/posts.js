@@ -1,5 +1,6 @@
 // import
 const models = require('../models');
+const fs = require('fs')
 // const utils = require('../utils');
 // constants
 
@@ -8,13 +9,14 @@ const models = require('../models');
 exports.createPost = (req, res, next) => {
 
   const postObject = JSON.parse(req.body.post)
-  const post = models.Post.create({
+  const posts = models.Post.create({
     ...postObject,
-    imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
+    attachment: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
     title: req.body.title,
     content: req.body.content,
-    users_id: req.user.id
+    id_users: req.user.id
   })
-    .then(res.status(201).json({ 'message': 'publication crée' }))
+  posts.save()
+    .then(() => res.status(201).json({ 'message': 'publication crée' }))
     .catch(err => res.status(400).json({ err }))
 }
