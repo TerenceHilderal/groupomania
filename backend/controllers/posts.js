@@ -1,4 +1,5 @@
 // import
+
 const models = require('../models');
 const fs = require('fs')
 // const utils = require('../utils');
@@ -6,17 +7,21 @@ const fs = require('fs')
 
 // routes
 
-exports.createPost = (req, res, next) => {
+exports.createPost = async (req, res, next) => {
 
-  const postObject = JSON.parse(req.body.post)
-  const posts = models.Post.create({
-    ...postObject,
-    attachment: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
-    title: req.body.title,
-    content: req.body.content,
-    id_users: req.user.id
-  })
-  posts.save()
-    .then(() => res.status(201).json({ 'message': 'publication crée' }))
-    .catch(err => res.status(400).json({ err }))
+  try {
+    const postObject = req.file ? {
+      ...JSON.parse(req.body.post),
+      attachment: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+    } : { ...JSON.parse(req.body.post) }
+    await models.Post.create({
+      ...postObject,
+      title: req.user.title,
+      content: req.user.content,
+      id_users: req.user.id
+    })
+    res.status(201).send({ message: "Publication créée" })
+  } catch (err) {
+    res.status(500).send(err)
+  }
 }

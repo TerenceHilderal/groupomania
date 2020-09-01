@@ -3,7 +3,9 @@ const helmet = require('helmet');
 const bodyParser = require('body-parser');
 const app = express();
 const usersRoutes = require('./routes/users')
+const postsRoutes = require('./routes/posts')
 const path = require('path')
+
 
 
 
@@ -27,6 +29,7 @@ app.use('/images', express.static(path.join(__dirname, 'images')));
 // routes
 
 app.use('/api/', usersRoutes)
+app.use('api/', postsRoutes)
 
 
 module.exports = app
