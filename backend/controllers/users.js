@@ -157,4 +157,24 @@ exports.deleteProfile = (req, res) => {
     .catch(error => res.status(500).json({ error, message: 'Impossible de supprimer le compte.' }))
 }
 
-
+exports.updateProfile = (req, res, next) => { // Modification du Profil Utilisateur
+  models.User.findOne({
+    attributes: ['role', 'id', 'isAdmin'],
+    where: { id: req.user.id }
+  })
+    .then((userFound) => {
+      if (userFound) {
+        userFound.update({
+          role: req.body.role,
+          isAdmin: req.body.isAdmin
+        })
+          .then(userFound => {
+            return res.status(200).json({ User: userFound, message: "Profil modifié !" })
+          })
+          .catch(error => res.status(500).json({ error, message: "Impossible de modifié votre profil." }));
+      } else {
+        return res.status(400).json({ message: "User not found" });
+      }
+    })
+    .catch(error => res.status(500).json({ error, message: "Authorization issue" }));
+};
