@@ -9,7 +9,9 @@ const router = express.Router();
 
 
 // Routes
-router.post('/new', auth, multer, postsCtrl.createPost)
+router.post('/new', auth, multer, postsCtrl.createPost);
+router.get('/getPosts', multer, postsCtrl.getAllPosts)
+
 
 
 

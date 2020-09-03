@@ -9,15 +9,18 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      models.Post.hasMany(models.Comment, { foreignKey: 'id_posts' })
+
       models.Post.belongsTo(models.User, {
         foreignKey: {
-          allowNull: false
+          allowNull: false,
         }
       })
+
     }
   };
   Post.init({
-    id_users: DataTypes.INTEGER,
+    // id_users: DataTypes.INTEGER,
     title: DataTypes.STRING,
     content: DataTypes.STRING,
     attachment: DataTypes.STRING
