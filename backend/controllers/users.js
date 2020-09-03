@@ -159,12 +159,13 @@ exports.deleteProfile = (req, res) => {
 
 exports.updateProfile = (req, res, next) => { // Modification du Profil Utilisateur
   models.User.findOne({
-    attributes: ['role', 'id', 'isAdmin'],
+    attributes: ['role', 'id', 'isAdmin', 'username'],
     where: { id: req.user.id }
   })
     .then((userFound) => {
       if (userFound) {
         userFound.update({
+          username: req.body.username,
           role: req.body.role,
           isAdmin: req.body.isAdmin
         })

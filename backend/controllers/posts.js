@@ -2,27 +2,52 @@
 
 const models = require('../models');
 const fs = require('fs')
-// const utils = require('../utils');
+
 // constants
 
-// routes
+// controllers
 
-exports.createPost = async (req, res, next) => {
+exports.createPost = (req, res, next) => {
 
-  try {
-    // const postObject = req.file ? {
-    // //   ...JSON.parse(req.body.post),
-    // //   attachment: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
-    // // } : { ...JSON.parse(req.body.post) }
-    // console.log(postObject);
-    await models.Post.create({
-      // ...postObject,
-      title: req.user.title,
-      content: req.user.content,
-      id_users: req.user.id
-    })
-    res.status(201).json({ message: "Publication créée" })
-  } catch (err) {
-    res.status(500).json({ message: 'cest mort' })
-  }
+  let attachmentURL;
+  models.User.findOne({
+    attributes: ['username', 'role', 'createdAt', 'updatedAt'],
+    where: { id: req.user.id }
+  })
+
+
+
 }
+
+
+
+
+
+
+
+
+
+
+// exports.getAllPosts = (req, res, next) => {
+
+//   const fields = req.query.fields; // selectionner les colonnes que l'on souhaite afficher
+//   const order = req.query.order;  // afficher les messages dans un certain ordre
+
+//   models.Post.findAll({
+//     order: [(order != null) ? order.split(':') : ['createdAt', 'DESC']], // on test
+//     attributes: (fields != '*' && fields != null) ? fields.split(',') : null, //idem ici
+//     include: [{
+//       model: models.User,
+//       attributes: ['username']
+//     }]
+//   })
+//     .then((post) => {
+//       if (post) {
+//         res.status(200).json(post)
+//       } else {
+//         res.status(404).json({ 'error': "posts not found" })
+//       }
+//     })
+//     .catch(err => res.status(500).json({ err }));
+
+// }

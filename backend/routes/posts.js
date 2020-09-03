@@ -9,7 +9,7 @@ const router = express.Router();
 
 
 // Routes
-router.post('/post/new', auth, multer, postsCtrl.createPost)
+router.post('/new', auth, multer, postsCtrl.createPost)
 
 
 
