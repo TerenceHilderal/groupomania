@@ -78,6 +78,7 @@ exports.getAllPosts = async (req, res, next) => {
 	// 		}
 	// 	})
 	// 	.catch(err => res.status(500).json({ err }));
+
 	try {
 		const fields = req.query.fields; // selectionner les colonnes que l'on souhaite afficher
 		const order = req.query.order; // afficher les messages dans un certain ordre
@@ -127,7 +128,7 @@ exports.deletePost = async (req, res) => {
 		} else {
 			res.status(401).json({ error: "Unauthorized action!" });
 		}
-	} catch {
-		err;
+	} catch (error) {
+		res.status(400).send(error);
 	}
 };

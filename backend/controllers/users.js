@@ -53,7 +53,7 @@ exports.signup = (req, res, next) => {
 				.then(newUser => {
 					res
 						.status(201)
-						.json({ newUser_id: newUser.id + "new user has been created" });
+						.json({ newUserId: newUser.id + "new user has been created" });
 				})
 				.catch(err => res.status(500).json({ err }));
 		} else {

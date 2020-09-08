@@ -22,14 +22,53 @@ exports.createComment = async (req, res) => {
 
 exports.getComment = async (req, res) => {
 	try {
+		const order = req.query.order;
 		const comments = await models.Comment.findAll({
-			include: [models.User],
-			order: ["createdAt", "DESC"]
+			attributes: [
+				"id",
+				"comments",
+				"UserId",
+				"PostId",
+				"createdAt",
+				"updatedAt"
+			],
+			order: [order != null ? order.split(":") : ["createdAt", "DESC"]]
 		});
-		res.status(200).send(comments);
+		if (comments) {
+			res.status(200).send({ message: comments });
+		}
+	} catch (err) {
+		res.status(500).send(err);
+	}
+};
+
+exports.deleteComment = async (req, res) => {
+	try {
+		const commentFound = await models.Comment.findOne({
+			attributes: [
+				"id",
+				"comments",
+				"UserId",
+				"PostId",
+				"createdAt",
+				"updatedAt"
+			],
+			where: { id: req.params.id }
+		});
+		if (
+			req.user.isAdmin == true ||
+			(commentFound && commentFound.UserId == req.user.id)
+		) {
+			await models.Comment.destroy({ where: { id: req.params.id } });
+			res
+				.status(200)
+				.json({ message: "Comment has been deleted ", commentFound });
+		} else {
+			res.status(401).json({ error: "Unauthorized action!" });
+		}
 	} catch (error) {
 		res.status(400).send(error);
 	}
 };
-
-exports.deleteComment = (req, res) => {};
+// UPDATE PROJECT FOR FUTURE
+exports.answerComment = async (req, es) => {};
