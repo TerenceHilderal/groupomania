@@ -34,6 +34,6 @@ app.use("/videos", express.static(path.join(__dirname, "videos")));
 
 app.use("/api/users/", usersRoutes);
 app.use("/api/posts/", postsRoutes);
-app.use("/api/comments/", commentsRoutes);
+app.use("/api/posts/", commentsRoutes);
 
 module.exports = app;

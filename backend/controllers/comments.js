@@ -5,11 +5,15 @@ const fs = require("fs");
 
 exports.createComment = async (req, res) => {
 	try {
+		let comments = req.body.comments;
 		const newCom = await models.Comment.create({
-			comments: req.body.comments,
+			comments: comments,
 			UserId: req.user.id,
 			PostId: req.params.id
 		});
+		// if (comments.lenght == null) {
+		// 	throw new Error({ error: " your comment can't be empty" });
+		// }
 		if (newCom) {
 			res.status(201).json({ message: "Your comment has been sent", newCom });
 		} else {
@@ -20,7 +24,7 @@ exports.createComment = async (req, res) => {
 	}
 };
 
-exports.getComment = async (req, res) => {
+exports.getComments = async (req, res) => {
 	try {
 		const order = req.query.order;
 		const comments = await models.Comment.findAll({
@@ -32,7 +36,8 @@ exports.getComment = async (req, res) => {
 				"createdAt",
 				"updatedAt"
 			],
-			order: [order != null ? order.split(":") : ["createdAt", "DESC"]]
+			order: [order != null ? order.split(":") : ["createdAt", "DESC"]],
+			where: { postId: req.params.id }
 		});
 		if (comments) {
 			res.status(200).send({ message: comments });
