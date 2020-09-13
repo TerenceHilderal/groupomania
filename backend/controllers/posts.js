@@ -9,24 +9,31 @@ const { post } = require("../app");
 
 // controllers
 
-exports.createPost = (req, res) => {
-	const attachmentURL = `${req.protocol}://${req.get("host")}/images/${
-		req.file.filename
-	}`;
-
-	models.User.findOne({
-		attributes: ["username", "role"],
-		where: { id: req.user.id }
-	});
-
-	models.Post.create({
-		title: req.body.title,
-		content: req.body.content,
-		attachment: attachmentURL,
-		UserId: req.user.id
-	})
-		.then(newPost => res.status(201).json({ newPost }))
-		.catch(err => res.status(400).json({ err }));
+exports.createPost = async (req, res) => {
+	try {
+		const attachmentURL = `${req.protocol}://${req.get("host")}/images/${
+			req.file.filename
+		}`;
+		const findUser = await models.User.findOne({
+			attributes: ["username", "role"],
+			where: { id: req.user.id }
+		});
+		if (!findUser) {
+			throw new Error("Can't find user");
+		}
+		const newPost = await models.Post.create({
+			title: req.body.title,
+			content: req.body.content,
+			attachment: attachmentURL,
+			UserId: req.user.id
+		});
+		if (!newPost) {
+			throw new Error(" Sorry, missing parameters");
+		}
+		res.status(200).json({ newPost });
+	} catch (error) {
+		res.status(400).json({ error: error.message });
+	}
 };
 
 exports.updatePost = async (req, res) => {
@@ -34,26 +41,27 @@ exports.updatePost = async (req, res) => {
 		const attachmentURL = `${req.protocol}://${req.get("host")}/images/${
 			req.file.filename
 		}`;
-		postFound = await models.Post.findOne({
+
+		const postFound = await models.Post.findOne({
 			where: { id: req.params.id }
 		});
-		if (postFound && postFound && postFound.UserId == req.user.id) {
-			postFound.update({
-				title: req.body.title,
-				content: req.body.content,
-				attachment: attachmentURL,
-				userId: req.user.id
-			});
-			res.status(201).json({
-				message: " Your post has been updated",
-				PostUpdated: postFound
-			});
-		} else {
-			// throw new Error({ error: " Sorry , we Couldn't update your post" });
-			res.status(400).json({ error: "unauthorized acation" });
+		if (postFound && postFound.UserId !== req.user.id) {
+			res.status(400).json({ error: "Unauthorized action" });
 		}
+
+		postFound.update({
+			title: req.body.title,
+			content: req.body.content,
+			attachment: attachmentURL,
+			userId: req.user.id
+		});
+
+		res.status(201).json({
+			message: " Your post has been updated",
+			PostUpdated: postFound
+		});
 	} catch (error) {
-		throw new Error({ error: "something gone wrong" });
+		res.status(400).json({ error: error.message });
 	}
 };
 
@@ -72,9 +80,12 @@ exports.getAllPosts = async (req, res, next) => {
 				}
 			]
 		});
+		if (!posts) {
+			throw new Error(" Sorry , nothing to fetch");
+		}
 		res.status(200).send(posts);
-	} catch {
-		throw new Error({ error: "posts not found" });
+	} catch (error) {
+		res.status(400).json({ error: error.message });
 	}
 };
 
@@ -94,29 +105,47 @@ exports.getPostProfile = async (req, res) => {
 				}
 			]
 		});
-		res.status(200).send(postProfile);
+		res.status(200).json(postProfile);
+		if (!postProfile) {
+			throw new Error(" This user has posted nothing ");
+		}
 	} catch (error) {
-		console.log("c mort mec");
+		res.status(400).json({ error: error.message });
 	}
 };
 
 exports.deletePost = async (req, res) => {
 	try {
 		const post = await models.Post.findOne({ where: { id: req.params.id } });
-		if (post.attachment != null) {
+
+		if (post.attachment !== null) {
 			const filename = post.attachment.split("/images/")[1];
 			fs.unlink(`images/${filename}`, err => {
-				if (err) throw new Error({ err });
+				// if (err) throw new Error({ err });
 			});
 		}
-		if (req.user.isAdmin == true || (post && post.UserId == req.user.id)) {
-			await models.Post.destroy({ where: { id: req.params.id } });
-			res.status(200).json({ message: "Post has been deleted ", post });
-			await models.Comment.destroy({ where: { id: req.params.id } });
-		} else {
-			res.status(401).json({ error: "Unauthorized action!" });
+		// if (!req.user.isAdmin || (post && post.UserId !== req.user.id)) {
+		// 	throw new Error("Unauthorized action");
+		// }
+		if (!post) {
+			throw new Error("Sorry,your post doesn't exist ");
 		}
+		if (req.user.isAdmin === true || post.UserId === req.user.id) {
+			const delPost = await models.Post.destroy({
+				where: { id: req.params.id }
+			});
+			res.status(200).json({ message: "Post has been deleted " });
+		}
+		if (!delPost) {
+			throw new Error("Sorry we couldn't delete your post");
+		}
+
+		await models.Comment.destroy({
+			where: { id: req.params.id }
+		});
+
+		res.status(200).json({ message: "Your comment has been deleted" });
 	} catch (error) {
-		res.status(400).send(error);
+		res.status(401).json({ error: error.message });
 	}
 };

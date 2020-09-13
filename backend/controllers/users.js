@@ -1,9 +1,11 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+// const { where } = require("sequelize/types");
+// const { Where } = require("sequelize/types/lib/utils");
 // const utils = require("../utils/jwtUtils");
 const models = require("../models");
 
-exports.signup = (req, res, next) => {
+exports.signup = async (req, res, next) => {
 	// params
 	const email = req.body.email;
 	const username = req.body.username;
@@ -35,31 +37,32 @@ exports.signup = (req, res, next) => {
 	}
 
 	// On cherche l'utilisateur dans la bdd
-	models.User.findOne({
-		attributes: ["email"],
-		where: { email: email }
-	}).then(userFound => {
-		if (!userFound) {
-			bcrypt
-				.hash(password, 10, (err, bcryptedPassword) => {
-					const newUser = models.User.create({
-						email: email,
-						username: username,
-						password: bcryptedPassword,
-						role: role,
-						isAdmin: 0
-					});
-				})
-				.then(newUser => {
-					res
-						.status(201)
-						.json({ newUserId: newUser.id + "new user has been created" });
-				})
-				.catch(err => res.status(500).json({ err }));
-		} else {
-			res.status(409).json({ error: "user already exist" });
+	try {
+		const oldUser = await models.User.findOne({
+			attributes: ["email"],
+			where: { email: email }
+		});
+		if (oldUser) {
+			throw new Error("Already have an account");
 		}
-	});
+		// const newUser = JSON.parse(req.body.user);
+
+		const newUser = await models.User.create({
+			email: email,
+			username: username,
+			password: await bcrypt.hash(password, 10),
+			role: role,
+			isAdmin: 0
+		});
+		// const parsedUser = JSON.stringify(newUser);
+
+		res.status(201).json({
+			Id: newUser.id,
+			username: newUser.username + " " + "new user has been created"
+		});
+	} catch (error) {
+		res.status(400).json({ error: error.message });
+	}
 };
 
 exports.login = async (req, res, next) => {
@@ -85,8 +88,8 @@ exports.login = async (req, res, next) => {
 			isAdmin: user.isAdmin,
 			token
 		});
-	} catch (err) {
-		res.status(500).send(err);
+	} catch (error) {
+		res.status(error.status).json({ error });
 	}
 };
 
@@ -98,73 +101,84 @@ exports.userProfile = async (req, res) => {
 				id: req.user.id
 			}
 		});
-		res.status(200).send(user);
-	} catch (err) {
-		res.status(500).send(err);
+		res.status(200).json({ user });
+	} catch (error) {
+		res.status(400).json({ error });
 	}
 };
 
-exports.deleteProfile = (req, res) => {
+exports.deleteProfile = async (req, res) => {
 	// params
-	models.User.findOne({
-		where: { id: req.user.id }
-	})
-		.then(userFoundForDelete => {
-			if (userFoundForDelete) {
-				userFoundForDelete
-					.destroy({
-						email: userFoundForDelete.email
-					})
-					.then(() =>
-						res.status(200).json({ message: "Utilisateur supprimé !" })
-					)
-					.catch(error =>
-						res
-							.status(500)
-							.json({ error, message: "L'utilisateur n'a pas été supprimé." })
-					);
-			} else {
-				return res.status(400).json({
-					message: "L'utilisateur n'a pas été trouvé, il ne peut être supprimé."
-				});
+	try {
+		const userToFind = models.User.findOne({
+			where: { id: req.user.id }
+		});
+		if (!userToFind) {
+			throw new Error("Sorry,can't find your account");
+		}
+
+		const userToDestroy = await models.User.destroy({
+			where: { id: req.user.id }
+		});
+
+		const posts = await models.Post.findAll({
+			where: {
+				userId: req.user.id
 			}
-		})
-		.catch(error =>
-			res
-				.status(500)
-				.json({ error, message: "Impossible de supprimer le compte." })
-		);
+		});
+		posts.forEach(post => {
+			const postFilename = post.imageUrl.split("/images/")[1];
+			fs.unlink(`images/${postFilename}`, () => {
+				post.destroy();
+			});
+		});
+		await models.Comment.destroy({
+			where: {
+				userId: req.user.id
+			}
+		});
+		if (!userToDestroy) {
+			throw new Error("Sorry,something gone wrong");
+		}
+		res
+			.status(200)
+			.json({ message: "Your account has been successfully deleted" });
+	} catch (error) {
+		res.status(400).json({ error: error.message });
+	}
 };
 
-exports.updateProfile = (req, res, next) => {
+exports.updateProfile = async (req, res, next) => {
 	// Modification du Profil Utilisateur
-	models.User.findOne({
-		attributes: ["role", "id", "isAdmin", "username"],
-		where: { id: req.user.id }
-	})
-		.then(userFound => {
-			if (userFound) {
-				userFound
-					.update({
-						username: req.body.username,
-						role: req.body.role,
-						isAdmin: req.body.isAdmin
-					})
-					.then(userFound => {
-						return res
-							.status(200)
-							.json({ User: userFound, message: "Profil modifié !" });
-					})
-					.catch(error =>
-						res
-							.status(500)
-							.json({ error, message: "Impossible de modifié votre profil." })
-					);
-			} else {
-				return res.status(400).json({ message: "User not found" });
+	try {
+		const userToFind = models.User.findOne({
+			attributes: ["role", "id", "isAdmin", "username"],
+			where: { id: req.user.id }
+		});
+
+		if (!userToFind) {
+			throw new Error("Sorry,we can't find your account");
+		}
+
+		const userToUpdate = await models.User.update(
+			{
+				username: req.body.username,
+				role: req.body.role,
+				isAdmin: req.body.isAdmin
+			},
+			{
+				attributes: ["username", "role", "isAdmin"],
+				where: { id: req.user.id }
 			}
-		})
-		.catch(error =>
-			res.status(500).json({ error, message: "Authorization issue" })
 		);
+		res.status(200).json({
+			message: "Your account has been update"
+		});
+
+		if (!userToUpdate) {
+			throw new Error("Sorry,we can't update your account");
+		}
+	} catch (error) {
+		res.status(400).json({ error: error.message });
+	}
 };

@@ -1,22 +1,23 @@
 {
-  "name": "backend",
-  "version": "1.0.0",
-  "description": "",
-  "main": "server.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "bcrypt": "^5.0.0",
-    "body-parser": "^1.19.0",
-    "express": "^4.17.1",
-    "express-validator": "^6.6.1",
-    "helmet": "^4.1.0",
-    "jsonwebtoken": "^8.5.1",
-    "multer": "^1.4.2",
-    "mysql": "^2.18.1",
-    "sequelize": "^6.3.4"
-  }
+	"name": "backend",
+	"version": "1.0.0",
+	"description": "",
+	"main": "server.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"createDB": "node sql/groupomaniaDB.sql"
+	},
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"bcrypt": "^5.0.0",
+		"body-parser": "^1.19.0",
+		"express": "^4.17.1",
+		"express-validator": "^6.6.1",
+		"helmet": "^4.1.0",
+		"jsonwebtoken": "^8.5.1",
+		"multer": "^1.4.2",
+		"mysql": "^2.18.1",
+		"sequelize": "^6.3.4"
+	}
 }
