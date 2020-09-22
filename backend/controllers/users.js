@@ -29,12 +29,12 @@ exports.signup = async (req, res, next) => {
 		res.status(400).json({ error: "Your email is not valid" });
 	}
 
-	if (!password_regex.test(password)) {
-		res.status(400).json({
-			error:
-				" Password must be between 4 and 8 digits long and include at least one numeric digit"
-		});
-	}
+	// if (!password_regex.test(password)) {
+	// 	res.status(400).json({
+	// 		error:
+	// 			" Password must be between 4 and 8 digits long and include at least one numeric digit"
+	// 	});
+	// }
 
 	// On cherche l'utilisateur dans la bdd
 	try {
@@ -58,7 +58,8 @@ exports.signup = async (req, res, next) => {
 
 		res.status(201).json({
 			Id: newUser.id,
-			username: newUser.username + " " + "new user has been created"
+			username: newUser.username,
+			role: newUser.role + " " + "new user has been created"
 		});
 	} catch (error) {
 		res.status(400).json({ error: error.message });
