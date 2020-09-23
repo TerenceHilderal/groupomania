@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import styles from "./SignUp.module.scss";
 
 export class SignUp extends Component {
 	constructor(props) {
@@ -17,21 +18,21 @@ export class SignUp extends Component {
 		this.setState({ [e.target.name]: e.target.value });
 	};
 	submitHandler = e => {
-		e.preventDefault();
-		axios
-			.post("http://localhost:3000/api/users/signup", this.state)
-			.then(res => {
-				console.log(res);
-			})
-			.catch(error => {
-				console.log(error);
-			});
+		// e.preventDefault();
+		// axios
+		// 	.post("http://localhost:3000/api/users/signup", this.state)
+		// 	.then(res => {
+		// 		console.log(res);
+		// 	})
+		// 	.catch(error => {
+		// 		console.log(error);
+		// 	});
 	};
 
 	render() {
 		const { email, password, username, role } = this.state;
 		return (
-			<div>
+			<div className={styles.containerSignup}>
 				<form onSubmit={this.submitHandler}>
 					<div className="form-group">
 						<label htmlFor="email">Email address</label>
@@ -86,8 +87,8 @@ export class SignUp extends Component {
 						/>
 					</div>
 					<Link to="/login">
-						<button type="submit" className="btn btn-primary">
-							Submit
+						<button type="submit" className="btn btn-danger">
+							Sign-up
 						</button>
 					</Link>
 				</form>

@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { Component } from "react";
+import styles from "./SignUp.module.scss";
 
 export class LogIn extends Component {
 	constructor(props) {
@@ -29,7 +30,7 @@ export class LogIn extends Component {
 	render() {
 		const { email, password } = this.state;
 		return (
-			<div>
+			<div className={styles.containerSignup}>
 				<form onSubmit={this.submitHandler}>
 					<div className="form-group">
 						<label htmlFor="email">Email address</label>
@@ -60,7 +61,7 @@ export class LogIn extends Component {
 						/>
 					</div>
 
-					<button type="submit" class="btn btn-primary">
+					<button type="submit" class="btn btn-danger">
 						Submit
 					</button>
 				</form>

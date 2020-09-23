@@ -1,0 +1,25 @@
+body {
+	// background-color: #192947;
+}
+.containerSignup {
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	// background-color: #192947;
+}
+form {
+	text-align: center;
+	display: flex;
+	width: 50%;
+	flex-direction: column;
+	justify-content: center;
+	margin: auto;
+	padding: 1.5rem;
+	box-shadow: 8px 8px 8px 8px #d1515a;
+	// background-color: ;
+
+	label {
+		color: #d1515a;
+	}
+}
