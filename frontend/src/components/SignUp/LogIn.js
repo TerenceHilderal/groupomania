@@ -2,6 +2,8 @@ import axios from "axios";
 import React, { Component } from "react";
 import styles from "./SignUp.module.scss";
 
+import { NavLink } from "react-router-dom";
+
 export class LogIn extends Component {
 	constructor(props) {
 		super(props);
@@ -22,9 +24,24 @@ export class LogIn extends Component {
 			.post("http://localhost:3000/api/users/login", this.state)
 			.then(res => {
 				console.log(res);
+
+				sessionStorage.setItem("token", res.data.token);
+
+				const profile = {
+					user_id: res.data.user_id,
+					username: res.data.username,
+					role: res.data.role,
+					email: res.data.email
+				};
+				console.log(profile);
+				sessionStorage.setItem("profile", JSON.stringify(profile));
+
+				const header = (axios.defaults.headers.common["Authorization"] =
+					"Bearer " + res.data.token);
+				console.log(header);
 			})
 			.catch(error => {
-				console.log(error);
+				console.log({ error });
 			});
 	};
 	render() {
@@ -64,6 +81,8 @@ export class LogIn extends Component {
 					<button type="submit" class="btn btn-danger">
 						Submit
 					</button>
+					<p>Don't already have an account?</p>
+					<NavLink to="/"> Click here</NavLink>
 				</form>
 			</div>
 		);
