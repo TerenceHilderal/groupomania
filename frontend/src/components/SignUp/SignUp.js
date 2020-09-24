@@ -34,7 +34,6 @@ export class SignUp extends Component {
 		const { email, password, username, role } = this.state;
 		return (
 			<div className={styles.containerSignup}>
-				<Sidebar />
 				<form onSubmit={this.submitHandler}>
 					<div className="form-group">
 						<label htmlFor="email">Email address</label>

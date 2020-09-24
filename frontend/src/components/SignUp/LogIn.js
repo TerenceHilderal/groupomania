@@ -1,7 +1,6 @@
 import axios from "axios";
 import React, { Component } from "react";
 import styles from "./SignUp.module.scss";
-
 import { NavLink } from "react-router-dom";
 
 export class LogIn extends Component {
@@ -77,10 +76,11 @@ export class LogIn extends Component {
 							placeholder="Password"
 						/>
 					</div>
-
-					<button type="submit" class="btn btn-danger">
-						Submit
-					</button>
+					<NavLink to="/myprofile">
+						<button type="submit" class="btn btn-danger">
+							Submit
+						</button>
+					</NavLink>
 					<p>Don't already have an account?</p>
 					<NavLink to="/"> Click here</NavLink>
 				</form>

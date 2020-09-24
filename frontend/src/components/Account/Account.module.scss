@@ -1,0 +1,28 @@
+.container {
+	background-color: #192947;
+	height: 100vh;
+	display: flex;
+	flex-direction: row;
+	text-align: center;
+	// align-items: center;
+	p,
+	h1,
+	h2,
+	h3,
+	li {
+		color: mintcream;
+		list-style-type: none;
+	}
+	.introduction {
+		// width: 500px;
+		font-size: small;
+		font-family: "Courier New", Courier, monospace;
+	}
+	.profile {
+		flex-direction: column;
+		min-width: 900px;
+		margin: auto;
+		background-color: #192947;
+		text-decoration: none;
+	}
+}
