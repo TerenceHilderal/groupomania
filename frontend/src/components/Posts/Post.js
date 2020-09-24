@@ -32,7 +32,7 @@ export class Post extends Component {
 			});
 	}
 	render() {
-		// const { posts } = this.state;
+		const { posts } = this.state;
 		console.log(posts);
 		return (
 			<div className={styles.post}>
