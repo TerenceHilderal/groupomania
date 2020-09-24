@@ -1,17 +1,14 @@
 import React, { Component } from "react";
-import Sidebar from "../Sidebar/Sidebar";
-import styles from "../Sidebar/Sidebar.module.scss";
+// import Sidebar from "../Sidebar/Sidebar";
+import Post from "../Posts/Post";
+// import styles from "../Sidebar/Sidebar.module.scss";
+// import style from "../Posts/Post.module.scss";
 
-export class Wall extends Component {
-	render() {
-		return (
-			<div>
-				<div className={styles.sidebar}>
-					<Sidebar />
-				</div>
-			</div>
-		);
-	}
+function Wall() {
+	return (
+		<div>
+			<Post />
+		</div>
+	);
 }
-
 export default Wall;

@@ -12,6 +12,8 @@
 	li {
 		color: mintcream;
 		list-style-type: none;
+		padding-left: 2rem;
+		padding-right: 2rem;
 	}
 	.introduction {
 		// width: 500px;
@@ -24,5 +26,11 @@
 		margin: auto;
 		background-color: #192947;
 		text-decoration: none;
+	}
+	.button {
+		display: flex;
+		margin: auto;
+		flex-direction: column;
+		width: 25%;
 	}
 }

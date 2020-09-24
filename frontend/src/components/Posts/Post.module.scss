@@ -1,0 +1,20 @@
+.post {
+	display: flex;
+	flex-direction: column;
+	justify-content: center; // background-color: midnightblue;
+	width: 700px;
+	text-align: center;
+	border: 1px solid silver;
+	margin: auto;
+	margin-left: 30%;
+	margin-top: 15%;
+	margin-bottom: 15%;
+	background-color: #192947;
+	p,
+	span {
+		color: whitesmoke;
+	}
+	hr {
+		background-color: whitesmoke;
+	}
+}

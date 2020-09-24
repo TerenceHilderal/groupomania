@@ -44,7 +44,7 @@ function Account() {
 						<li>Advantage administrator : user.isAdmin</li>
 					</ul>
 				</div>
-				<div>
+				<div className={styles.button}>
 					<button type="button" class="btn btn-warning">
 						Modify informations about me
 					</button>

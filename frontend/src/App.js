@@ -6,7 +6,8 @@ import {
 	Footer,
 	Sidebar,
 	Account,
-	Wall
+	Wall,
+	Post
 } from "./components";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import "./App.css";
@@ -22,6 +23,8 @@ export class App extends Component {
 					<Route exact path="/login" component={LogIn} />
 					<Route exact path="/myprofile" component={Account} />
 					<Route exact path="/wall" component={Wall} />
+					<Route exact path="/post" component={Post} />
+
 					<Footer />
 				</div>
 			</Router>
