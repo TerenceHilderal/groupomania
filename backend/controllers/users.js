@@ -57,6 +57,7 @@ exports.signup = async (req, res, next) => {
 		// const parsedUser = JSON.stringify(newUser);
 
 		res.status(201).json({
+			// newUser:newUser,
 			Id: newUser.id,
 			username: newUser.username,
 			role: newUser.role + " " + "new user has been created"

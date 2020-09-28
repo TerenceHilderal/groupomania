@@ -21,16 +21,16 @@ export class Post extends Component {
 			.catch(error => console.log({ error }));
 	}
 
-	deletePost() {
-		axios
-			.delete("http://localhost:3000/api/posts/" + this.state.id)
-			.then(response => {
-				console.log(response);
-			})
-			.catch(error => {
-				console.log(error);
-			});
-	}
+	// deletePost() {
+	// 	axios
+	// 		.delete("http://localhost:3000/api/posts/" + this.state.id)
+	// 		.then(response => {
+	// 			console.log(response);
+	// 		})
+	// 		.catch(error => {
+	// 			console.log(error);
+	// 		});
+	// }
 	render() {
 		const { posts } = this.state;
 		console.log(posts);

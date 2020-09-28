@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./Account.scss";
+import axios from "axios";
 
 import Sidebar from "../Sidebar";
 
@@ -7,23 +8,36 @@ import Sidebar from "../Sidebar";
 
 // requête put pour pouvoir modifier les informations
 
-// requête delete pour pouvoir supprimer son profil
-
 // requête get pour pouvoir récuperer tout ses posts
 
-// récupérer le token pour l'authentification car toutes les requêtes necessite une authentification
-
 function Account() {
+	// recup des données du profil pour les afficher
+	const myProfile = JSON.parse(localStorage.getItem("profile"));
+	// récupérer le token pour l'authentification car toutes les requêtes necessite une authentification
+	const token = localStorage.getItem("token");
+	// requête delete pour pouvoir supprimer son profil
+	const handleDeleteUser = () => {
+		const header = (axios.defaults.headers.common["Authorization"] = token);
+		axios
+			.delete("http://localhost:3000/api/users/delete")
+			.then(response => {
+				localStorage.clear();
+				alert("Votre compte a été supprimé");
+				console.log(response);
+				window.location = "/";
+			})
+			.catch(err => console.log({ err }));
+	};
+
 	return (
 		<div className="container-fluid">
 			<Sidebar />
-
 			<div className={styles.profile}>
 				<div>
 					<h1>My profile</h1>
 				</div>
 				<div>
-					<h2>Welcome Username</h2>
+					<h2>Welcome {myProfile.username}</h2>
 				</div>
 				<div className="introduction">
 					<p>
@@ -38,17 +52,21 @@ function Account() {
 				<div>
 					<h3>Your informations:</h3>
 					<ul>
-						<li>Email: user.email</li>
-						<li>Username: user.username</li>
-						<li>Your role in our company : user.role</li>
-						<li>Advantage administrator : user.isAdmin</li>
+						<li>Email:{myProfile.email} </li>
+						<li>Username:{myProfile.username} </li>
+						<li>Your role in our company :{myProfile.role} </li>
+						<li>Advantage administrator : {myProfile.isAdmin}</li>
 					</ul>
 				</div>
 				<div className="button">
-					<button type="button" class="btn btn-warning">
+					<button type="button" className="btn btn-warning">
 						Modify informations about me
 					</button>
-					<button type="button" class="btn btn-danger">
+					<button
+						type="button"
+						onClick={handleDeleteUser}
+						className="btn btn-danger"
+					>
 						Delete my account
 					</button>
 				</div>

@@ -16,12 +16,14 @@ function SignUp() {
 			.post("http://localhost:3000/api/users/signup", signUp)
 			.then(res => {
 				console.log(res);
-				setSignUp(signUp);
 			})
 			.catch(error => {
 				console.log(error);
 			});
 	};
+	if (signUp.username === null) {
+		console.log("connexion impossible");
+	}
 
 	return (
 		<div className={styles.containerSignup}>
