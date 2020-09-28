@@ -2,12 +2,12 @@ import React from "react";
 import HomeIcon from "@material-ui/icons/Home";
 import PersonIcon from "@material-ui/icons/Person";
 import EmailIcon from "@material-ui/icons/Email";
-import styles from "./Sidebar.module.scss";
+import "./Sidebar.scss";
 import { NavLink } from "react-router-dom";
 
 function Sidebar() {
 	return (
-		<div className={styles.sidebar}>
+		<div className="sidebar">
 			<NavLink to="/wall">
 				<HomeIcon fontSize="large" />
 				<p>Home</p>

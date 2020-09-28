@@ -1,6 +1,5 @@
 import React from "react";
-import { styles } from "./Header.module.scss";
-
+import "./Header.scss";
 function Header() {
 	return (
 		<header className="navbar navbar-expand-lg navbar-light">

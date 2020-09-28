@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
-import styles from "./Post.module.scss";
+import "./Post.scss";
 import axios from "axios";
 
 export class Post extends Component {
@@ -35,7 +35,30 @@ export class Post extends Component {
 		const { posts } = this.state;
 		console.log(posts);
 		return (
-			<div className={styles.post}>
+			<div className="post">
+				<div className="tweetBox">
+					<form>
+						<div className="tweetBox__input">
+							{/* <Avatar src="https://kajabi-storefronts-production.global.ssl.fastly.net/kajabi-storefronts-production/themes/284832/settings_images/rLlCifhXRJiT0RoN2FjK_Logo_roundbackground_black.png" /> */}
+							<input
+								// onChange={e => setTweetMessage(e.target.value)}
+								// value={tweetMessage}
+								placeholder="What's happening?"
+								type="text"
+							/>
+						</div>
+						<input
+							// value={tweetImage}
+							// onChange={e => setTweetImage(e.target.value)}
+							className="tweetBox__imageInput"
+							placeholder="Optional: Enter image URL"
+							type="text"
+						/>
+						<button>Tweet</button>
+
+						<hr />
+					</form>
+				</div>
 				{posts.map(post => (
 					<div key={post.id}>
 						<div className="post__username">

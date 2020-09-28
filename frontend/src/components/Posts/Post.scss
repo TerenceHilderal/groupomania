@@ -1,0 +1,44 @@
+.post {
+	display: flex;
+	flex-direction: column;
+	justify-content: center; // background-color: midnightblue;
+	width: 700px;
+	text-align: center;
+	border: 1px solid silver;
+	margin: auto;
+	margin-left: 30%;
+	// margin-top: 15%;
+	margin-bottom: 15%;
+	background-color: #192947;
+	p,
+	span {
+		color: whitesmoke;
+	}
+	hr {
+		background-color: whitesmoke;
+	}
+}
+.tweetBox {
+	padding-bottom: 10px;
+	border-bottom: 8px solid var(--twitter-background);
+	padding-right: 10px;
+	// background-color: white;
+	margin-bottom: 1rem;
+}
+
+.tweetBox > form {
+	display: flex;
+	flex-direction: column;
+}
+
+.tweetBox__input {
+	padding: 20px;
+	display: flex;
+}
+
+.tweetBox__input > input {
+	flex: 1;
+	margin-left: 20px;
+	font-size: 20px;
+	border: none;
+}

@@ -80,7 +80,8 @@ exports.login = async (req, res, next) => {
 		if (!isMatch) {
 			return res.status(401).send({ error: "Mot de passe incorrecte" });
 		}
-		const token = jwt.sign({ id: user.id }, "SECRET_KEY", { expiresIn: "24h" });
+		const token =
+			"Bearer " + jwt.sign({ id: user.id }, "SECRET_KEY", { expiresIn: "24h" });
 		res.status(200).send({
 			user_id: user.id,
 			email: user.email,

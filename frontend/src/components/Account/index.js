@@ -1,7 +1,7 @@
 import React from "react";
-import styles from "./Account.module.scss";
+import styles from "./Account.scss";
 
-import Sidebar from "../Sidebar/Sidebar";
+import Sidebar from "../Sidebar";
 
 // requête get pour recupérer les informations du profile
 
@@ -15,7 +15,7 @@ import Sidebar from "../Sidebar/Sidebar";
 
 function Account() {
 	return (
-		<div className={styles.container}>
+		<div className="container-fluid">
 			<Sidebar />
 
 			<div className={styles.profile}>
@@ -25,7 +25,7 @@ function Account() {
 				<div>
 					<h2>Welcome Username</h2>
 				</div>
-				<div className={styles.introduction}>
+				<div className="introduction">
 					<p>
 						You are in your private space , here will be displayed some
 						information about you , only those you enter during your
@@ -44,7 +44,7 @@ function Account() {
 						<li>Advantage administrator : user.isAdmin</li>
 					</ul>
 				</div>
-				<div className={styles.button}>
+				<div className="button">
 					<button type="button" class="btn btn-warning">
 						Modify informations about me
 					</button>
