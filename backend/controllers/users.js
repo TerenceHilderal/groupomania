@@ -151,37 +151,70 @@ exports.deleteProfile = async (req, res) => {
 	}
 };
 
-exports.updateProfile = async (req, res, next) => {
+// exports.updateProfile = async (req, res, next) => {
+// 	// Modification du Profil Utilisateur
+// 	try {
+// 		const userToFind = models.User.findOne({
+// 			// attributes: ["role", "id", "isAdmin", "username"],
+// 			where: { id: req.user.id }
+// 		});
+// 		console.log(userToFind);
+
+// 		if (!userToFind) {
+// 			throw new Error("Sorry,we can't find your account");
+// 		}
+
+// 		const userToUpdate = await models.User.update(
+// 			{
+// 				username: req.body.username,
+// 				role: req.body.role,
+// 				isAdmin: req.body.isAdmin
+// 			},
+// 			{
+// 				where: { id: req.user.id }
+// 			}
+// 		);
+// 		res.status(200).json({
+// 			user: userToUpdate,
+// 			message: "Your account has been update"
+// 		});
+
+// 		if (!userToUpdate) {
+// 			throw new Error("Sorry,we can't update your account");
+// 		}
+// 	} catch (error) {
+// 		res.status(400).json({ error: error.message });
+// 	}
+// };
+exports.updateProfile = (req, res, next) => {
 	// Modification du Profil Utilisateur
-	try {
-		const userToFind = models.User.findOne({
-			attributes: ["role", "id", "isAdmin", "username"],
-			where: { id: req.user.id }
-		});
-
-		if (!userToFind) {
-			throw new Error("Sorry,we can't find your account");
-		}
-
-		const userToUpdate = await models.User.update(
-			{
-				username: req.body.username,
-				role: req.body.role,
-				isAdmin: req.body.isAdmin
-			},
-			{
-				attributes: ["username", "role", "isAdmin"],
-				where: { id: req.user.id }
+	models.User.findOne({
+		attributes: ["role", "id", "isAdmin", "username"],
+		where: { id: req.user.id }
+	})
+		.then(userFound => {
+			if (userFound) {
+				userFound
+					.update({
+						username: req.body.username,
+						role: req.body.role,
+						isAdmin: req.body.isAdmin
+					})
+					.then(userFound => {
+						return res
+							.status(200)
+							.json({ User: userFound, message: "Profil modifié !" });
+					})
+					.catch(error =>
+						res
+							.status(500)
+							.json({ error, message: "Impossible de modifier votre profil." })
+					);
+			} else {
+				return res.status(400).json({ message: "User not found" });
 			}
+		})
+		.catch(error =>
+			res.status(500).json({ error, message: "Authorization issue" })
 		);
-		res.status(200).json({
-			message: "Your account has been update"
-		});
-
-		if (!userToUpdate) {
-			throw new Error("Sorry,we can't update your account");
-		}
-	} catch (error) {
-		res.status(400).json({ error: error.message });
-	}
 };

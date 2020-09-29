@@ -7,7 +7,7 @@ const auth = require("../middleware/auth");
 
 router.post("/signup", usersCtrl.signup);
 router.post("/login", usersCtrl.login);
-router.put("/update", usersCtrl.updateProfile);
+router.put("/update", auth, usersCtrl.updateProfile);
 // router.get('/myprofile', auth, usersCtrl.userProfile);
 router.delete("/delete", auth, usersCtrl.deleteProfile);
 

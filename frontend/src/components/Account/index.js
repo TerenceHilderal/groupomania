@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styles from "./Account.scss";
 import axios from "axios";
+import { withRouter } from "react-router-dom";
 
 import Sidebar from "../Sidebar";
 
@@ -10,7 +11,10 @@ import Sidebar from "../Sidebar";
 
 // requête get pour pouvoir récuperer tout ses posts
 
-function Account() {
+function Account({ match }) {
+	console.log(match);
+	const idUser = match.params.id;
+	console.log(idUser);
 	// recup des données du profil pour les afficher
 	const myProfile = JSON.parse(localStorage.getItem("profile"));
 	// récupérer le token pour l'authentification car toutes les requêtes necessite une authentification
@@ -25,6 +29,16 @@ function Account() {
 				alert("Votre compte a été supprimé");
 				console.log(response);
 				window.location = "/";
+			})
+			.catch(err => console.log({ err }));
+	};
+
+	const handleModification = () => {
+		const header = (axios.defaults.headers.common["Authorization"] = token);
+		axios
+			.put("http://localhost:3000/api/users/update")
+			.then(response => {
+				console.log(response);
 			})
 			.catch(err => console.log({ err }));
 	};
@@ -52,14 +66,18 @@ function Account() {
 				<div>
 					<h3>Your informations:</h3>
 					<ul>
-						<li>Email:{myProfile.email} </li>
+						<li>Email:{myProfile.email}</li>
 						<li>Username:{myProfile.username} </li>
 						<li>Your role in our company :{myProfile.role} </li>
 						<li>Advantage administrator : {myProfile.isAdmin}</li>
 					</ul>
 				</div>
 				<div className="button">
-					<button type="button" className="btn btn-warning">
+					<button
+						type="button"
+						onClick={handleModification}
+						className="btn btn-warning"
+					>
 						Modify informations about me
 					</button>
 					<button
@@ -75,4 +93,4 @@ function Account() {
 	);
 }
 
-export default Account;
+export default withRouter(Account);
