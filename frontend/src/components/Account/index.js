@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styles from "./Account.scss";
 import axios from "axios";
-import { withRouter } from "react-router-dom";
+// import { withRouter } from "react-router-dom";
 
 import Sidebar from "../Sidebar";
 
@@ -11,10 +11,7 @@ import Sidebar from "../Sidebar";
 
 // requête get pour pouvoir récuperer tout ses posts
 
-function Account({ match }) {
-	console.log(match);
-	const idUser = match.params.id;
-	console.log(idUser);
+function Account() {
 	// recup des données du profil pour les afficher
 	const myProfile = JSON.parse(localStorage.getItem("profile"));
 	// récupérer le token pour l'authentification car toutes les requêtes necessite une authentification
@@ -93,4 +90,4 @@ function Account({ match }) {
 	);
 }
 
-export default withRouter(Account);
+export default Account;

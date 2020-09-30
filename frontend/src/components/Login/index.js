@@ -26,6 +26,7 @@ function LogIn() {
 				const header = (axios.defaults.headers.common["Authorization"] =
 					res.data.token);
 				console.log(header);
+
 				window.location = "/myprofile/" + idUser;
 			})
 			.catch(error => {
