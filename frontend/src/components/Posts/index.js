@@ -3,6 +3,7 @@ import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
 import "./Post.scss";
 // import PostComponent from "./PostComponent";
 import axios from "axios";
+import Comment from "../Comment";
 // import "./PostComponent";
 
 // deletePost() {
@@ -93,11 +94,12 @@ const Post = () => {
 						font-size="large"
 						color="secondary"
 						fontSize="small"
+						onClick={() => alert("clic")}
 					/>
 					<button
-						// onClick={this.deletePost}
+						onClick={() => alert("clic")}
 						type="button"
-						class="close"
+						className="close"
 						aria-label="Close"
 					>
 						<span aria-hidden="true">&times;</span>

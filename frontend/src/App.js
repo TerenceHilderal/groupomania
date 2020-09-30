@@ -6,6 +6,7 @@ import LogIn from "./components/Login";
 import SignUp from "./components/SignUp";
 import Account from "./components/Account";
 import Wall from "./components/Wall";
+// import Comment from "./components/Comment";
 // import Post from "./components/Posts";
 // import Sidebar from "./components/Sidebar";
 
@@ -18,6 +19,7 @@ export class App extends Component {
 			<Router>
 				<div className="App">
 					<Header />
+					{/* <Comment /> */}
 					{/* {<Sidebar />} */}
 					<Route exact path="/" component={SignUp} />
 					<Route exact path="/login" component={LogIn} />
