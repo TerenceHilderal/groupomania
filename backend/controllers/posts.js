@@ -130,12 +130,13 @@ exports.deletePost = async (req, res) => {
 		if (!post) {
 			throw new Error("Sorry,your post doesn't exist ");
 		}
-		if (req.user.isAdmin === true || post.UserId === req.user.id) {
-			const delPost = await models.Post.destroy({
-				where: { id: req.params.id }
-			});
-			res.status(200).json({ message: "Post has been deleted " });
-		}
+
+		// if (req.user.isAdmin === true || post.UserId === req.user.id) {
+		const delPost = await models.Post.destroy({
+			where: { id: req.params.id }
+		});
+		res.status(200).json({ message: "Post has been deleted " });
+		// }
 		if (!delPost) {
 			throw new Error("Sorry we couldn't delete your post");
 		}

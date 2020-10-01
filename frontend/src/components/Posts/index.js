@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
 import "./Post.scss";
 // import PostComponent from "./PostComponent";
 import axios from "axios";
 import Comment from "../Comment";
+import PostComponent from "./PostComponent";
 
 function Post() {
 	// recupérer les posts
@@ -11,7 +11,6 @@ function Post() {
 		axios
 			.get("http://localhost:3000/api/posts/getPosts")
 			.then(response => {
-				console.log(response.data.id);
 				setPosts(response.data);
 			})
 			.catch(error => console.log({ error }));
@@ -57,11 +56,14 @@ function Post() {
 	});
 
 	// supprimer un post
-	const handleDeletePost = () => {
+	const handleDeletePost = id => {
 		axios
-			.delete("http://localhost:3000/api/posts/:id")
+			.delete(`http://localhost:3000/api/posts/${id}`)
 			.then(res => {
 				console.log(res);
+				const data = posts.filter(post => post.id !== id);
+				setNewPost(data);
+				console.log(posts);
 			})
 			.catch(error => console.log(error));
 	};
@@ -109,32 +111,15 @@ function Post() {
 				</form>
 			</div>
 			{/* {console.log(posts)} */}
+			{posts && (
+				<>
+					{posts.map(post => (
+						<PostComponent post={post} handleDeletePost={handleDeletePost} />
+					))}
+				</>
+			)}
 
 			{/* <div key={}> */}
-			<div className="post__username">{/* <p>{post.User.username}</p> */}</div>
-			<hr />
-			<div className="post__body">
-				<div className="post__header">
-					<div className="post__headerText">{/* <p>{}</p> */}</div>
-					<div className="post__headerDescription">
-						{/* {<p>{post.content}</p>} */}
-					</div>
-				</div>
-				{/* <img src={post.attachment} width="25%" alt="image" /> */}
-				<div className="post__footer">
-					{/* <span>Date:{post.createdAt}</span> */}
-					<ChatBubbleOutlineIcon
-						font-size="large"
-						color="secondary"
-						fontSize="small"
-						onClick={() => alert("clic")}
-					/>
-					<button type="button" className="close" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				<hr />
-			</div>
 		</div>
 		// </div>
 	);
