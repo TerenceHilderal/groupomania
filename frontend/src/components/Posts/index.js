@@ -4,78 +4,104 @@ import "./Post.scss";
 // import PostComponent from "./PostComponent";
 import axios from "axios";
 import Comment from "../Comment";
-// import "./PostComponent";
 
-// deletePost() {
-// 	axios
-// 		.delete("http://localhost:3000/api/posts/" + this.state.id)
-// 		.then(response => {
-// 			console.log(response);
-// 		})
-// 		.catch(error => {
-// 			console.log(error);
-// 		});
-// }
-// const getPosts = () => {
-// 	axios
-// 		.get("http://localhost:3000/api/posts/getPosts")
-// 		.then(response => {
-// 			// console.log(response.data.map(post => post));
-// 			setPosts(response.data);
-// 		})
-// 		.catch(error => console.log({ error }));
-// };
-// const [posts, setPosts] = useState(null);
-// // getPosts();
-// useEffect(() => {
-// 	if (!posts) {
-// 		getPosts();
-// 	}
-// });
-// PostComponent();
 const Post = () => {
-	const [posts, setPosts] = useState();
+	// recupérer les posts
 	const handlePosts = () => {
 		axios
 			.get("http://localhost:3000/api/posts/getPosts")
 			.then(response => {
-				console.log(response.data);
 				setPosts(response.data);
-				console.log(response.data);
 			})
 			.catch(error => console.log({ error }));
 	};
+	const [posts, setPosts] = useState("");
 
 	useEffect(() => {
 		if (!posts) {
 			handlePosts();
 		}
+	}, [posts]);
+
+	// récupérer un post par id
+	const handlePostsByUserId = () => {
+		axios
+			.get("http://localhost:3000/api/posts/user/:id")
+			.then(response => {
+				setPosts(response.data);
+			})
+			.catch(error => console.log({ error }));
+	};
+
+	// créer un post
+	const submitHandler = e => {
+		e.preventDefault();
+
+		axios
+			.post("http://localhost:3000/api/posts/new", newPost, {
+				headers: { "Content-Type": "multipart/form-data" }
+			})
+			.then(res => {
+				console.log(res);
+			})
+			.catch(error => console.log(error));
+	};
+
+	const [newPost, setNewPost] = useState({
+		title: "",
+		content: "",
+		attachment: ""
 	});
+
+	// supprimer un post
+	const handleDeletePost = () => {
+		axios
+			.delete("http://localhost:3000/api/posts/:id")
+			.then(res => {
+				console.log(res);
+			})
+			.catch(error => console.log(error));
+	};
 
 	return (
 		<div className="post">
 			<div className="tweetBox">
-				<form>
+				<form onSubmit={submitHandler} method="post" action="/ahah">
 					<div className="tweetBox__input">
-						{/* <Avatar src="https://kajabi-storefronts-production.global.ssl.fastly.net/kajabi-storefronts-production/themes/284832/settings_images/rLlCifhXRJiT0RoN2FjK_Logo_roundbackground_black.png" /> */}
 						<input
-							// onChange={e => setTweetMessage(e.target.value)}
-							// value={tweetMessage}
-							placeholder="What's happening?"
+							placeholder="title"
 							type="text"
+							value={newPost.title}
+							onChange={e => setNewPost({ ...newPost, title: e.target.value })}
+							id="title"
+							name="title"
 						/>
 					</div>
 					<input
-						// value={tweetImage}
-						// onChange={e => setTweetImage(e.target.value)}
 						className="tweetBox__imageInput"
-						placeholder="Optional: Enter image URL"
+						placeholder="content"
+						value={newPost.content}
+						onChange={e => setNewPost({ ...newPost, content: e.target.value })}
+						id="content"
+						name="content"
 						type="text"
 					/>
-					<button>bonjour</button>
+					<input
+						className="tweetBox__imageInput"
+						placeholder="attachment"
+						value={newPost.attachment}
+						onChange={e =>
+							setNewPost({ ...newPost, attachment: e.target.value })
+						}
+						id="attachment"
+						name="attachment"
+						type="file"
+					/>
+					<button type="submit">bonjour</button>
 					<hr />
 				</form>
 			</div>
+			{console.log(posts)}
 
 			{/* <div key={}> */}
 			<div className="post__username">{/* <p>{post.User.username}</p> */}</div>
@@ -96,12 +122,7 @@ const Post = () => {
 						fontSize="small"
 						onClick={() => alert("clic")}
 					/>
-					<button
-						onClick={() => alert("clic")}
-						type="button"
-						className="close"
-						aria-label="Close"
-					>
+					<button type="button" className="close" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>

@@ -3,8 +3,14 @@ import React from "react";
 // import styles from "../Sidebar/Sidebar.module.scss";
 // import style from "../Posts/Post.module.scss";
 import Post from "../Posts";
+import Comment from "../Comment";
 
 function Wall() {
-	return <div>{<Post />}</div>;
+	return (
+		<div>
+			{<Post />}
+			{<Comment />}
+		</div>
+	);
 }
 export default Wall;

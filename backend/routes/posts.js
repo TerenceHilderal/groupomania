@@ -7,7 +7,7 @@ const multer = require("../middleware/multer-config");
 const router = express.Router();
 
 // Routes
-router.post("/new", auth, multer, postsCtrl.createPost);
+router.post("/new", multer, postsCtrl.createPost);
 router.get("/getPosts", multer, postsCtrl.getAllPosts);
 router.get("/user/:id", multer, postsCtrl.getPostProfile);
 router.put("/:id", multer, postsCtrl.updatePost);

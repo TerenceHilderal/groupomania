@@ -9,8 +9,6 @@ function LogIn() {
 		axios
 			.post("http://localhost:3000/api/users/login", login)
 			.then(res => {
-				console.log(res);
-
 				localStorage.setItem("token", res.data.token);
 
 				const profile = {
