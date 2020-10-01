@@ -11,6 +11,7 @@ function Post() {
 		axios
 			.get("http://localhost:3000/api/posts/getPosts")
 			.then(response => {
+				console.log(response.data.id);
 				setPosts(response.data);
 			})
 			.catch(error => console.log({ error }));
