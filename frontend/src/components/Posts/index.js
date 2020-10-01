@@ -5,7 +5,7 @@ import "./Post.scss";
 import axios from "axios";
 import Comment from "../Comment";
 
-const Post = () => {
+function Post() {
 	// recupérer les posts
 	const handlePosts = () => {
 		axios
@@ -15,13 +15,15 @@ const Post = () => {
 			})
 			.catch(error => console.log({ error }));
 	};
-	const [posts, setPosts] = useState("");
+
+	const [posts, setPosts] = useState(null);
 
 	useEffect(() => {
 		if (!posts) {
 			handlePosts();
 		}
 	}, [posts]);
+	console.log(posts);
 
 	// récupérer un post par id
 	const handlePostsByUserId = () => {
@@ -66,7 +68,11 @@ const Post = () => {
 	return (
 		<div className="post">
 			<div className="tweetBox">
-				<form onSubmit={submitHandler} method="post" action="/ahah">
+				<form
+					onSubmit={submitHandler}
+					method="post"
+					enctype="multipart/form-data"
+				>
 					<div className="tweetBox__input">
 						<input
 							placeholder="title"
@@ -101,7 +107,7 @@ const Post = () => {
 					<hr />
 				</form>
 			</div>
-			{console.log(posts)}
+			{/* {console.log(posts)} */}
 
 			{/* <div key={}> */}
 			<div className="post__username">{/* <p>{post.User.username}</p> */}</div>
@@ -131,5 +137,5 @@ const Post = () => {
 		</div>
 		// </div>
 	);
-};
+}
 export default Post;
