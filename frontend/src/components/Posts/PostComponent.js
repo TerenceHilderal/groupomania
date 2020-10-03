@@ -1,34 +1,23 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import Post from "./index";
 import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
 
-const PostComponent = ({ post, handleDeletePost }) => {
-	// const [posts, setPosts] = useState(null);
-
-	// const getPosts = () => {
-	// 	axios
-	// 		.get("http://localhost:3000/api/posts/getPosts")
-	// 		.then(response => {
-	// 			console.log(response.data.map(post => post.UserId));
-	// 			setPosts(response.data);
-	// 		})
-	// 		.catch(error => console.log({ error }));
-	// };
-	// useEffect(() => {
-	// 	if (!posts) {
-	// 		getPosts();
-	// 	} else {
-	// 		console.log(posts);
-	// 		console.log(posts.map(post => post.id));
-	// 	}
-	// });han
-
+const PostComponent = ({ post, handleDeletePost, handlePostsByUserId }) => {
 	return (
 		<>
 			<div>
 				<div className="post__username">
-					<p>{post.User.username}</p>
+					<p onClick={() => handlePostsByUserId(post.UserId)}>
+						{post.User.username}
+					</p>
+					<button
+						type="button"
+						className="close"
+						aria-label="Close"
+						onClick={() => handleDeletePost(post.id)}
+					>
+						<span aria-hidden="true">&times;</span>
+					</button>
 				</div>
 				<hr />
 				<div className="post__body">
@@ -47,16 +36,7 @@ const PostComponent = ({ post, handleDeletePost }) => {
 							font-size="large"
 							color="secondary"
 							fontSize="small"
-							onClick={() => alert("clic")}
 						/>
-						<button
-							type="button"
-							className="close"
-							aria-label="Close"
-							onClick={() => handleDeletePost(post.id)}
-						>
-							<span aria-hidden="true">&times;</span>
-						</button>
 					</div>
 					<hr />
 				</div>

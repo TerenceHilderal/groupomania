@@ -6,12 +6,18 @@ import LogIn from "./components/Login";
 import SignUp from "./components/SignUp";
 import Account from "./components/Account";
 import Wall from "./components/Wall";
+import Comment from "./components/Comment";
+import axios from "axios";
 // import Comment from "./components/Comment";
 // import Post from "./components/Posts";
 // import Sidebar from "./components/Sidebar";
 
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import "./App.css";
+
+const token = localStorage.getItem("token");
+
+const header = (axios.defaults.headers.common["Authorization"] = token);
 
 export class App extends Component {
 	render() {
@@ -26,6 +32,7 @@ export class App extends Component {
 					<Route exact path="/myprofile/:id" component={Account} />
 					<Route exact path="/wall" component={Wall} />
 					{/* <Route exact path="/post" component={Post} /> */}
+					<Route exact path="comment" component={Comment} />
 
 					<Footer />
 				</div>

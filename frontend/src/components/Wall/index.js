@@ -9,7 +9,7 @@ function Wall() {
 	return (
 		<div>
 			{<Post />}
-			{<Comment />}
+			{/* {<Comment />} */}
 		</div>
 	);
 }

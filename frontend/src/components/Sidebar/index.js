@@ -12,7 +12,7 @@ function Sidebar() {
 				<HomeIcon fontSize="large" />
 				<p>Home</p>
 			</NavLink>
-			<NavLink to="/myprofile">
+			<NavLink to="/myprofile/:id">
 				<PersonIcon fontSize="large" />
 				<p>Profile</p>
 			</NavLink>

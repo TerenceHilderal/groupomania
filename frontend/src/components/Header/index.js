@@ -1,6 +1,10 @@
 import React from "react";
 import "./Header.scss";
 function Header() {
+	const handleLogout = () => {
+		localStorage.clear();
+		window.location = "/";
+	};
 	return (
 		<header className="navbar navbar-expand-lg navbar-light">
 			<a href="/">Groupomania</a>
@@ -9,8 +13,15 @@ function Header() {
 			</button>
 			<div className="collapse navbar-collapse">
 				<ul className="navbar-nav ml-auto">
-					<li></li>
-					<li> Login</li>
+					<li>
+						<button
+							type="button"
+							onClick={handleLogout}
+							class="btn btn-warning"
+						>
+							Logout
+						</button>
+					</li>
 				</ul>
 			</div>
 		</header>
