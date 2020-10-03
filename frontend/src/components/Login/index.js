@@ -20,7 +20,6 @@ function LogIn() {
 				};
 				const idUser = profile.user_id;
 				localStorage.setItem("profile", JSON.stringify(profile));
-
 				const header = (axios.defaults.headers.common["Authorization"] =
 					res.data.token);
 				console.log(header);

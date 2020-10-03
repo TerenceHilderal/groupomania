@@ -39,6 +39,7 @@ function Account() {
 			})
 			.catch(err => console.log({ err }));
 	};
+	const admin = JSON.stringify(myProfile.isAdmin);
 
 	return (
 		<div className="container-fluid">
@@ -66,7 +67,7 @@ function Account() {
 						<li>Email:{myProfile.email}</li>
 						<li>Username:{myProfile.username} </li>
 						<li>Your role in our company :{myProfile.role} </li>
-						<li>Advantage administrator : {myProfile.isAdmin}</li>
+						<li>Advantage administrator : {admin} </li>
 					</ul>
 				</div>
 				<div className="button">

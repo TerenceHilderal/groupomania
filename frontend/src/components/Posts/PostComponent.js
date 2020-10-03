@@ -3,13 +3,17 @@ import Post from "./index";
 import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
 
 const PostComponent = ({ post, handleDeletePost, handlePostsByUserId }) => {
+	const date = new Date(post.createdAt).toLocaleString();
+	console.log(date);
+
 	return (
 		<>
-			<div>
+			<div className="container posted">
 				<div className="post__username">
 					<p onClick={() => handlePostsByUserId(post.UserId)}>
-						{post.User.username}
+						Posted by:<b>{post.User.username}</b>
 					</p>
+					<span>at {date} </span>
 					<button
 						type="button"
 						className="close"
@@ -19,23 +23,23 @@ const PostComponent = ({ post, handleDeletePost, handlePostsByUserId }) => {
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
-				<hr />
+				{/* <hr /> */}
 				<div className="post__body">
 					<div className="post__header">
-						<div className="post__headerText">
-							<p>{post.title}</p>
-						</div>
+						{/* <div className="post__headerText"> */}
+						<h2>{post.title}</h2>
+						{/* </div> */}
 						<div className="post__headerDescription">
 							<p>{post.content}</p>
 						</div>
 					</div>
-					<img src={post.attachment} width="25%" alt="image" />
+					<img src={post.attachment} width="45%" alt="image" />
 					<div className="post__footer">
-						<span>Date:{post.createdAt}</span>
+						{/* <span>Date:{post.createdAt}</span> */}
 						<ChatBubbleOutlineIcon
-							font-size="large"
+							className="icon"
 							color="secondary"
-							fontSize="small"
+							fontSize="large"
 						/>
 					</div>
 					<hr />

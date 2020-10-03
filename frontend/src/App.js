@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-// import { SignUp, Sidebar, Account, Wall, Post } from "./components";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import LogIn from "./components/Login";
@@ -12,9 +11,9 @@ import axios from "axios";
 // import Post from "./components/Posts";
 // import Sidebar from "./components/Sidebar";
 
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import "./App.css";
-
+// import { Link } from "@material-ui/core";
 const token = localStorage.getItem("token");
 
 const header = (axios.defaults.headers.common["Authorization"] = token);

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import "./Post.scss";
-// import PostComponent from "./PostComponent";
 import axios from "axios";
 import Comment from "../Comment";
 import PostComponent from "./PostComponent";
@@ -77,27 +76,26 @@ function Post() {
 			})
 			.catch(error => console.log(error));
 	};
-	console.log(posts);
+
 	return (
-		<div className="post">
-			<div className="tweetBox">
+		<div className="post container">
+			<div className="postForm">
 				<form
 					onSubmit={submitHandler}
 					method="post"
 					enctype="multipart/form-data"
+					className="postForm"
 				>
-					<div className="tweetBox__input">
-						<input
-							placeholder="title"
-							type="text"
-							value={newPost.title}
-							onChange={e => handlePost(e)}
-							id="title"
-							name="title"
-						/>
-					</div>
 					<input
-						className="tweetBox__imageInput"
+						placeholder="title"
+						type="text"
+						value={newPost.title}
+						onChange={e => handlePost(e)}
+						id="title"
+						name="title"
+					/>
+					<textarea
+						className="formInput"
 						placeholder="content"
 						value={newPost.content}
 						onChange={e => handlePost(e)}
@@ -106,18 +104,19 @@ function Post() {
 						type="text"
 					/>
 					<input
-						className="tweetBox__imageInput"
+						className="attachment"
 						placeholder="attachment"
 						onChange={e => handlePost(e)}
 						id="attachment"
 						name="attachment"
 						type="file"
 					/>
-					<button type="submit">Post-it!</button>
-					<hr />
+					<button className="btn btn-success " type="submit">
+						Post-it!
+					</button>
 				</form>
 			</div>
-			{console.log(posts)}
+			<hr />
 			{posts && (
 				<>
 					{posts.map(post => (
@@ -129,10 +128,7 @@ function Post() {
 					))}
 				</>
 			)}
-
-			{/* <div key={}> */}
 		</div>
-		// </div>
 	);
 }
 export default Post;
