@@ -3,6 +3,7 @@ import "./Post.scss";
 import axios from "axios";
 import Comment from "../Comment";
 import PostComponent from "./PostComponent";
+import CommentComponent from "../Comment/CommentComponent";
 
 function Post() {
 	// recupérer les posts
@@ -47,7 +48,6 @@ function Post() {
 		formData.append("content", newPost.content);
 		formData.append("attachment", newPost.attachment, newPost.attachment.name);
 
-		// const header = (axios.defaults.headers.common["Authorization"] = token);
 		axios
 			.post("http://localhost:3000/api/posts/new", formData, {
 				headers: { "Content-Type": "multipart/form-data" }
@@ -117,6 +117,7 @@ function Post() {
 				</form>
 			</div>
 			<hr />
+
 			{posts && (
 				<>
 					{posts.map(post => (

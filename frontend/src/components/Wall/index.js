@@ -11,7 +11,6 @@ function Wall() {
 		<div className="wall">
 			{<Sidebar />}
 			{<Post />}
-			{/* {<Comment />} */}
 		</div>
 	);
 }

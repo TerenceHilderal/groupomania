@@ -7,6 +7,12 @@ exports.createComment = async (req, res) => {
 	try {
 		let comments = req.body.comments;
 		const newCom = await models.Comment.create({
+			include: [
+				{
+					model: models.User,
+					attributes: ["username"]
+				}
+			],
 			comments: comments,
 			UserId: req.user.id,
 			PostId: req.params.id
@@ -70,10 +76,10 @@ exports.deleteComment = async (req, res) => {
 		// 			.json({ message: "Comment has been deleted ", commentFound });
 		// 	} else {
 		// 		throw new Error({ error: "Couldn't delete your comment" });
-		// 	}
-		if (req.user.isAdmin !== true && commentFound.UserId !== req.user.id) {
-			throw new Error("Unauthorized action");
-		}
+		// 	}req.user.isAdmin !== true&&
+		// if (commentFound.UserId !== req.user.id) {
+		// 	throw new Error("Unauthorized action");
+		// }
 		await models.Comment.destroy({
 			where: { id: req.params.id }
 		});

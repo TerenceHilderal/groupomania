@@ -1,0 +1,13 @@
+.comment {
+	// display: flex;
+	// flex-direction: column;
+	background-color: white;
+	.comment-header {
+		display: flex;
+		justify-content: space-between;
+	}
+	.comment-body {
+		// background-color: yellowgreen;
+		justify-content: center;
+	}
+}

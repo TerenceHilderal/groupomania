@@ -1,26 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import CommentComponent from "./CommentComponent";
-// import PostComponent from "../Posts";
+import "./comments.scss";
 
-function Comment() {
-	// reqûete pour récupérer tous les commentaires
-	const [comment, setComment] = useState({ comment: "" });
-
-	const handleComments = () => {
-		axios
-			.get("http://localhost:3000/api/posts/:id/comments")
-			.then(response => {
-				console.log(response.data);
-			})
-			.catch(error => console.log({ error }));
-	};
-	useEffect(() => {
-		// if (!comment) {
-		// handleComments();
-		// }
-	});
-
+function Comment(comment, post) {
 	// reqûete pour creer un commentaire
 	const handleAddComments = () => {
 		axios
@@ -30,33 +13,34 @@ function Comment() {
 			})
 			.catch(error => console.log({ error }));
 	};
-
+	console.log(post);
 	// reqûete pour supprimer un commentaire
-	const handleDeleteComments = () => {
+	const handleDeleteComment = id => {
 		axios
-			.delete("http://localhost:3000/api/posts/:id/comment/:id")
-			.then(response => {
-				console.log(response.data);
+			.delete(
+				`http://localhost:3000/api/posts/${post.id}/comment/${comment.comment.id}`
+			)
+			.then(res => {
+				console.log(res);
 			})
-			.catch(error => console.log({ error }));
+			.catch(err => console.log(err));
 	};
-
 	return (
-		<div>
-			{/* <PostComponent /> */}
-			<div class="input-group mb-3">
-				<input
-					type="text"
-					class="form-control"
-					placeholder="Recipient's username"
-					aria-label="Recipient's username"
-					aria-describedby="basic-addon2"
-				/>
-				<div class="input-group-append">
-					<button class="btn btn-outline-secondary" type="button">
-						Button
-					</button>
-				</div>
+		<div class="comment">
+			<button
+				type="button"
+				className="close"
+				aria-label="Close"
+				onClick={() => handleDeleteComment(comment.comment.id)}
+			>
+				<span aria-hidden="true">&times;</span>
+			</button>
+			<div className="comment-header">
+				<p>Posted by :{comment.comment.UserId}</p>
+				<span>{comment.comment.createdAt}</span>
+			</div>
+			<div class="comment-body">
+				<p>{comment.comment.comments}</p>{" "}
 			</div>
 		</div>
 	);

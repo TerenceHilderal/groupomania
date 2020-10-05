@@ -6,6 +6,7 @@ import SignUp from "./components/SignUp";
 import Account from "./components/Account";
 import Wall from "./components/Wall";
 import Comment from "./components/Comment";
+import CommentComponent from "./components/Comment/CommentComponent";
 import axios from "axios";
 // import Comment from "./components/Comment";
 // import Post from "./components/Posts";
@@ -31,7 +32,7 @@ export class App extends Component {
 					<Route exact path="/myprofile/:id" component={Account} />
 					<Route exact path="/wall" component={Wall} />
 					{/* <Route exact path="/post" component={Post} /> */}
-					<Route exact path="comment" component={Comment} />
+					{/* <Route exact path="/comment" component={CommentComponent} /> */}
 
 					<Footer />
 				</div>
