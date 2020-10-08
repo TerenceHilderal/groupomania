@@ -15,10 +15,23 @@ function SignUp() {
 		axios
 			.post("http://localhost:3000/api/users/signup", signUp)
 			.then(res => {
-				console.log(res);
+				localStorage.setItem("token", res.data.token);
+				const profile = {
+					user_id: res.data.user_id,
+					username: res.data.username,
+					role: res.data.role,
+					email: res.data.email,
+					isAdmin: res.data.isAdmin
+				};
+				const idUser = profile.user_id;
+				localStorage.setItem("profile", JSON.stringify(profile));
+				const header = (axios.defaults.headers.common["Authorization"] =
+					res.data.token);
+				console.log(header);
+				window.location = "/myprofile/" + idUser;
 			})
 			.catch(error => {
-				console.log(error);
+				alert({ error: signUp.error });
 			});
 	};
 	if (signUp.username === null) {

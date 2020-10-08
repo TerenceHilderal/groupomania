@@ -7,11 +7,11 @@ const auth = require("../middleware/auth");
 
 router.post("/signup", usersCtrl.signup);
 router.post("/login", usersCtrl.login);
-router.put("/update", auth, usersCtrl.updateProfile);
-// router.get('/myprofile', auth, usersCtrl.userProfile);
 router.delete("/delete", auth, usersCtrl.deleteProfile);
 
 // j'exporte mon router pour pouvoir l'utiliser dans mon app.js et definir les routes
 module.exports = router;
 
-// oublie pas de remettre lauthentification
+// projet d'amélioration
+router.put("/update", auth, usersCtrl.updateProfile);
+router.get("/myprofile", auth, usersCtrl.userProfile);

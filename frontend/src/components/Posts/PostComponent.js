@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import Post from "./index";
 import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
+import PanToolIcon from "@material-ui/icons/PanTool";
+import CommentComponent from "../Comment";
 import Comment from "../Comment";
-// import CommentComponent from "../Comment";
 import axios from "axios";
 
 const PostComponent = ({ post, handleDeletePost, handlePostsByUserId }) => {
@@ -10,6 +10,11 @@ const PostComponent = ({ post, handleDeletePost, handlePostsByUserId }) => {
 	const [seeComment, setCommentNow] = useState(false);
 	const [comments, setComments] = useState(null);
 	const [newComment, setNewComment] = useState({ comments: " " });
+	const [postToModerate, setModeratePost] = useState(false);
+	const myProfile = JSON.parse(localStorage.getItem("profile"));
+	const profileAdmin = myProfile.isAdmin;
+	const profileId = myProfile.user_id;
+	const postProfileId = post.UserId;
 
 	// creer un commentaire
 	const handleNewComment = e => {
@@ -32,6 +37,22 @@ const PostComponent = ({ post, handleDeletePost, handlePostsByUserId }) => {
 			})
 			.catch(error => console.log({ error }));
 	};
+	// modérer un post
+
+	const moderatePost = () => {
+		axios
+			.put(`http://localhost:3000/api/posts/${post.id}`)
+			.then(response => {
+				setModeratePost(response.data.postModerate.isModerate);
+				alert(response.data.message);
+				const moderateMessage = (
+					<div>
+						<p>{response.data.message}</p>
+					</div>
+				);
+			})
+			.catch(error => console.log(error));
+	};
 	return (
 		<div className="container posted">
 			<div className="post__username">
@@ -39,35 +60,56 @@ const PostComponent = ({ post, handleDeletePost, handlePostsByUserId }) => {
 					Posted by:<b>{post.User.username}</b>
 				</p>
 				<span>at {date} </span>
-				<button
-					type="button"
-					className="close"
-					aria-label="Close"
-					onClick={() => handleDeletePost(post.id)}
-				>
-					<span aria-hidden="true">&times;</span>
-				</button>
+				{profileAdmin ? (
+					<PanToolIcon
+						color="danger"
+						fontSize="large"
+						onClick={() => moderatePost(post.id)}
+					/>
+				) : (
+					<p></p>
+				)}
+				{profileAdmin || profileId === postProfileId ? (
+					<button
+						type="button"
+						className="close"
+						aria-label="Close"
+						onClick={() => handleDeletePost(post.id)}
+					>
+						<span aria-hidden="true">&times;</span>
+					</button>
+				) : (
+					<p></p>
+				)}
 			</div>
-			<div className="post__body">
+			<div className="container post__body">
 				<div className="post__header">
 					<h2>{post.title}</h2>
 					<div className="post__headerDescription">
 						<p>{post.content}</p>
 					</div>
 				</div>
-				<img src={post.attachment} width="45%" alt="image" />
+				<img
+					src={post.attachment}
+					onClick={() => console.log(postToModerate)}
+					width="45%"
+					alt="image"
+				/>
 				<div className="post__footer">
-					<ChatBubbleOutlineIcon
-						className="icon"
-						color="dark"
-						fontSize="large"
-						onClick={() =>
-							seeComment
-								? setCommentNow(false)
-								: setCommentNow(true) + handleComments(post.id)
-						}
-					/>
-
+					{!postToModerate ? (
+						<ChatBubbleOutlineIcon
+							className="icon"
+							color="secondary"
+							fontSize="large"
+							onClick={() =>
+								seeComment
+									? setCommentNow(false)
+									: setCommentNow(true) + handleComments(post.id)
+							}
+						/>
+					) : (
+						<p>Moderated post , you couldn't comment</p>
+					)}
 					{seeComment && comments ? (
 						<>
 							<div class="input-group mb-3">
@@ -95,7 +137,7 @@ const PostComponent = ({ post, handleDeletePost, handlePostsByUserId }) => {
 							))}
 						</>
 					) : (
-						<i>Voir les commentaires</i>
+						<i>See comments</i>
 					)}
 				</div>
 				<hr />

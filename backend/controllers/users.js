@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 // const utils = require("../utils/jwtUtils");
 const models = require("../models");
 
-exports.signup = async (req, res, next) => {
+exports.signup = async (req, res) => {
 	// params
 	const email = req.body.email;
 	const username = req.body.username;
@@ -54,13 +54,16 @@ exports.signup = async (req, res, next) => {
 			role: role,
 			isAdmin: 0
 		});
-		// const parsedUser = JSON.stringify(newUser);
-
+		const token =
+			"Bearer " +
+			jwt.sign({ id: newUser.id }, "SECRET_KEY", { expiresIn: "24h" });
 		res.status(201).json({
-			// newUser:newUser,
-			Id: newUser.id,
+			user_id: newUser.id,
+			email: newUser.email,
 			username: newUser.username,
-			role: newUser.role + " " + "new user has been created"
+			isAdmin: newUser.isAdmin,
+			role: newUser.role,
+			token
 		});
 	} catch (error) {
 		res.status(400).json({ error: error.message });
@@ -92,7 +95,7 @@ exports.login = async (req, res, next) => {
 			token
 		});
 	} catch (error) {
-		res.status(error.status).json({ error });
+		res.status(error.status).json({ error: error });
 	}
 };
 

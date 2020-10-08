@@ -20,9 +20,10 @@ module.exports = (sequelize, DataTypes) => {
 	}
 	Post.init(
 		{
-			// id_users: DataTypes.INTEGER,
 			title: DataTypes.STRING,
 			content: DataTypes.STRING,
+			isModerate: DataTypes.BOOLEAN,
+			moderateBy: DataTypes.INTEGER,
 			attachment: { type: DataTypes.STRING, allowNull: true }
 		},
 		{

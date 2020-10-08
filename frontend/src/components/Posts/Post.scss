@@ -1,21 +1,21 @@
 .post {
-	display: flex;
-	flex-direction: column;
-	justify-content: center; // background-color: midnightblue;
-	width: 700px;
-	text-align: center;
-	border: 1px solid black;
-
-	margin: auto;
-	margin-left: 30%;
-	// margin-bottom: 15%;
-	background-color: silver;
+	// display: flex;
+	// flex-direction: column;
+	// width: auto;
+	// text-align: center;
+	// border: 1px solid black;
+	// box-shadow: 4px 4px 4px 4px #d1515a;
+	// margin: auto;
+	// margin-left: 30%;
+	// margin-bottom: 4rem;
+	// margin-top: 3rem;
+	// background-color: white;
 	p,
 	span {
 		color: black;
 	}
 	hr {
-		background-color: black;
+		background-color: #d1515a;
 		height: 2px;
 		width: 100%;
 	}
@@ -51,36 +51,12 @@ textarea[name="content"] {
 		margin-top: 1rem;
 	}
 }
-.posted {
-	background-color: silver;
-}
+// .posted {
+// 	background-color: white;
+// }
 .icon {
 	margin-top: 1rem;
 }
 .icon:hover {
 	cursor: pointer;
 }
-// .tweetBox {
-// 	padding-bottom: 10px;
-// 	border-bottom: 8px solid grey;
-// 	padding-right: 10px;
-// 	// background-color: white;
-// 	margin-bottom: 1rem;
-// }
-
-// .tweetBox > form {
-// 	display: flex;
-// 	flex-direction: column;
-// }
-
-// .tweetBox__input {
-// 	padding: 20px;
-// 	display: flex;
-// }
-
-// .tweetBox__input > input {
-// 	flex: 1;
-// 	margin-left: 20px;
-// 	font-size: 20px;
-// 	border: none;
-// }

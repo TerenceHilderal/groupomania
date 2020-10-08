@@ -4,6 +4,12 @@ import CommentComponent from "./CommentComponent";
 import "./comments.scss";
 
 function Comment(comment, post) {
+	const date = new Date(comment.comment.createdAt).toLocaleString();
+	const myProfile = JSON.parse(localStorage.getItem("profile"));
+	const profileId = myProfile.user_id;
+	const idUserComment = comment.comment.UserId;
+	console.log(myProfile);
+	console.log(idUserComment);
 	// reqûete pour creer un commentaire
 	const handleAddComments = () => {
 		axios
@@ -25,23 +31,28 @@ function Comment(comment, post) {
 			})
 			.catch(err => console.log(err));
 	};
+	console.log(comment);
 	return (
 		<div class="comment">
-			<button
-				type="button"
-				className="close"
-				aria-label="Close"
-				onClick={() => handleDeleteComment(comment.comment.id)}
-			>
-				<span aria-hidden="true">&times;</span>
-			</button>
 			<div className="comment-header">
-				<p>Posted by :{comment.comment.UserId}</p>
-				<span>{comment.comment.createdAt}</span>
+				<p>By :{comment.comment.User.username}</p>
+				<span>{date}</span>
 			</div>
 			<div class="comment-body">
 				<p>{comment.comment.comments}</p>{" "}
 			</div>
+			{idUserComment === profileId ? (
+				<button
+					type="button"
+					className="close"
+					aria-label="Close"
+					onClick={() => handleDeleteComment(comment.comment.id)}
+				>
+					<span aria-hidden="true">&times;</span>
+				</button>
+			) : (
+				<p></p>
+			)}
 		</div>
 	);
 }

@@ -8,10 +8,12 @@ const router = express.Router();
 
 // Routes
 router.post("/new", auth, multer, postsCtrl.createPost);
-router.get("/getPosts", multer, postsCtrl.getAllPosts);
-router.get("/user/:id", multer, postsCtrl.getPostProfile);
-router.put("/:id", multer, postsCtrl.updatePost);
-router.delete("/:id", multer, postsCtrl.deletePost);
+router.get("/getPosts", auth, multer, postsCtrl.getAllPosts);
+router.get("/user/:id", auth, multer, postsCtrl.getPostProfile);
+router.delete("/:id", auth, multer, postsCtrl.deletePost);
+router.put("/:id", auth, postsCtrl.moderatePost);
 
 module.exports = router;
-// oublie pas de remettre lauthentification
+
+//projet d'amélioration
+// router.put("/:id", multer, postsCtrl.updatePost);

@@ -30,21 +30,12 @@ function Account() {
 			.catch(err => console.log({ err }));
 	};
 
-	const handleModification = () => {
-		const header = (axios.defaults.headers.common["Authorization"] = token);
-		axios
-			.put("http://localhost:3000/api/users/update")
-			.then(response => {
-				console.log(response);
-			})
-			.catch(err => console.log({ err }));
-	};
 	const admin = JSON.stringify(myProfile.isAdmin);
 
 	return (
 		<div className="container-fluid">
-			<Sidebar />
-			<div className={styles.profile}>
+			{/* <Sidebar /> */}
+			<div className="header">
 				<div>
 					<h1>My profile</h1>
 				</div>
@@ -55,10 +46,8 @@ function Account() {
 					<p>
 						You are in your private space , here will be displayed some
 						information about you , only those you enter during your
-						inscription. In your private space , you could do some stuff like :
-						modify some information (only your username and your role), and
-						delete your account. You can also see , your old posts. * We will
-						not keep information about you without your consentment.
+						inscription. * We will not keep information about you without your
+						consentment.
 					</p>
 				</div>
 				<div>
@@ -71,13 +60,6 @@ function Account() {
 					</ul>
 				</div>
 				<div className="button">
-					<button
-						type="button"
-						onClick={handleModification}
-						className="btn btn-warning"
-					>
-						Modify informations about me
-					</button>
 					<button
 						type="button"
 						onClick={handleDeleteUser}

@@ -1,13 +1,16 @@
 .comment {
-	// display: flex;
-	// flex-direction: column;
-	background-color: white;
+	background-color: #d1515a;
+	border-radius: 2%;
+	margin-bottom: 0.5rem;
+	padding: 0.5rem;
+	display: flex;
+	flex-direction: column;
 	.comment-header {
 		display: flex;
 		justify-content: space-between;
 	}
 	.comment-body {
-		// background-color: yellowgreen;
 		justify-content: center;
+		background-color: #d1515a;
 	}
 }

@@ -7,12 +7,6 @@ exports.createComment = async (req, res) => {
 	try {
 		let comments = req.body.comments;
 		const newCom = await models.Comment.create({
-			include: [
-				{
-					model: models.User,
-					attributes: ["username"]
-				}
-			],
 			comments: comments,
 			UserId: req.user.id,
 			PostId: req.params.id
@@ -41,7 +35,8 @@ exports.getComments = async (req, res) => {
 				"updatedAt"
 			],
 			order: [order != null ? order.split(":") : ["createdAt", "DESC"]],
-			where: { postId: req.params.id }
+			where: { postId: req.params.id },
+			include: [{ model: models.User, attributes: ["username"] }]
 		});
 		if (comments) {
 			res.status(200).send({ message: comments });

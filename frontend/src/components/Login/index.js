@@ -10,7 +10,8 @@ function LogIn() {
 			.post("http://localhost:3000/api/users/login", login)
 			.then(res => {
 				localStorage.setItem("token", res.data.token);
-
+				const header = (axios.defaults.headers.common["Authorization"] =
+					res.data.token);
 				const profile = {
 					user_id: res.data.user_id,
 					username: res.data.username,
@@ -20,14 +21,10 @@ function LogIn() {
 				};
 				const idUser = profile.user_id;
 				localStorage.setItem("profile", JSON.stringify(profile));
-				const header = (axios.defaults.headers.common["Authorization"] =
-					res.data.token);
-				console.log(header);
-
 				window.location = "/myprofile/" + idUser;
 			})
 			.catch(error => {
-				console.log({ error });
+				alert(error);
 			});
 	};
 	const [login, setLogin] = useState({ email: "", password: "" });

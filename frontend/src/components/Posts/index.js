@@ -6,8 +6,10 @@ import PostComponent from "./PostComponent";
 import CommentComponent from "../Comment/CommentComponent";
 
 function Post() {
+	const token = localStorage.getItem("token");
 	// recupérer les posts
 	const [posts, setPosts] = useState(null);
+
 	const handlePosts = () => {
 		axios
 			.get("http://localhost:3000/api/posts/getPosts")
@@ -16,7 +18,6 @@ function Post() {
 			})
 			.catch(error => console.log({ error }));
 	};
-
 	useEffect(() => {
 		if (!posts) {
 			handlePosts();
@@ -39,7 +40,6 @@ function Post() {
 		content: "",
 		attachment: ""
 	});
-	const token = localStorage.getItem("token");
 
 	const submitHandler = e => {
 		e.preventDefault();
@@ -52,12 +52,14 @@ function Post() {
 			.post("http://localhost:3000/api/posts/new", formData, {
 				headers: { "Content-Type": "multipart/form-data" }
 			})
-			.then(res => {
-				setNewPost(newPost);
-				window.location.reload(false);
+			.then(response => {
+				console.log(response);
+				// setNewPost(newPost);
+				// window.location.reload(false);
 			})
 			.catch(error => console.log(error));
 	};
+
 	const handlePost = e => {
 		if (e.target.name !== "attachment") {
 			setNewPost({ ...newPost, [e.target.name]: e.target.value });
@@ -70,9 +72,10 @@ function Post() {
 	const handleDeletePost = id => {
 		axios
 			.delete(`http://localhost:3000/api/posts/${id}`)
-			.then(res => {
+			.then(response => {
 				const data = posts.filter(post => post.id !== id);
 				setPosts(data);
+				alert(response.data.message);
 			})
 			.catch(error => console.log(error));
 	};
