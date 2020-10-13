@@ -9,6 +9,8 @@ function Header() {
 		localStorage.clear();
 		window.location = "/";
 	};
+	const myProfile = JSON.parse(localStorage.getItem("profile"));
+
 	return (
 		<header className="navbar navbar-expand-lg navbar-light">
 			<a className="navbar" href="/">
@@ -17,31 +19,33 @@ function Header() {
 			<button className="navbar-toggler">
 				<span className="navbar-toggler-icon"></span>
 			</button>
-			<div className="collapse navbar-collapse">
-				<ul className="navbar-nav ml-auto">
-					<li>
-						<NavLink to="/wall">
-							<HomeIcon fontSize="large" />
-							<p>Home</p>
-						</NavLink>
-					</li>
-					<li>
-						<NavLink to="/myprofile/:id">
-							<PersonIcon fontSize="large" />
-							<p>Profile</p>
-						</NavLink>
-					</li>
-					<li>
-						<button
-							type="button"
-							onClick={handleLogout}
-							class="btn btn-warning"
-						>
-							Logout
-						</button>
-					</li>
-				</ul>
-			</div>
+			{myProfile ? (
+				<div className="collapse navbar-collapse">
+					<ul className="navbar-nav ml-auto">
+						<li>
+							<NavLink to="/wall">
+								<HomeIcon fontSize="large" />
+								<p>Home</p>
+							</NavLink>
+						</li>
+						<li>
+							<NavLink to="/myprofile/:id">
+								<PersonIcon fontSize="large" />
+								<p>Profile</p>
+							</NavLink>
+						</li>
+						<li>
+							<button
+								type="button"
+								onClick={handleLogout}
+								class="btn btn-warning"
+							>
+								Logout
+							</button>
+						</li>
+					</ul>
+				</div>
+			) : null}
 		</header>
 	);
 }

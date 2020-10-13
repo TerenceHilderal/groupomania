@@ -1,16 +1,22 @@
 import React, { useState, useEffect } from "react";
 import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
 import PanToolIcon from "@material-ui/icons/PanTool";
-import CommentComponent from "../Comment";
 import Comment from "../Comment";
 import axios from "axios";
+import Alert from "../Alert";
+import { TextareaAutosize } from "@material-ui/core";
 
-const PostComponent = ({ post, handleDeletePost, handlePostsByUserId }) => {
+const PostComponent = ({
+	post,
+	handleDeletePost,
+	handlePostsByUserId,
+	moderatePost
+}) => {
 	const date = new Date(post.createdAt).toLocaleString();
 	const [seeComment, setCommentNow] = useState(false);
 	const [comments, setComments] = useState(null);
 	const [newComment, setNewComment] = useState({ comments: " " });
-	const [postToModerate, setModeratePost] = useState(false);
+	// const [success, setSuccess] = useState(true);
 	const myProfile = JSON.parse(localStorage.getItem("profile"));
 	const profileAdmin = myProfile.isAdmin;
 	const profileId = myProfile.user_id;
@@ -22,6 +28,7 @@ const PostComponent = ({ post, handleDeletePost, handlePostsByUserId }) => {
 			.post(`http://localhost:3000/api/posts/${post.id}/comment`, newComment)
 			.then(response => {
 				setNewComment(response.data);
+				handleComments();
 			})
 			.catch(error => console.log(error));
 	};
@@ -37,22 +44,7 @@ const PostComponent = ({ post, handleDeletePost, handlePostsByUserId }) => {
 			})
 			.catch(error => console.log({ error }));
 	};
-	// modérer un post
 
-	const moderatePost = () => {
-		axios
-			.put(`http://localhost:3000/api/posts/${post.id}`)
-			.then(response => {
-				setModeratePost(response.data.postModerate.isModerate);
-				alert(response.data.message);
-				const moderateMessage = (
-					<div>
-						<p>{response.data.message}</p>
-					</div>
-				);
-			})
-			.catch(error => console.log(error));
-	};
 	return (
 		<div className="container posted">
 			<div className="post__username">
@@ -85,18 +77,14 @@ const PostComponent = ({ post, handleDeletePost, handlePostsByUserId }) => {
 			<div className="container post__body">
 				<div className="post__header">
 					<h2>{post.title}</h2>
+
 					<div className="post__headerDescription">
 						<p>{post.content}</p>
 					</div>
 				</div>
-				<img
-					src={post.attachment}
-					onClick={() => console.log(postToModerate)}
-					width="45%"
-					alt="image"
-				/>
+				<img src={post.attachment} width="45%" alt="image" />
 				<div className="post__footer">
-					{!postToModerate ? (
+					{!post.isModerate ? (
 						<ChatBubbleOutlineIcon
 							className="icon"
 							color="secondary"
@@ -133,7 +121,12 @@ const PostComponent = ({ post, handleDeletePost, handlePostsByUserId }) => {
 								</div>
 							</div>
 							{comments.map(comment => (
-								<Comment comment={comment} post={post} />
+								<Comment
+									post={post}
+									comment={comment}
+									comments={comments}
+									handleComments={handleComments}
+								/>
 							))}
 						</>
 					) : (
