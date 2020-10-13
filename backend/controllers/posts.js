@@ -40,7 +40,7 @@ exports.createPost = async (req, res) => {
 };
 
 // get all posts
-exports.getAllPosts = async (req, res, next) => {
+exports.getAllPosts = async (req, res) => {
 	try {
 		const fields = req.query.fields; // selectionner les colonnes que l'on souhaite afficher
 		const order = req.query.order; // afficher les messages dans un certain ordre
@@ -99,15 +99,14 @@ exports.moderatePost = async (req, res) => {
 		if (!postToModerate) {
 			throw new Error(" Couldn't find your post");
 		}
-		if (postToModerate.isModerate === true) {
-			postToModerate.update({
-				isModerate: 0
-			});
-		} else {
-			postToModerate.update({
-				isModerate: 1
-			});
-		}
+		postToModerate.isModerate
+			? postToModerate.update({
+					isModerate: 0
+			  })
+			: postToModerate.update({
+					isModerate: 1
+			  });
+
 		res.status(200).json({
 			message: "This post is now moderate",
 			postModerate: postToModerate
@@ -128,27 +127,17 @@ exports.deletePost = async (req, res) => {
 				// if (err) throw new Error({ err });
 			});
 		}
-		// if (!req.user.isAdmin || (post && post.UserId !== req.user.id)) {
-		// 	throw new Error("Unauthorized action");
-		// }
 		if (!post) {
 			throw new Error("Sorry,your post doesn't exist ");
 		}
-		// const user = await models.User.findOne({ where: { id: req.user.id } });
-		// if (user.isAdmin === true) {
-		const delPost = await models.Post.destroy({
+
+		await models.Post.destroy({
 			where: { id: req.params.id }
 		});
 		res.status(200).json({ message: "Post has been deleted " });
-		// console.log(user.isAdmin);
-		// } else {
-		// 	throw new Error("Sorry we couldn't delete your post");
-		// }
-
 		await models.Comment.destroy({
 			where: { id: req.params.id }
 		});
-
 		res.status(200).json({ message: "Your comment has been deleted" });
 	} catch (error) {
 		res.status(401).json({ error: error.message });
