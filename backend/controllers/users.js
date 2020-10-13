@@ -86,7 +86,7 @@ exports.login = async (req, res, next) => {
 		}
 		const token =
 			"Bearer " + jwt.sign({ id: user.id }, "SECRET_KEY", { expiresIn: "24h" });
-		res.status(200).send({
+		res.status(200).json({
 			user_id: user.id,
 			email: user.email,
 			username: user.username,
