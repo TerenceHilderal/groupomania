@@ -92,7 +92,6 @@ function Post() {
 			.then(response => {
 				handlePosts();
 				setSuccess(true);
-				alert(response.data.message);
 			})
 			.catch(error => console.log(error));
 	};

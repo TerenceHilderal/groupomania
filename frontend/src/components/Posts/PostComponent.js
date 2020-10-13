@@ -13,6 +13,8 @@ const PostComponent = ({
 	const date = new Date(post.createdAt).toLocaleString();
 	const [seeComment, setCommentNow] = useState(false);
 	const [comments, setComments] = useState(null);
+	const [success, setSuccess] = useState(false);
+
 	const [newComment, setNewComment] = useState({ comments: " " });
 	const myProfile = JSON.parse(localStorage.getItem("profile"));
 	const profileAdmin = myProfile.isAdmin;
@@ -117,13 +119,9 @@ const PostComponent = ({
 									</button>
 								</div>
 							</div>
+
 							{comments.map(comment => (
-								<Comment
-									post={post}
-									comment={comment}
-									comments={comments}
-									handleComments={handleComments}
-								/>
+								<Comment comment={comment} handleComments={handleComments} />
 							))}
 						</>
 					) : (
