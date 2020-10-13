@@ -99,9 +99,15 @@ exports.moderatePost = async (req, res) => {
 		if (!postToModerate) {
 			throw new Error(" Couldn't find your post");
 		}
-		postToModerate.update({
-			isModerate: 1
-		});
+		if (postToModerate.isModerate === true) {
+			postToModerate.update({
+				isModerate: 0
+			});
+		} else {
+			postToModerate.update({
+				isModerate: 1
+			});
+		}
 		res.status(200).json({
 			message: "This post is now moderate",
 			postModerate: postToModerate

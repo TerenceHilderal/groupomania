@@ -3,8 +3,6 @@ import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
 import PanToolIcon from "@material-ui/icons/PanTool";
 import Comment from "../Comment";
 import axios from "axios";
-import Alert from "../Alert";
-import { TextareaAutosize } from "@material-ui/core";
 
 const PostComponent = ({
 	post,
@@ -16,7 +14,6 @@ const PostComponent = ({
 	const [seeComment, setCommentNow] = useState(false);
 	const [comments, setComments] = useState(null);
 	const [newComment, setNewComment] = useState({ comments: " " });
-	// const [success, setSuccess] = useState(true);
 	const myProfile = JSON.parse(localStorage.getItem("profile"));
 	const profileAdmin = myProfile.isAdmin;
 	const profileId = myProfile.user_id;

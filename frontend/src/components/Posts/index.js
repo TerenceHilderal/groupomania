@@ -88,7 +88,7 @@ function Post() {
 	};
 	const moderatePost = id => {
 		axios
-			.put(`http://localhost:3000/api/posts/${id}`)
+			.put(`http://localhost:3000/api/posts/${id}/moderate`)
 			.then(response => {
 				handlePosts();
 				setSuccess(true);
