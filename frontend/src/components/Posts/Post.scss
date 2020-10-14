@@ -1,15 +1,4 @@
 .post {
-	// display: flex;
-	// flex-direction: column;
-	// width: auto;
-	// text-align: center;
-	// border: 1px solid black;
-	// box-shadow: 4px 4px 4px 4px #d1515a;
-	// margin: auto;
-	// margin-left: 30%;
-	// margin-bottom: 4rem;
-	// margin-top: 3rem;
-	// background-color: white;
 	p,
 	span {
 		color: black;
@@ -27,6 +16,7 @@
 		cursor: pointer;
 	}
 }
+
 textarea[name="content"] {
 	resize: none;
 	width: 400px;
@@ -47,16 +37,16 @@ textarea[name="content"] {
 	.attachment {
 		margin: 0;
 	}
-	.btn-success {
-		margin-top: 1rem;
-	}
 }
-// .posted {
-// 	background-color: white;
-// }
 .icon {
 	margin-top: 1rem;
 }
 .icon:hover {
 	cursor: pointer;
+}
+.input-group-append {
+	margin: 0;
+}
+.btn {
+	margin: none !important;
 }

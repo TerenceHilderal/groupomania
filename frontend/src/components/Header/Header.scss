@@ -3,19 +3,20 @@ header {
 	height: 80px;
 	border-bottom: 1px solid #d1515a;
 	width: 100%;
-}
-li {
-	padding-left: 5rem;
-}
-a {
-	font-size: large;
-	color: #d1515a;
-}
-.btn {
-	margin-top: 1rem;
-}
-
-header > a {
-	font-size: large;
-	color: #d1515a;
+	li {
+		padding-left: 5rem;
+	}
+	a {
+		font-size: large;
+		color: #d1515a;
+	}
+	a:hover {
+		color: white;
+		text-decoration: none;
+	}
+	.btn-warning {
+		margin-top: 1rem;
+		background-color: #d1515a;
+		color: #192947;
+	}
 }

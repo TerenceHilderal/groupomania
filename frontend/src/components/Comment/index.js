@@ -8,7 +8,6 @@ function Comment(comment) {
 	const myProfile = JSON.parse(localStorage.getItem("profile"));
 	const profileId = myProfile.user_id;
 	const idUserComment = comment.comment.UserId;
-	// const [oldComment, setUpdateComment] = useState(comment.comments);
 	// reqûete pour supprimer un commentaire
 	const handleDeleteComment = id => {
 		axios
@@ -41,9 +40,7 @@ function Comment(comment) {
 				>
 					<span aria-hidden="true">&times;</span>
 				</button>
-			) : (
-				<p></p>
-			)}
+			) : null}
 		</div>
 	);
 }

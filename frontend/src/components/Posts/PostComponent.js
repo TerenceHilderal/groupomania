@@ -13,9 +13,8 @@ const PostComponent = ({
 	const date = new Date(post.createdAt).toLocaleString();
 	const [seeComment, setCommentNow] = useState(false);
 	const [comments, setComments] = useState(null);
-	const [success, setSuccess] = useState(false);
-
 	const [newComment, setNewComment] = useState({ comments: " " });
+
 	const myProfile = JSON.parse(localStorage.getItem("profile"));
 	const profileAdmin = myProfile.isAdmin;
 	const profileId = myProfile.user_id;
@@ -50,16 +49,14 @@ const PostComponent = ({
 				<p onClick={() => handlePostsByUserId(post.UserId)}>
 					Posted by:<b>{post.User.username}</b>
 				</p>
-				<span>at {date} </span>
+				<span> {date} </span>
 				{profileAdmin ? (
 					<PanToolIcon
 						color="danger"
 						fontSize="large"
 						onClick={() => moderatePost(post.id)}
 					/>
-				) : (
-					<p></p>
-				)}
+				) : null}
 				{profileAdmin || profileId === postProfileId ? (
 					<button
 						type="button"
@@ -69,9 +66,7 @@ const PostComponent = ({
 					>
 						<span aria-hidden="true">&times;</span>
 					</button>
-				) : (
-					<p></p>
-				)}
+				) : null}
 			</div>
 			<div className="container post__body">
 				<div className="post__header">
@@ -95,7 +90,9 @@ const PostComponent = ({
 							}
 						/>
 					) : (
-						<p>Moderated post , you couldn't comment</p>
+						<p style={{ color: "red" }}>
+							Moderated post , you couldn't comment
+						</p>
 					)}
 					{seeComment && comments ? (
 						<>
@@ -109,7 +106,7 @@ const PostComponent = ({
 									name="comments"
 									onChange={e => handleComment(e)}
 								/>
-								<div class="comment-button">
+								<div class="input-group-append">
 									<button
 										class="btn btn-outline-secondary"
 										type="submit"
@@ -124,9 +121,7 @@ const PostComponent = ({
 								<Comment comment={comment} handleComments={handleComments} />
 							))}
 						</>
-					) : (
-						<i>See comments</i>
-					)}
+					) : null}
 				</div>
 				<hr />
 			</div>

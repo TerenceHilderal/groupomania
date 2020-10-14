@@ -3,6 +3,7 @@ import "./Header.scss";
 import HomeIcon from "@material-ui/icons/Home";
 import PersonIcon from "@material-ui/icons/Person";
 import { NavLink } from "react-router-dom";
+// import icon from "../";
 
 function Header() {
 	const handleLogout = () => {
@@ -14,8 +15,14 @@ function Header() {
 	return (
 		<header className="navbar navbar-expand-lg navbar-light">
 			<a className="navbar" href="/">
-				Groupomania
+				{/* Groupomania */}
+				<img
+					src="/images/icon-left-font-monochrome-white.svg"
+					height="45"
+					backgroundColor="red"
+				/>
 			</a>
+			"
 			<button className="navbar-toggler">
 				<span className="navbar-toggler-icon"></span>
 			</button>

@@ -1,15 +1,21 @@
-import React, { useState } from "react";
+import React from "react";
 
 const Alert = success => {
 	return (
 		<>
 			{success ? (
-				<div class="alert alert-success " role="alert" data-dismiss="alert">
-					Successfully done!
+				<div class="alert alert-success alert-dismissible">
+					<a href="#" class="close" data-dismiss="alert" aria-label="close">
+						&times;
+					</a>
+					<strong>Success!</strong>
 				</div>
 			) : (
-				<div class="alert alert-danger" role="alert">
-					Something gone wrong!
+				<div class="alert alert-danger alert-dismissible">
+					<a href="#" class="close" data-dismiss="alert" aria-label="close">
+						&times;
+					</a>
+					<strong>Something gone wrong</strong>
 				</div>
 			)}
 		</>

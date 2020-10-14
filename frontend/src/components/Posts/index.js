@@ -147,7 +147,7 @@ function Post() {
 
 			{posts && (
 				<>
-					{success ? <Alert success={success} /> : null}
+					{success ? <Alert /> : null}
 					{posts.map(post => (
 						<PostComponent
 							post={post}
