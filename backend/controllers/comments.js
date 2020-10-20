@@ -48,6 +48,8 @@ exports.getComments = async (req, res) => {
 	}
 };
 
+// future project
+
 exports.deleteComment = async (req, res) => {
 	try {
 		const commentFound = await models.Comment.findOne({
@@ -61,20 +63,7 @@ exports.deleteComment = async (req, res) => {
 			],
 			where: { id: req.params.id }
 		});
-		// 	if (
-		// 		req.user.isAdmin == true ||
-		// 		(commentFound && commentFound.UserId == req.user.id)
-		// 	) {
-		// 		await models.Comment.destroy({ where: { id: req.params.id } });
-		// 		res
-		// 			.status(200)
-		// 			.json({ message: "Comment has been deleted ", commentFound });
-		// 	} else {
-		// 		throw new Error({ error: "Couldn't delete your comment" });
-		// 	}req.user.isAdmin !== true&&
-		// if (commentFound.UserId !== req.user.id) {
-		// 	throw new Error("Unauthorized action");
-		// }
+
 		await models.Comment.destroy({
 			where: { id: req.params.id }
 		});
@@ -82,32 +71,6 @@ exports.deleteComment = async (req, res) => {
 	} catch (error) {
 		res.status(400).json({ error: error.message });
 	}
-	// try {
-	// 	const commentFound = await models.Comment.findOne({
-	// 		attributes: [
-	// 			"id",
-	// 			"comments",
-	// 			"UserId",
-	// 			"PostId",
-	// 			"createdAt",
-	// 			"updatedAt"
-	// 		],
-	// 		where: { id: req.params.id }
-	// 	});
-	// 	if (
-	// 		req.user.isAdmin == true ||
-	// 		(commentFound && commentFound.UserId == req.user.id)
-	// 	) {
-	// 		await models.Comment.destroy({ where: { id: req.params.id } });
-	// 		res
-	// 			.status(200)
-	// 			.json({ message: "Comment has been deleted ", commentFound });
-	// 	} else {
-	// 		res.status(401).json({ error: "Unauthorized action!" });
-	// 	}
-	// } catch (error) {
-	// 	res.status(400).send(error);
-	// }
 };
 // UPDATE PROJECT FOR FUTURE
 exports.answerComment = async (req, es) => {};

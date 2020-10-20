@@ -28,7 +28,7 @@ function SignUp() {
 				const header = (axios.defaults.headers.common["Authorization"] =
 					res.data.token);
 				console.log(header);
-				window.location = "/myprofile/" + idUser;
+				window.location = "/myprofile/";
 			})
 			.catch(error => {
 				alert({ error: signUp.error });

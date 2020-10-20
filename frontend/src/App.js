@@ -23,7 +23,7 @@ export class App extends Component {
 
 					<Route exact path="/" component={SignUp} />
 					<Route exact path="/login" component={LogIn} />
-					<Route exact path="/myprofile/:id" component={Account} />
+					<Route exact path="/myprofile/" component={Account} />
 					<Route exact path="/wall" component={Wall} />
 
 					<Footer />

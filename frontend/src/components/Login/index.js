@@ -12,16 +12,10 @@ function LogIn() {
 				localStorage.setItem("token", res.data.token);
 				const header = (axios.defaults.headers.common["Authorization"] =
 					res.data.token);
-				const profile = {
-					user_id: res.data.user_id,
-					username: res.data.username,
-					role: res.data.role,
-					email: res.data.email,
-					isAdmin: res.data.isAdmin
-				};
-				const idUser = profile.user_id;
+				const profile = res.data.user;
+				const idUser = profile.id;
 				localStorage.setItem("profile", JSON.stringify(profile));
-				window.location = "/myprofile/" + idUser;
+				window.location = "/myprofile/";
 			})
 			.catch(error => {
 				alert(error);

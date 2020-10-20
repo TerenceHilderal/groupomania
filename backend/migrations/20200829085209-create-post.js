@@ -30,9 +30,6 @@ module.exports = {
 			isModerate: {
 				type: Sequelize.BOOLEAN
 			},
-			moderateBy: {
-				type: Sequelize.INTEGER
-			},
 
 			createdAt: {
 				allowNull: false,

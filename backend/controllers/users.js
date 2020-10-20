@@ -1,8 +1,6 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-// const { where } = require("sequelize/types");
-// const { Where } = require("sequelize/types/lib/utils");
-// const utils = require("../utils/jwtUtils");
+
 const models = require("../models");
 
 exports.signup = async (req, res) => {
@@ -17,27 +15,29 @@ exports.signup = async (req, res) => {
 	const password_regex = /^(?=.*\d).{4,8}$/;
 
 	// verifications
-	if (email == null || username == null || password == null) {
-		res.status(400).json({ error: "Missing parameters" });
-	}
-
-	if (username.length >= 13 || username.length <= 4) {
-		res.status(400).json({ error: "Username lenght must be 4-13" });
-	}
-
-	if (!email_regex.test(email)) {
-		res.status(400).json({ error: "Your email is not valid" });
-	}
-
-	// if (!password_regex.test(password)) {
-	// 	res.status(400).json({
-	// 		error:
-	// 			" Password must be between 4 and 8 digits long and include at least one numeric digit"
-	// 	});
-	// }
+	// const emailTest = email_regex.test(email);
+	// const passwordTest = password_regex.test(||);
 
 	// On cherche l'utilisateur dans la bdd
+
 	try {
+		if (!email || !username || !password || !role) {
+			throw new Error("Missing parameters");
+		}
+
+		if (username.length >= 13 || username.length <= 4) {
+			throw new Error("Username lenght must be 4-13");
+		}
+
+		if (!email_regex.test(email)) {
+			throw new Error("Wrong email format");
+		}
+
+		if (!password_regex.test(password)) {
+			throw new Error(
+				"Password must be between 4 and 8 digits long and include at least one numeric digit"
+			);
+		}
 		const oldUser = await models.User.findOne({
 			attributes: ["email"],
 			where: { email: email }
@@ -45,14 +45,14 @@ exports.signup = async (req, res) => {
 		if (oldUser) {
 			throw new Error("Already have an account");
 		}
-		// const newUser = JSON.parse(req.body.user);
 
 		const newUser = await models.User.create({
 			email: email,
 			username: username,
 			password: await bcrypt.hash(password, 10),
 			role: role,
-			isAdmin: 0
+			isAdmin: 0,
+			latent: 1
 		});
 		const token =
 			"Bearer " +
@@ -63,6 +63,7 @@ exports.signup = async (req, res) => {
 			username: newUser.username,
 			isAdmin: newUser.isAdmin,
 			role: newUser.role,
+			latent: newUser.latent,
 			token
 		});
 	} catch (error) {
@@ -70,32 +71,32 @@ exports.signup = async (req, res) => {
 	}
 };
 
-exports.login = async (req, res, next) => {
+exports.login = async (req, res) => {
 	try {
 		const user = await models.User.findOne({
 			where: {
 				email: req.body.email
 			}
 		});
+		if (!user.latent) {
+			throw new Error("cest mort");
+		}
+
 		if (!user) {
-			return res.status(404).send({ error: "Utilisateur introuvable" });
+			return res.status(404).json({ error: "Utilisateur introuvable" });
 		}
 		const isMatch = await bcrypt.compare(req.body.password, user.password);
 		if (!isMatch) {
-			return res.status(401).send({ error: "Mot de passe incorrecte" });
+			throw new Error("Mot de passe incorrecte");
 		}
 		const token =
 			"Bearer " + jwt.sign({ id: user.id }, "SECRET_KEY", { expiresIn: "24h" });
 		res.status(200).json({
-			user_id: user.id,
-			email: user.email,
-			username: user.username,
-			role: user.role,
-			isAdmin: user.isAdmin,
+			user: user,
 			token
 		});
 	} catch (error) {
-		res.status(error.status).json({ error: error });
+		res.status(400).json({ error: error });
 	}
 };
 
@@ -116,39 +117,22 @@ exports.userProfile = async (req, res) => {
 exports.deleteProfile = async (req, res) => {
 	// params
 	try {
-		const userToFind = models.User.findOne({
+		const userToFind = await models.User.findOne({
 			where: { id: req.user.id }
 		});
 		if (!userToFind) {
 			throw new Error("Sorry,can't find your account");
 		}
-
-		const userToDestroy = await models.User.destroy({
-			where: { id: req.user.id }
+		const notLatent = userToFind.update({
+			latent: 0
 		});
 
-		const posts = await models.Post.findAll({
-			where: {
-				userId: req.user.id
-			}
-		});
-		posts.forEach(post => {
-			const postFilename = post.imageUrl.split("/images/")[1];
-			fs.unlink(`images/${postFilename}`, () => {
-				post.destroy();
-			});
-		});
-		await models.Comment.destroy({
-			where: {
-				userId: req.user.id
-			}
-		});
-		if (!userToDestroy) {
-			throw new Error("Sorry,something gone wrong");
+		if (!notLatent) {
+			throw new Error("Something gone wrong");
 		}
-		res
-			.status(200)
-			.json({ message: "Your account has been successfully deleted" });
+		res.status(200).json({
+			message: "Your account has been successfully deleted"
+		});
 	} catch (error) {
 		res.status(400).json({ error: error.message });
 	}
@@ -201,7 +185,8 @@ exports.updateProfile = (req, res, next) => {
 					.update({
 						username: req.body.username,
 						role: req.body.role,
-						isAdmin: req.body.isAdmin
+						isAdmin: req.body.isAdmin,
+						latent: req.body.latent
 					})
 					.then(userFound => {
 						return res

@@ -15,7 +15,6 @@ function Header() {
 	return (
 		<header className="navbar navbar-expand-lg navbar-light">
 			<a className="navbar" href="/">
-				{/* Groupomania */}
 				<img
 					src="/images/icon-left-font-monochrome-white.svg"
 					height="45"
@@ -36,7 +35,7 @@ function Header() {
 							</NavLink>
 						</li>
 						<li>
-							<NavLink to="/myprofile/:id">
+							<NavLink to="/myprofile/">
 								<PersonIcon fontSize="large" />
 								<p>Profile</p>
 							</NavLink>
