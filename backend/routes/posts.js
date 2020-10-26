@@ -16,4 +16,4 @@ router.put("/:id/moderate", auth, postsCtrl.moderatePost);
 module.exports = router;
 
 //projet d'amélioration
-// router.put("/:id", multer, postsCtrl.updatePost);
+router.put("/:id", auth, multer, postsCtrl.updatePost);

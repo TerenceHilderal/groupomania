@@ -23,11 +23,10 @@ function SignUp() {
 					email: res.data.email,
 					isAdmin: res.data.isAdmin
 				};
-				const idUser = profile.user_id;
+				const idUser = profile.id;
 				localStorage.setItem("profile", JSON.stringify(profile));
 				const header = (axios.defaults.headers.common["Authorization"] =
 					res.data.token);
-				console.log(header);
 				window.location = "/myprofile/";
 			})
 			.catch(error => {

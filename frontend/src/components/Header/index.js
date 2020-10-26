@@ -3,7 +3,6 @@ import "./Header.scss";
 import HomeIcon from "@material-ui/icons/Home";
 import PersonIcon from "@material-ui/icons/Person";
 import { NavLink } from "react-router-dom";
-// import icon from "../";
 
 function Header() {
 	const handleLogout = () => {
@@ -37,7 +36,7 @@ function Header() {
 						<li>
 							<NavLink to="/myprofile/">
 								<PersonIcon fontSize="large" />
-								<p>Profile</p>
+								{myProfile ? <p>{myProfile.username}</p> : null}
 							</NavLink>
 						</li>
 						<li>

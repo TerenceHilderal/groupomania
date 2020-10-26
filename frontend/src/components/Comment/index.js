@@ -6,7 +6,7 @@ import "./comments.scss";
 function Comment(comment) {
 	const date = new Date(comment.comment.createdAt).toLocaleString();
 	const myProfile = JSON.parse(localStorage.getItem("profile"));
-	const profileId = myProfile.user_id;
+	const profileId = myProfile.id;
 	const idUserComment = comment.comment.UserId;
 	// reqûete pour supprimer un commentaire
 	const handleDeleteComment = id => {

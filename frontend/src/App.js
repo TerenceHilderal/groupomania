@@ -3,16 +3,18 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import LogIn from "./components/Login";
 import SignUp from "./components/SignUp";
-import Account from "./components/Account";
-import Wall from "./components/Wall";
+import Profile from "./components/Profile";
+import Post from "./components/Posts";
 import axios from "axios";
+import { BrowserRouter as Router, Route, useParams } from "react-router-dom";
 
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import "./App.css";
-// import { Link } from "@material-ui/core";
 const token = localStorage.getItem("token");
-
 const header = (axios.defaults.headers.common["Authorization"] = token);
+// const profile = localStorage.getItem("profile");
+// const id = profile.id;
+
+// const id = useParams(userId);
 
 export class App extends Component {
 	render() {
@@ -20,12 +22,11 @@ export class App extends Component {
 			<Router>
 				<div className="App">
 					<Header />
-
 					<Route exact path="/" component={SignUp} />
 					<Route exact path="/login" component={LogIn} />
-					<Route exact path="/myprofile/" component={Account} />
-					<Route exact path="/wall" component={Wall} />
-
+					<Route exact path="/myprofile/" component={Profile} />
+					<Route exact path="/wall" component={Post} />
+					<Route exact path="/wall/:UserId" component={Post} />
 					<Footer />
 				</div>
 			</Router>

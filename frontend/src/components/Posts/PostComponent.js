@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { withRouter } from "react-router-dom";
 import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
 import PanToolIcon from "@material-ui/icons/PanTool";
 import Comment from "../Comment";
@@ -8,7 +9,8 @@ const PostComponent = ({
 	post,
 	handleDeletePost,
 	handlePostsByUserId,
-	moderatePost
+	moderatePost,
+	match
 }) => {
 	const date = new Date(post.createdAt).toLocaleString();
 	const [seeComment, setCommentNow] = useState(false);
@@ -17,7 +19,7 @@ const PostComponent = ({
 
 	const myProfile = JSON.parse(localStorage.getItem("profile"));
 	const profileAdmin = myProfile.isAdmin;
-	const profileId = myProfile.user_id;
+	const profileId = myProfile.id;
 	const postProfileId = post.UserId;
 
 	// creer un commentaire
@@ -42,11 +44,20 @@ const PostComponent = ({
 			})
 			.catch(error => console.log({ error }));
 	};
-
+	// useEffect(() => {
+	// 	if (match.params.UserId) {
+	// 		handlePostsByUserId(post.UserId);
+	// 	}
+	// });
+	console.log(match);
 	return (
 		<div className="container posted">
 			<div className="post__username">
-				<p onClick={() => handlePostsByUserId(post.UserId)}>
+				<p
+					onClick={() =>
+						(document.location.href = `/wall/${match.params.UserId}`)
+					}
+				>
 					Posted by:<b>{post.User.username}</b>
 				</p>
 				<span> {date} </span>
@@ -71,7 +82,6 @@ const PostComponent = ({
 			<div className="container post__body">
 				<div className="post__header">
 					<h2>{post.title}</h2>
-
 					<div className="post__headerDescription">
 						<p>{post.content}</p>
 					</div>
@@ -128,4 +138,4 @@ const PostComponent = ({
 		</div>
 	);
 };
-export default PostComponent;
+export default withRouter(PostComponent);

@@ -159,7 +159,7 @@ exports.updatePost = async (req, res) => {
 			res.status(400).json({ error: "Unauthorized action" });
 		}
 
-		postFound.update({
+		await postFound.update({
 			title: req.body.title,
 			content: req.body.content,
 			attachment: attachmentURL,

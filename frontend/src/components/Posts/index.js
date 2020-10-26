@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
+import { withRouter } from "react-router-dom";
 import "./Post.scss";
 import axios from "axios";
 import PostComponent from "./PostComponent";
 import Alert from "../Alert";
 
-function Post() {
-	const token = localStorage.getItem("token");
+const Post = ({ match }) => {
 	// recupérer les posts
 	const [posts, setPosts] = useState(null);
 	const [active, setActive] = useState(false);
@@ -73,7 +73,6 @@ function Post() {
 			setNewPost({ ...newPost, attachment: e.target.files[0] });
 		}
 	};
-
 	// supprimer un post
 	const handleDeletePost = id => {
 		axios
@@ -161,5 +160,5 @@ function Post() {
 			)}
 		</div>
 	);
-}
-export default Post;
+};
+export default withRouter(Post);

@@ -10,7 +10,7 @@ import Alert from "../Alert";
 
 // requête get pour pouvoir récuperer tout ses posts
 
-function Account() {
+function Profile() {
 	const [success, setSuccess] = useState(false);
 	// recup des données du profil pour les afficher
 	const myProfile = JSON.parse(localStorage.getItem("profile"));
@@ -73,4 +73,4 @@ function Account() {
 	);
 }
 
-export default Account;
+export default Profile;
