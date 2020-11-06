@@ -1,5 +1,12 @@
 .container-fluid {
-	background-color: #192947;
+	// background-color: #192947;
+	background-image: linear-gradient(
+		// rgba(0, 0, 255, 0.5),
+		// rgba(255, 255, 0, 0.5)
+		#192947,
+		#d1515a,
+		#192947
+	);
 	height: 100vh;
 	text-align: center;
 	p,
@@ -7,7 +14,7 @@
 	h2,
 	h3,
 	li {
-		color: mintcream;
+		color: wheat;
 		list-style-type: none;
 		padding-left: 2rem;
 		padding-right: 2rem;

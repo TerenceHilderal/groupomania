@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { withRouter } from "react-router-dom";
 import "./Post.scss";
 import axios from "axios";
@@ -73,18 +73,18 @@ const Post = ({ match }) => {
 			setNewPost({ ...newPost, attachment: e.target.files[0] });
 		}
 	};
-	// supprimer un post
-	const handleDeletePost = id => {
-		axios
-			.delete(`http://localhost:3000/api/posts/${id}`)
-			.then(response => {
-				const data = posts.filter(post => post.id !== id);
-				setPosts(data);
-				setSuccess(true);
-			})
+	// supprimer un post à implémenter
+	// const handleDeletePost = id => {
+	// 	axios
+	// 		.delete(`http://localhost:3000/api/posts/${id}`)
+	// 		.then(response => {
+	// 			const data = posts.filter(post => post.id !== id);
+	// 			setPosts(data);
+	// 			setSuccess(true);
+	// 		})
 
-			.catch(error => setSuccess(false));
-	};
+	// 		.catch(error => setSuccess(false));
+	// };
 	const moderatePost = id => {
 		axios
 			.put(`http://localhost:3000/api/posts/${id}/moderate`)
@@ -92,7 +92,7 @@ const Post = ({ match }) => {
 				handlePosts();
 				setSuccess(true);
 			})
-			.catch(error => console.log(error));
+			.catch(error => setSuccess(false));
 	};
 
 	return (
@@ -104,6 +104,7 @@ const Post = ({ match }) => {
 					enctype="multipart/form-data"
 					className="postForm"
 				>
+					<p>Your title</p>
 					<input
 						placeholder="title"
 						type="text"
@@ -113,6 +114,7 @@ const Post = ({ match }) => {
 						name="title"
 					/>
 
+					<p>Express yourself:</p>
 					<textarea
 						className="formInput"
 						placeholder="content"
@@ -142,7 +144,7 @@ const Post = ({ match }) => {
 					)}
 				</form>
 			</div>
-			<hr />
+			{/* <hr /> */}
 
 			{posts && (
 				<>
@@ -150,7 +152,7 @@ const Post = ({ match }) => {
 					{posts.map(post => (
 						<PostComponent
 							post={post}
-							handleDeletePost={handleDeletePost}
+							// handleDeletePost={handleDeletePost}
 							handlePostsByUserId={handlePostsByUserId}
 							moderatePost={moderatePost}
 							success={success}

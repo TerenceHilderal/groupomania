@@ -50,7 +50,11 @@ function Header() {
 						</li>
 					</ul>
 				</div>
-			) : null}
+			) : (
+				<button type="button" class="btn btn-success">
+					Login
+				</button>
+			)}
 		</header>
 	);
 }

@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { withRouter } from "react-router-dom";
-import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
+import ChatBubbleOutlineIconRounded from "@material-ui/icons/ChatBubbleOutlineRounded";
 import PanToolIcon from "@material-ui/icons/PanTool";
 import Comment from "../Comment";
 import axios from "axios";
+import { blue } from "@material-ui/core/colors";
+import UserContext from "../Context/Context";
 
 const PostComponent = ({
 	post,
@@ -16,10 +18,10 @@ const PostComponent = ({
 	const [seeComment, setCommentNow] = useState(false);
 	const [comments, setComments] = useState(null);
 	const [newComment, setNewComment] = useState({ comments: " " });
-
-	const myProfile = JSON.parse(localStorage.getItem("profile"));
-	const profileAdmin = myProfile.isAdmin;
-	const profileId = myProfile.id;
+	const profile = useContext(UserContext);
+	// const myProfile = JSON.parse(localStorage.getItem("profile"));
+	const profileAdmin = profile.isAdmin;
+	// const profileId = myProfile.id;
 	const postProfileId = post.UserId;
 
 	// creer un commentaire
@@ -44,22 +46,25 @@ const PostComponent = ({
 			})
 			.catch(error => console.log({ error }));
 	};
-	// useEffect(() => {
-	// 	if (match.params.UserId) {
-	// 		handlePostsByUserId(post.UserId);
-	// 	}
-	// });
-	console.log(match);
+	useEffect(() => {
+		if (match.params.UserId) {
+			handlePostsByUserId(match.params.UserId);
+		}
+	}, [match.params.UserId]);
 	return (
 		<div className="container posted">
 			<div className="post__username">
-				<p
-					onClick={() =>
-						(document.location.href = `/wall/${match.params.UserId}`)
-					}
-				>
-					Posted by:<b>{post.User.username}</b>
-				</p>
+				{profileAdmin ? (
+					<p
+						onClick={() => (document.location.href = `/wall/${postProfileId}`)}
+					>
+						Posted by:<b>{post.User.username}</b>
+					</p>
+				) : (
+					<p>
+						Posted by:<b>{post.User.username}</b>
+					</p>
+				)}
 				<span> {date} </span>
 				{profileAdmin ? (
 					<PanToolIcon
@@ -68,7 +73,7 @@ const PostComponent = ({
 						onClick={() => moderatePost(post.id)}
 					/>
 				) : null}
-				{profileAdmin || profileId === postProfileId ? (
+				{/* {profileAdmin || profileId === postProfileId ? (
 					<button
 						type="button"
 						className="close"
@@ -77,21 +82,23 @@ const PostComponent = ({
 					>
 						<span aria-hidden="true">&times;</span>
 					</button>
-				) : null}
+				) : null} */}
 			</div>
 			<div className="container post__body">
-				<div className="post__header">
-					<h2>{post.title}</h2>
-					<div className="post__headerDescription">
-						<p>{post.content}</p>
-					</div>
-				</div>
+				{/* <div className="post__header"> */}
+				<h2>{post.title}</h2>
+				{/* <div className="post__headerDescription"> */}
+				<h3>{post.content}</h3>
+				{/* </div> */}
+				{/* </div> */}
 				<img src={post.attachment} width="45%" alt="image" />
+				<hr />
 				<div className="post__footer">
 					{!post.isModerate ? (
-						<ChatBubbleOutlineIcon
+						<ChatBubbleOutlineIconRounded
 							className="icon"
-							color="secondary"
+							// color="primary"
+							style={{ color: blue }}
 							fontSize="large"
 							onClick={() =>
 								seeComment
@@ -133,7 +140,7 @@ const PostComponent = ({
 						</>
 					) : null}
 				</div>
-				<hr />
+				{/* <hr /> */}
 			</div>
 		</div>
 	);

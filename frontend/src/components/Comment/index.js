@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import CommentComponent from "./CommentComponent";
 import "./comments.scss";
 
 function Comment(comment) {

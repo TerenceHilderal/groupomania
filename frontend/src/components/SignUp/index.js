@@ -23,10 +23,10 @@ function SignUp() {
 					email: res.data.email,
 					isAdmin: res.data.isAdmin
 				};
-				const idUser = profile.id;
+				// const idUser = profile.id;
 				localStorage.setItem("profile", JSON.stringify(profile));
-				const header = (axios.defaults.headers.common["Authorization"] =
-					res.data.token);
+				// const header = (axios.defaults.headers.common["Authorization"] =
+				// 	res.data.token);
 				window.location = "/myprofile/";
 			})
 			.catch(error => {
@@ -36,7 +36,6 @@ function SignUp() {
 	if (signUp.username === null) {
 		console.log("connexion impossible");
 	}
-
 	return (
 		<div className={styles.containerSignup}>
 			<form onSubmit={submitHandler}>
