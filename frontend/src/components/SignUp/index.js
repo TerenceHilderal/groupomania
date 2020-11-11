@@ -23,21 +23,16 @@ function SignUp() {
 					email: res.data.email,
 					isAdmin: res.data.isAdmin
 				};
-				// const idUser = profile.id;
 				localStorage.setItem("profile", JSON.stringify(profile));
-				// const header = (axios.defaults.headers.common["Authorization"] =
-				// 	res.data.token);
 				window.location = "/myprofile/";
 			})
 			.catch(error => {
-				alert({ error: signUp.error });
+				// throw new Error("Something gone wrong");
 			});
 	};
-	if (signUp.username === null) {
-		console.log("connexion impossible");
-	}
+
 	return (
-		<div className={styles.containerSignup}>
+		<div className="containerSignup">
 			<form onSubmit={submitHandler}>
 				<div className="form-group">
 					<label htmlFor="email">Email address</label>

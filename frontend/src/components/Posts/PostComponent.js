@@ -5,7 +5,7 @@ import PanToolIcon from "@material-ui/icons/PanTool";
 import Comment from "../Comment";
 import axios from "axios";
 import { blue } from "@material-ui/core/colors";
-import UserContext from "../Context/Context";
+import UserContext from "../Context";
 
 const PostComponent = ({
 	post,
@@ -19,9 +19,7 @@ const PostComponent = ({
 	const [comments, setComments] = useState(null);
 	const [newComment, setNewComment] = useState({ comments: " " });
 	const profile = useContext(UserContext);
-	// const myProfile = JSON.parse(localStorage.getItem("profile"));
 	const profileAdmin = profile.isAdmin;
-	// const profileId = myProfile.id;
 	const postProfileId = post.UserId;
 
 	// creer un commentaire
@@ -58,17 +56,17 @@ const PostComponent = ({
 					<p
 						onClick={() => (document.location.href = `/wall/${postProfileId}`)}
 					>
-						Posted by:<b>{post.User.username}</b>
+						<b>{post.User.username}</b>
 					</p>
 				) : (
 					<p>
-						Posted by:<b>{post.User.username}</b>
+						<b>{post.User.username}</b>
 					</p>
 				)}
 				<span> {date} </span>
 				{profileAdmin ? (
 					<PanToolIcon
-						color="danger"
+						color="action"
 						fontSize="large"
 						onClick={() => moderatePost(post.id)}
 					/>
@@ -91,7 +89,7 @@ const PostComponent = ({
 				<h3>{post.content}</h3>
 				{/* </div> */}
 				{/* </div> */}
-				<img src={post.attachment} width="45%" alt="image" />
+				<img src={post.attachment} width="55%" alt="image1" />
 				<hr />
 				<div className="post__footer">
 					{!post.isModerate ? (
@@ -135,7 +133,11 @@ const PostComponent = ({
 							</div>
 
 							{comments.map(comment => (
-								<Comment comment={comment} handleComments={handleComments} />
+								<Comment
+									key={comment.id}
+									comment={comment}
+									handleComments={handleComments}
+								/>
 							))}
 						</>
 					) : null}

@@ -2,14 +2,14 @@ import React, { useState, useContext } from "react";
 import axios from "axios";
 import "./Account.scss";
 import Alert from "../Alert";
-import UserContext from "../Context/Context";
+import UserContext from "../Context";
 
 function Profile() {
 	const [success, setSuccess] = useState(false);
 	// recup des données du profil pour les afficher
 	// const profile = JSON.parse(localStorage.getItem("profile"));
 	// récupérer le token pour l'authentification car toutes les requêtes necessite une authentification
-	const token = localStorage.getItem("token");
+	// const token = localStorage.getItem("token");
 	// requête delete pour pouvoir supprimer son profil
 	const handleDeleteUser = () => {
 		// const header = (axios.defaults.headers.common["Authorization"] = token);

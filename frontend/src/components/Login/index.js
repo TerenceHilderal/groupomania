@@ -1,27 +1,28 @@
 import axios from "axios";
-import React, { Component, useState } from "react";
+import React, { useState } from "react";
 import "../SignUp/SignUp.scss";
 import { NavLink } from "react-router-dom";
 
 function LogIn() {
+	const [login, setLogin] = useState({ email: "", password: "" });
 	const submitHandler = e => {
 		e.preventDefault();
+
 		axios
 			.post("http://localhost:3000/api/users/login", login)
 			.then(res => {
+				console.log(res);
 				localStorage.setItem("token", res.data.token);
-				const header = (axios.defaults.headers.common["Authorization"] =
-					res.data.token);
 				const profile = res.data.user;
-				const idUser = profile.id;
 				localStorage.setItem("profile", JSON.stringify(profile));
 				window.location = "/myprofile/";
 			})
 			.catch(error => {
-				alert(error);
+				document.getElementById("emailHelp").innerHTML =
+					"Your email or password is incorrect , please try again";
 			});
 	};
-	const [login, setLogin] = useState({ email: "", password: "" });
+	console.log(login);
 	return (
 		<div className="containerSignup">
 			<form onSubmit={submitHandler}>
@@ -37,9 +38,6 @@ function LogIn() {
 						aria-describedby="emailHelp"
 						placeholder="Enter email"
 					/>
-					<small id="emailHelp" className="form-text text-muted">
-						We'll never share your email with anyone else.
-					</small>
 				</div>
 				<div className="form-group">
 					<label htmlFor="exampleInputPassword1">Password</label>
@@ -52,9 +50,10 @@ function LogIn() {
 						onChange={e => setLogin({ ...login, password: e.target.value })}
 						placeholder="Password"
 					/>
-				</div>
+				</div>{" "}
+				<h2 id="emailHelp" className="form-text"></h2>
 				{/* <NavLink to="/myprofile"> */}
-				<button type="submit" class="btn btn-danger">
+				<button type="submit" className="btn btn-danger">
 					Submit
 				</button>
 				{/* </NavLink> */}

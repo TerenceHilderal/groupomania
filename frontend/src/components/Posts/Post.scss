@@ -16,6 +16,11 @@ body {
 		height: 2px;
 		width: 100%;
 	}
+	img:hover {
+		overflow: hidden;
+		transition: 0.5s;
+		transform: scale(1.5);
+	}
 }
 .posted {
 	// background-image: url("/images/icon-above-font.png");
@@ -43,7 +48,6 @@ textarea[name="content"] {
 		color: black;
 	}
 	border-radius: 10px;
-	// width: 80%;
 	display: flex;
 	flex-direction: column;
 	margin-top: 1rem;

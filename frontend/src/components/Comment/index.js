@@ -1,11 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useContext } from "react";
 import axios from "axios";
 import "./comments.scss";
+import UserContext from "../Context";
 
 function Comment(comment) {
 	const date = new Date(comment.comment.createdAt).toLocaleString();
-	const myProfile = JSON.parse(localStorage.getItem("profile"));
-	const profileId = myProfile.id;
+	const profile = useContext(UserContext);
+
+	// const myProfile = JSON.parse(localStorage.getItem("profile"));
+	const profileId = profile.id;
 	const idUserComment = comment.comment.UserId;
 	// reqûete pour supprimer un commentaire
 	const handleDeleteComment = id => {

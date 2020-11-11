@@ -1,11 +1,12 @@
 .containerSignup {
 	height: 100vh;
 	display: flex;
-	justify-content: center;
 	align-items: center;
+	justify-content: center;
 	background-image: url("/images/icon.png");
-	// background-repeat: no-repeat;
-	background-size: 20%;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 50%;
 }
 form {
 	margin-top: 1rem;
@@ -19,5 +20,8 @@ form {
 
 	label {
 		color: #d1515a;
+	}
+	#emailHelp {
+		color: red;
 	}
 }

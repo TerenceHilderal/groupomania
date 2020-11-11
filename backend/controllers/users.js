@@ -78,12 +78,9 @@ exports.login = async (req, res) => {
 				email: req.body.email
 			}
 		});
-		if (!user.latent) {
-			throw new Error("cest mort");
-		}
 
 		if (!user) {
-			return res.status(404).json({ error: "Utilisateur introuvable" });
+			throw "pas trouvé";
 		}
 		const isMatch = await bcrypt.compare(req.body.password, user.password);
 		if (!isMatch) {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import "./Post.scss";
 import axios from "axios";
@@ -101,7 +101,7 @@ const Post = ({ match }) => {
 				<form
 					onSubmit={submitHandler}
 					method="post"
-					enctype="multipart/form-data"
+					encType="multipart/form-data"
 					className="postForm"
 				>
 					<p>Your title</p>
@@ -151,6 +151,7 @@ const Post = ({ match }) => {
 					{success ? <Alert /> : null}
 					{posts.map(post => (
 						<PostComponent
+							key={post.id}
 							post={post}
 							// handleDeletePost={handleDeletePost}
 							handlePostsByUserId={handlePostsByUserId}

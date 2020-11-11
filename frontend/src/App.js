@@ -8,13 +8,11 @@ import Post from "./components/Posts";
 import axios from "axios";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import "./App.css";
-import UserContext from "./components/Context/Context";
+import UserContext from "./components/Context";
 
 const token = localStorage.getItem("token");
 const profile = JSON.parse(localStorage.getItem("profile"));
 axios.defaults.headers.common["Authorization"] = token;
-
-console.log(UserContext);
 
 export class App extends Component {
 	render() {

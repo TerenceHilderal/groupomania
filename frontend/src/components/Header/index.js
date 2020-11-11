@@ -17,7 +17,7 @@ function Header() {
 				<img
 					src="/images/icon-left-font-monochrome-white.svg"
 					height="45"
-					backgroundColor="red"
+					color="red"
 				/>
 			</a>
 			"
@@ -43,7 +43,7 @@ function Header() {
 							<button
 								type="button"
 								onClick={handleLogout}
-								class="btn btn-warning"
+								className="btn btn-warning"
 							>
 								Logout
 							</button>
@@ -51,9 +51,17 @@ function Header() {
 					</ul>
 				</div>
 			) : (
-				<button type="button" class="btn btn-success">
-					Login
-				</button>
+				<div className="collapse navbar-collapse">
+					<ul className="navbar-nav ml-auto">
+						<button
+							type="button"
+							className="btn btn-success"
+							onClick={() => (window.location = "/login")}
+						>
+							Login
+						</button>
+					</ul>
+				</div>
 			)}
 		</header>
 	);
