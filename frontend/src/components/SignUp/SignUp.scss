@@ -26,9 +26,9 @@ form {
 	#emailHelp {
 		color: red;
 	}
-	.error {
-		margin-left: 5px;
-		font-size: 13px;
-		color: red;
+	small {
+		font-size: large;
+		font-weight: bold;
+		font-style: italic;
 	}
 }
