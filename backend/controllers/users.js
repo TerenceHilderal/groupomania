@@ -12,7 +12,7 @@ exports.signup = async (req, res) => {
 
 	// regex
 	const email_regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-	const password_regex = /^(?=.*\d).{4,8}$/;
+	const password_regex = /^(?=.*[\d])(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*])[\w!@#$%^&*]{8,}$/;
 
 	// verifications
 	// const emailTest = email_regex.test(email);
@@ -25,9 +25,9 @@ exports.signup = async (req, res) => {
 			throw new Error("Missing parameters");
 		}
 
-		if (username.length >= 13 || username.length <= 4) {
-			throw new Error("Username lenght must be 4-13");
-		}
+		// if (username.length >= 13 || username.length <= 4) {
+		// 	throw new Error("Username lenght must be 4-13");
+		// }
 
 		if (!email_regex.test(email)) {
 			throw new Error("Wrong email format");
@@ -67,7 +67,7 @@ exports.signup = async (req, res) => {
 			token
 		});
 	} catch (error) {
-		res.status(400).json({ error: error.message });
+		throw new Error(error);
 	}
 };
 
@@ -80,11 +80,11 @@ exports.login = async (req, res) => {
 		});
 
 		if (!user) {
-			throw "pas trouvé";
+			throw new Error("It's seems that you don't have an account");
 		}
 		const isMatch = await bcrypt.compare(req.body.password, user.password);
 		if (!isMatch) {
-			throw new Error("Mot de passe incorrecte");
+			throw new Error("Incorrect password");
 		}
 		const token =
 			"Bearer " + jwt.sign({ id: user.id }, "SECRET_KEY", { expiresIn: "24h" });

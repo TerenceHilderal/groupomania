@@ -22,7 +22,6 @@ function LogIn() {
 					"Your email or password is incorrect , please try again";
 			});
 	};
-	console.log(login);
 	return (
 		<div className="containerSignup">
 			<form onSubmit={submitHandler}>

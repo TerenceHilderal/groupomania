@@ -4,7 +4,6 @@ import ChatBubbleOutlineIconRounded from "@material-ui/icons/ChatBubbleOutlineRo
 import PanToolIcon from "@material-ui/icons/PanTool";
 import Comment from "../Comment";
 import axios from "axios";
-import { blue } from "@material-ui/core/colors";
 import UserContext from "../Context";
 
 const PostComponent = ({
@@ -20,9 +19,10 @@ const PostComponent = ({
 	const [newComment, setNewComment] = useState({ comments: " " });
 	const profile = useContext(UserContext);
 	const profileAdmin = profile.isAdmin;
+	// const profileId = profile.id;
 	const postProfileId = post.UserId;
 
-	// creer un commentaire
+	// create a comment
 	const handleNewComment = e => {
 		axios
 			.post(`http://localhost:3000/api/posts/${post.id}/comment`, newComment)
@@ -49,6 +49,7 @@ const PostComponent = ({
 			handlePostsByUserId(match.params.UserId);
 		}
 	}, [match.params.UserId]);
+
 	return (
 		<div className="container posted">
 			<div className="post__username">
@@ -66,7 +67,7 @@ const PostComponent = ({
 				<span> {date} </span>
 				{profileAdmin ? (
 					<PanToolIcon
-						color="action"
+						color="secondary"
 						fontSize="large"
 						onClick={() => moderatePost(post.id)}
 					/>
@@ -95,8 +96,7 @@ const PostComponent = ({
 					{!post.isModerate ? (
 						<ChatBubbleOutlineIconRounded
 							className="icon"
-							// color="primary"
-							style={{ color: blue }}
+							color="secondary"
 							fontSize="large"
 							onClick={() =>
 								seeComment

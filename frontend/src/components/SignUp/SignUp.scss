@@ -20,8 +20,15 @@ form {
 
 	label {
 		color: #d1515a;
+		font-size: larger;
+		font-weight: bold;
 	}
 	#emailHelp {
+		color: red;
+	}
+	.error {
+		margin-left: 5px;
+		font-size: 13px;
 		color: red;
 	}
 }
