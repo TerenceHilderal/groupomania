@@ -27,6 +27,7 @@ function Profile() {
 	return (
 		<div className="container-fluid">
 			<div className="header">
+				{success ? <Alert /> : null}
 				<div>
 					<h1>My profile</h1>
 				</div>
@@ -40,8 +41,6 @@ function Profile() {
 					</p>
 				</div>
 				<div className="informations">
-					{success ? <Alert /> : null}
-
 					<h3>Your informations:</h3>
 					<ul>
 						<li>Email:{profile.email}</li>

@@ -1,30 +1,31 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./Header.scss";
 import HomeIcon from "@material-ui/icons/Home";
 import PersonIcon from "@material-ui/icons/Person";
 import { NavLink } from "react-router-dom";
+import UserContext from "../Context";
 
 function Header() {
 	const handleLogout = () => {
 		localStorage.clear();
 		window.location = "/";
 	};
-	const myProfile = JSON.parse(localStorage.getItem("profile"));
+	// const myProfile = JSON.parse(localStorage.getItem("profile"));
+	const profile = useContext(UserContext);
 
 	return (
 		<header className="navbar navbar-expand-lg navbar-light">
-			<a className="navbar" href="/">
-				<img
-					src="/images/icon-left-font-monochrome-white.svg"
-					height="45"
-					color="red"
-				/>
-			</a>
-			"
+			{/* <a className="navbar" href="/"> */}
+			<img
+				src="/images/icon-left-font-monochrome-white.svg"
+				height="45"
+				color="red"
+			/>
+			{/* </a> */}"
 			<button className="navbar-toggler">
 				<span className="navbar-toggler-icon"></span>
 			</button>
-			{myProfile ? (
+			{profile ? (
 				<div className="collapse navbar-collapse">
 					<ul className="navbar-nav ml-auto">
 						<li>
@@ -36,7 +37,7 @@ function Header() {
 						<li>
 							<NavLink to="/myprofile/">
 								<PersonIcon fontSize="large" />
-								{myProfile ? <p>{myProfile.username}</p> : null}
+								{profile ? <p>{profile.username}</p> : null}
 							</NavLink>
 						</li>
 						<li>

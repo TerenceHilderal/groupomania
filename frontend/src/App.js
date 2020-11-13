@@ -29,10 +29,10 @@ export class App extends Component {
 		return (
 			<Router>
 				<div className="App">
-					<Header />
-					<Route exact path="/" component={SignUp} />
-					<Route exact path="/login" component={LogIn} />
 					<UserContext.Provider value={profile}>
+						<Header />
+						<Route exact path="/" component={SignUp} />
+						<Route exact path="/login" component={LogIn} />
 						<PrivateRoute exact path="/myprofile/" component={Profile} />
 						<PrivateRoute exact path="/wall" component={Post} />
 						<PrivateRoute exact path="/wall/:UserId" component={Post} />

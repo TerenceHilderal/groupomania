@@ -1,9 +1,8 @@
 body {
-	background-color: whitesmoke;
+	background-color: white;
 }
 
 .post {
-	background-size: 50%;
 	max-width: 750px;
 	p,
 	span,
@@ -26,6 +25,7 @@ body {
 	background-image: linear-gradient(#4a6597, #403ab3, #192947);
 	box-shadow: 12px 12px 2px 1px rgba(0, 0, 0, 0.2);
 	border-radius: 10px;
+	margin-top: 1.5rem;
 	margin-bottom: 3rem;
 	padding: 2rem;
 }
@@ -42,6 +42,7 @@ textarea[name="content"] {
 	width: 400px;
 	height: 200px;
 }
+
 .postForm {
 	p {
 		color: black;
@@ -49,17 +50,23 @@ textarea[name="content"] {
 	border-radius: 10px;
 	display: flex;
 	flex-direction: column;
-	margin-top: 1rem;
-	margin-bottom: 2rem;
-	margin: auto;
 	align-items: center;
-	justify-content: center;
-	box-shadow: none;
+
+	.title {
+		margin-top: 2rem;
+		border-radius: 5%;
+		border-style: none;
+		border: 1px solid black;
+	}
 	.formInput {
 		margin: 1rem;
+		border-radius: 2%;
+		border: 1px solid black;
 	}
+
 	.attachment {
 		margin: 0;
+		margin-bottom: 0.5rem;
 	}
 }
 .icon {
@@ -67,10 +74,9 @@ textarea[name="content"] {
 }
 .icon:hover {
 	cursor: pointer;
-}
-.input-group-append {
-	margin: 0;
+	color: wheat;
 }
 .btn {
 	margin: none !important;
+	// margin-bottom: 2rem;
 }

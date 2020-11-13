@@ -24,7 +24,7 @@ function LogIn() {
 	};
 	return (
 		<div className="containerSignup">
-			<form onSubmit={submitHandler}>
+			<form className="signUp" onSubmit={submitHandler}>
 				<div className="form-group">
 					<label htmlFor="email">Email address</label>
 					<input

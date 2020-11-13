@@ -4,6 +4,7 @@ import "./Post.scss";
 import axios from "axios";
 import PostComponent from "./PostComponent";
 import Alert from "../Alert";
+import Loading from "../utils/loading";
 
 const Post = ({ match }) => {
 	// recupérer les posts
@@ -94,74 +95,77 @@ const Post = ({ match }) => {
 			})
 			.catch(error => setSuccess(false));
 	};
-
-	return (
-		<div className="post container">
-			<div className="postForm">
-				<form
-					onSubmit={submitHandler}
-					method="post"
-					encType="multipart/form-data"
-					className="postForm"
-				>
-					<p>Your title</p>
-					<input
-						placeholder="title"
-						type="text"
-						value={newPost.title}
-						onChange={e => handlePost(e)}
-						id="title"
-						name="title"
-					/>
-
-					<p>Express yourself:</p>
-					<textarea
-						className="formInput"
-						placeholder="content"
-						value={newPost.content}
-						onChange={e => handlePost(e)}
-						id="content"
-						name="content"
-						type="text"
-					/>
-
-					<input
-						className="attachment"
-						placeholder="attachment"
-						onChange={e => handlePost(e)}
-						id="attachment"
-						name="attachment"
-						type="file"
-					/>
-					{active ? (
-						<button className="btn btn-success " type="submit">
-							Post-it!
-						</button>
-					) : (
-						<button disabled className="btn btn-success " type="submit">
-							Post-it!
-						</button>
-					)}
-				</form>
-			</div>
-			{/* <hr /> */}
-
-			{posts && (
-				<>
-					{success ? <Alert /> : null}
-					{posts.map(post => (
-						<PostComponent
-							key={post.id}
-							post={post}
-							// handleDeletePost={handleDeletePost}
-							handlePostsByUserId={handlePostsByUserId}
-							moderatePost={moderatePost}
-							success={success}
+	if (posts) {
+		return (
+			<div className="post container">
+				<div className="postForm">
+					<form
+						onSubmit={submitHandler}
+						method="post"
+						encType="multipart/form-data"
+						className="postForm"
+					>
+						<input
+							className="title"
+							placeholder="title"
+							type="text"
+							value={newPost.title}
+							onChange={e => handlePost(e)}
+							id="title"
+							name="title"
 						/>
-					))}
+
+						<textarea
+							className="formInput"
+							placeholder="content"
+							value={newPost.content}
+							onChange={e => handlePost(e)}
+							id="content"
+							name="content"
+							type="text"
+						/>
+
+						<input
+							className="attachment"
+							placeholder="attachment"
+							onChange={e => handlePost(e)}
+							id="attachment"
+							name="attachment"
+							type="file"
+						/>
+						{active ? (
+							<button className="btn btn-success " type="submit">
+								Post-it!
+							</button>
+						) : (
+							<button disabled className="btn btn-success " type="submit">
+								Post-it!
+							</button>
+						)}
+					</form>
+				</div>
+				{/* <hr /> */}
+				<>
+					{posts && (
+						<>
+							{success ? <Alert /> : null}
+							{posts.map(post => (
+								<PostComponent
+									key={post.id}
+									post={post}
+									// handleDeletePost={handleDeletePost}
+									handlePostsByUserId={handlePostsByUserId}
+									moderatePost={moderatePost}
+									success={success}
+								/>
+							))}
+						</>
+					)}
 				</>
-			)}
-		</div>
-	);
+			</div>
+		);
+	} else {
+		return <Loading />;
+	}
 };
 export default withRouter(Post);

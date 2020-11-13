@@ -79,7 +79,7 @@ function SignUp() {
 
 	return (
 		<div className="containerSignup">
-			<form onSubmit={submitHandler}>
+			<form className="signUp" onSubmit={submitHandler}>
 				<div className="form-group">
 					<label htmlFor="email">Email address</label>
 					<input
@@ -136,7 +136,6 @@ function SignUp() {
 					/>
 					<small></small>
 				</div>
-
 				<button type="submit" className="btn btn-danger">
 					Sign-up
 				</button>

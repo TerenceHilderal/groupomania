@@ -19,7 +19,6 @@ const PostComponent = ({
 	const [newComment, setNewComment] = useState({ comments: " " });
 	const profile = useContext(UserContext);
 	const profileAdmin = profile.isAdmin;
-	// const profileId = profile.id;
 	const postProfileId = post.UserId;
 
 	// create a comment
@@ -67,7 +66,7 @@ const PostComponent = ({
 				<span> {date} </span>
 				{profileAdmin ? (
 					<PanToolIcon
-						color="secondary"
+						color="action"
 						fontSize="large"
 						onClick={() => moderatePost(post.id)}
 					/>
