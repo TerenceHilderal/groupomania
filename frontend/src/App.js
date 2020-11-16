@@ -5,14 +5,21 @@ import LogIn from "./components/Login";
 import SignUp from "./components/SignUp";
 import Profile from "./components/Profile";
 import Post from "./components/Posts";
-import axios from "axios";
-import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
+import {
+	BrowserRouter as Router,
+	Route,
+	Redirect,
+	withRouter
+} from "react-router-dom";
 import "./App.css";
 import UserContext from "./components/Context";
 
-const token = localStorage.getItem("token");
+// dotenv
+require("dotenv").config();
+
+// const token = localStorage.getItem("token");
+// axios.defaults.headers.common["Authorization"] = token;
 const profile = JSON.parse(localStorage.getItem("profile"));
-axios.defaults.headers.common["Authorization"] = token;
 
 const PrivateRoute = ({ component: Component, path }) => {
 	return (

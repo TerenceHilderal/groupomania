@@ -3,16 +3,10 @@ import { withRouter } from "react-router-dom";
 import ChatBubbleOutlineIconRounded from "@material-ui/icons/ChatBubbleOutlineRounded";
 import PanToolIcon from "@material-ui/icons/PanTool";
 import Comment from "../Comment";
-import axios from "axios";
 import UserContext from "../Context";
+import { handleNewCom, handleCom } from "../../api/posts";
 
-const PostComponent = ({
-	post,
-	handleDeletePost,
-	handlePostsByUserId,
-	moderatePost,
-	match
-}) => {
+const PostComponent = ({ post, handlePostsByUserId, moderatePost, match }) => {
 	const date = new Date(post.createdAt).toLocaleString();
 	const [seeComment, setCommentNow] = useState(false);
 	const [comments, setComments] = useState(null);
@@ -23,8 +17,7 @@ const PostComponent = ({
 
 	// create a comment
 	const handleNewComment = e => {
-		axios
-			.post(`http://localhost:3000/api/posts/${post.id}/comment`, newComment)
+		handleNewCom(post, newComment)
 			.then(response => {
 				setNewComment(response.data);
 				handleComments();
@@ -36,8 +29,7 @@ const PostComponent = ({
 	};
 	//  récupérer tous les commentaires d'un post
 	const handleComments = () => {
-		axios
-			.get(`http://localhost:3000/api/posts/${post.id}/comments`)
+		handleCom(post)
 			.then(response => {
 				setComments(response.data.message);
 			})

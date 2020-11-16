@@ -1,17 +1,14 @@
 import React, { useState, useContext } from "react";
-import { Redirect } from "react-router-dom";
-import axios from "axios";
 import "./Account.scss";
 import Alert from "../Alert";
 import UserContext from "../Context";
+import { handleDelete } from "../../api/users";
 
 function Profile() {
 	const [success, setSuccess] = useState(false);
-	// requête delete pour pouvoir supprimer son profil
+
 	const handleDeleteUser = () => {
-		// const header = (axios.defaults.headers.common["Authorization"] = token);
-		axios
-			.delete("http://localhost:3000/api/users/delete")
+		handleDelete()
 			.then(response => {
 				setSuccess(true);
 				setTimeout(() => {
@@ -21,13 +18,14 @@ function Profile() {
 			})
 			.catch(err => setSuccess(false));
 	};
+
 	const profile = useContext(UserContext);
 	const admin = JSON.stringify(profile.isAdmin);
 
 	return (
 		<div className="container-fluid">
+			{success ? <Alert /> : null}
 			<div className="header">
-				{success ? <Alert /> : null}
 				<div>
 					<h1>My profile</h1>
 				</div>

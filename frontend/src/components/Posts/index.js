@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import "./Post.scss";
-import axios from "axios";
 import PostComponent from "./PostComponent";
 import Alert from "../Alert";
 import Loading from "../utils/loading";
+import { addPost, getPost, getPosts, moderate } from "../../api/posts";
 
 const Post = ({ match }) => {
 	// recupérer les posts
@@ -20,8 +20,7 @@ const Post = ({ match }) => {
 	});
 
 	const handlePosts = () => {
-		axios
-			.get("http://localhost:3000/api/posts/getPosts")
+		getPosts()
 			.then(response => {
 				setPosts(response.data);
 			})
@@ -41,8 +40,7 @@ const Post = ({ match }) => {
 
 	// récupérer un post par id
 	const handlePostsByUserId = UserId => {
-		axios
-			.get(`http://localhost:3000/api/posts/user/${UserId}`)
+		getPost(UserId)
 			.then(response => {
 				setPosts(response.data);
 			})
@@ -55,11 +53,7 @@ const Post = ({ match }) => {
 		formData.append("title", newPost.title);
 		formData.append("content", newPost.content);
 		formData.append("attachment", newPost.attachment, newPost.attachment.name);
-
-		axios
-			.post("http://localhost:3000/api/posts/new", formData, {
-				headers: { "Content-Type": "multipart/form-data" }
-			})
+		addPost(formData)
 			.then(response => {
 				handlePosts();
 				setSuccess(true);
@@ -74,21 +68,9 @@ const Post = ({ match }) => {
 			setNewPost({ ...newPost, attachment: e.target.files[0] });
 		}
 	};
-	// supprimer un post à implémenter
-	// const handleDeletePost = id => {
-	// 	axios
-	// 		.delete(`http://localhost:3000/api/posts/${id}`)
-	// 		.then(response => {
-	// 			const data = posts.filter(post => post.id !== id);
-	// 			setPosts(data);
-	// 			setSuccess(true);
-	// 		})
 
-	// 		.catch(error => setSuccess(false));
-	// };
 	const moderatePost = id => {
-		axios
-			.put(`http://localhost:3000/api/posts/${id}/moderate`)
+		moderate(id)
 			.then(response => {
 				handlePosts();
 				setSuccess(true);

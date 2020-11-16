@@ -7,6 +7,9 @@ const postsRoutes = require("./routes/posts");
 const commentsRoutes = require("./routes/comments");
 const path = require("path");
 
+// dotenv
+require("dotenv").config();
+
 /*CROSS ORIGIN RESOURCE SHARING */
 app.use((req, res, next) => {
 	res.setHeader("Access-Control-Allow-Origin", "*"); //l'origine qui a le droit d'accéder à notre api = tout le monde

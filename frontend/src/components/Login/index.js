@@ -1,27 +1,29 @@
-import axios from "axios";
 import React, { useState } from "react";
 import "../SignUp/SignUp.scss";
-import { NavLink } from "react-router-dom";
+import { handleLogin } from "../../api/users";
+import { withRouter, NavLink } from "react-router-dom";
 
-function LogIn() {
+const LogIn = ({ history }) => {
 	const [login, setLogin] = useState({ email: "", password: "" });
+
 	const submitHandler = e => {
 		e.preventDefault();
 
-		axios
-			.post("http://localhost:3000/api/users/login", login)
+		handleLogin(login)
 			.then(res => {
-				console.log(res);
 				localStorage.setItem("token", res.data.token);
 				const profile = res.data.user;
 				localStorage.setItem("profile", JSON.stringify(profile));
 				window.location = "/myprofile/";
+				// history.push("/myprofile/");
 			})
 			.catch(error => {
-				document.getElementById("emailHelp").innerHTML =
-					"Your email or password is incorrect , please try again";
+				// document.getElementById("emailHelp").innerHTML =
+				// 	"Your email or password is incorrect , please try again";
 			});
 	};
+	console.log(history);
+
 	return (
 		<div className="containerSignup">
 			<form className="signUp" onSubmit={submitHandler}>
@@ -61,6 +63,6 @@ function LogIn() {
 			</form>
 		</div>
 	);
-}
+};
 
-export default LogIn;
+export default withRouter(LogIn);
