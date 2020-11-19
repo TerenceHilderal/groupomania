@@ -15,7 +15,7 @@ const LogIn = ({ history }) => {
 				localStorage.setItem("token", res.data.token);
 				// const profile = res.data.user;
 				setProfile(res.data.user);
-				// history.push("/myprofile");
+				history.push("/myprofile");
 				// window.location = "/myprofile/";
 			})
 			.catch(error => {
@@ -24,8 +24,9 @@ const LogIn = ({ history }) => {
 			});
 	};
 	// localStorage.setItem("profile", JSON.stringify(profile));
+
 	console.log(profile);
-	// console.log(history);
+	console.log(history);
 	return (
 		<div className="containerSignup">
 			<form className="signUp" onSubmit={submitHandler}>
