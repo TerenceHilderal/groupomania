@@ -1,31 +1,33 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import "./Header.scss";
 import HomeIcon from "@material-ui/icons/Home";
 import PersonIcon from "@material-ui/icons/Person";
-import { NavLink } from "react-router-dom";
-import UserContext from "../Context";
+import { NavLink, withRouter } from "react-router-dom";
+import { UserContext } from "../Context";
 
-function Header() {
+function Header({ history }) {
 	const handleLogout = () => {
 		localStorage.clear();
-		window.location = "/";
+		// window.location = "/";
+		history.push("/");
 	};
-	// const myProfile = JSON.parse(localStorage.getItem("profile"));
-	const profile = useContext(UserContext);
+
+	const { profile } = useContext(UserContext);
+	// console.log(profile);
+
+	const token = localStorage.getItem("token");
 
 	return (
 		<header className="navbar navbar-expand-lg navbar-light">
-			{/* <a className="navbar" href="/"> */}
 			<img
 				src="/images/icon-left-font-monochrome-white.svg"
 				height="45"
 				color="red"
 			/>
-			{/* </a> */}"
 			<button className="navbar-toggler">
 				<span className="navbar-toggler-icon"></span>
 			</button>
-			{profile ? (
+			{token ? (
 				<div className="collapse navbar-collapse">
 					<ul className="navbar-nav ml-auto">
 						<li>
@@ -57,7 +59,7 @@ function Header() {
 						<button
 							type="button"
 							className="btn btn-success"
-							onClick={() => (window.location = "/login")}
+							onClick={() => history.push("/login")}
 						>
 							Login
 						</button>
@@ -67,4 +69,4 @@ function Header() {
 		</header>
 	);
 }
-export default Header;
+export default withRouter(Header);

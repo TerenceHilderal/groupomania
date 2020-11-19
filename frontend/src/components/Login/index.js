@@ -1,29 +1,31 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import "../SignUp/SignUp.scss";
 import { handleLogin } from "../../api/users";
 import { withRouter, NavLink } from "react-router-dom";
+import { UserContext } from "../Context";
 
 const LogIn = ({ history }) => {
 	const [login, setLogin] = useState({ email: "", password: "" });
+	const { profile, setProfile } = useContext(UserContext);
 
 	const submitHandler = e => {
 		e.preventDefault();
-
 		handleLogin(login)
 			.then(res => {
 				localStorage.setItem("token", res.data.token);
-				const profile = res.data.user;
-				localStorage.setItem("profile", JSON.stringify(profile));
-				window.location = "/myprofile/";
-				// history.push("/myprofile/");
+				// const profile = res.data.user;
+				setProfile(res.data.user);
+				// history.push("/myprofile");
+				// window.location = "/myprofile/";
 			})
 			.catch(error => {
-				// document.getElementById("emailHelp").innerHTML =
-				// 	"Your email or password is incorrect , please try again";
+				document.getElementById("emailHelp").innerHTML =
+					"Your email or password is incorrect , please try again";
 			});
 	};
-	console.log(history);
-
+	// localStorage.setItem("profile", JSON.stringify(profile));
+	console.log(profile);
+	// console.log(history);
 	return (
 		<div className="containerSignup">
 			<form className="signUp" onSubmit={submitHandler}>
@@ -53,11 +55,9 @@ const LogIn = ({ history }) => {
 					/>
 				</div>{" "}
 				<h2 id="emailHelp" className="form-text"></h2>
-				{/* <NavLink to="/myprofile"> */}
 				<button type="submit" className="btn btn-danger">
 					Submit
 				</button>
-				{/* </NavLink> */}
 				<p>Don't already have an account?</p>
 				<NavLink to="/"> Click here</NavLink>
 			</form>

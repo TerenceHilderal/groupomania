@@ -3,37 +3,44 @@ import { withRouter } from "react-router-dom";
 import ChatBubbleOutlineIconRounded from "@material-ui/icons/ChatBubbleOutlineRounded";
 import PanToolIcon from "@material-ui/icons/PanTool";
 import Comment from "../Comment";
-import UserContext from "../Context";
+import { UserContext } from "../Context";
 import { handleNewCom, handleCom } from "../../api/posts";
 
-const PostComponent = ({ post, handlePostsByUserId, moderatePost, match }) => {
+const PostComponent = ({
+	post,
+	handlePostsByUserId,
+	moderatePost,
+	match,
+	history
+}) => {
 	const date = new Date(post.createdAt).toLocaleString();
 	const [seeComment, setCommentNow] = useState(false);
 	const [comments, setComments] = useState(null);
-	const [newComment, setNewComment] = useState({ comments: " " });
-	const profile = useContext(UserContext);
-	const profileAdmin = profile.isAdmin;
+	const [newComment, setNewComment] = useState("");
 	const postProfileId = post.UserId;
+	const { profile } = useContext(UserContext);
+	console.log(profile);
 
 	// create a comment
 	const handleNewComment = e => {
 		handleNewCom(post, newComment)
 			.then(response => {
-				setNewComment(response.data);
+				setNewComment("");
 				handleComments();
 			})
 			.catch(error => console.log(error));
 	};
 	const handleComment = e => {
-		setNewComment({ ...newComment, [e.target.name]: e.target.value });
+		setNewComment({ comments: e.target.value });
 	};
+
 	//  récupérer tous les commentaires d'un post
 	const handleComments = () => {
 		handleCom(post)
 			.then(response => {
 				setComments(response.data.message);
 			})
-			.catch(error => console.log({ error }));
+			.catch(error => console.log(error));
 	};
 	useEffect(() => {
 		if (match.params.UserId) {
@@ -44,10 +51,8 @@ const PostComponent = ({ post, handlePostsByUserId, moderatePost, match }) => {
 	return (
 		<div className="container posted">
 			<div className="post__username">
-				{profileAdmin ? (
-					<p
-						onClick={() => (document.location.href = `/wall/${postProfileId}`)}
-					>
+				{/* {profileAdmin ? (
+					<p onClick={() => history.push(`/wall/${postProfileId}`)}>
 						<b>{post.User.username}</b>
 					</p>
 				) : (
@@ -62,25 +67,12 @@ const PostComponent = ({ post, handlePostsByUserId, moderatePost, match }) => {
 						fontSize="large"
 						onClick={() => moderatePost(post.id)}
 					/>
-				) : null}
-				{/* {profileAdmin || profileId === postProfileId ? (
-					<button
-						type="button"
-						className="close"
-						aria-label="Close"
-						onClick={() => handleDeletePost(post.id)}
-					>
-						<span aria-hidden="true">&times;</span>
-					</button>
 				) : null} */}
 			</div>
+
 			<div className="container post__body">
-				{/* <div className="post__header"> */}
 				<h2>{post.title}</h2>
-				{/* <div className="post__headerDescription"> */}
 				<h3>{post.content}</h3>
-				{/* </div> */}
-				{/* </div> */}
 				<img src={post.attachment} width="55%" alt="image1" />
 				<hr />
 				<div className="post__footer">
@@ -133,7 +125,6 @@ const PostComponent = ({ post, handlePostsByUserId, moderatePost, match }) => {
 						</>
 					) : null}
 				</div>
-				{/* <hr /> */}
 			</div>
 		</div>
 	);

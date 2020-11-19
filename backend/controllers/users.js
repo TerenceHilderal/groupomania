@@ -25,9 +25,9 @@ exports.signup = async (req, res) => {
 			throw new Error("Missing parameters");
 		}
 
-		// if (username.length >= 13 || username.length <= 4) {
-		// 	throw new Error("Username lenght must be 4-13");
-		// }
+		if (username.length >= 13 || username.length <= 4) {
+			throw new Error("Username lenght must be 4-13");
+		}
 
 		if (!email_regex.test(email)) {
 			throw new Error("Wrong email format");
@@ -75,7 +75,8 @@ exports.login = async (req, res) => {
 	try {
 		const user = await models.User.findOne({
 			where: {
-				email: req.body.email
+				email: req.body.email,
+				latent: 1
 			}
 		});
 
@@ -93,7 +94,7 @@ exports.login = async (req, res) => {
 			token
 		});
 	} catch (error) {
-		res.status(400).json({ error: error });
+		res.status(400).json({ error });
 	}
 };
 
@@ -169,36 +170,3 @@ exports.updateProfile = async (req, res, next) => {
 		res.status(400).json({ error: error.message });
 	}
 };
-// exports.updateProfile = (req, res) => {
-// Modification du Profil Utilisateur
-// 	models.User.findOne({
-// 		attributes: ["role", "id", "isAdmin", "username"],
-// 		where: { id: req.user.id }
-// 	})
-// 		.then(userFound => {
-// 			if (userFound) {
-// 				userFound
-// 					.update({
-// 						username: req.body.username,
-// 						role: req.body.role,
-// 						isAdmin: req.body.isAdmin,
-// 						latent: req.body.latent
-// 					})
-// 					.then(userFound => {
-// 						return res
-// 							.status(200)
-// 							.json({ User: userFound, message: "Profil modifié !" });
-// 					})
-// 					.catch(error =>
-// 						res
-// 							.status(500)
-// 							.json({ error, message: "Impossible de modifier votre profil." })
-// 					);
-// 			} else {
-// 				return res.status(400).json({ message: "User not found" });
-// 			}
-// 		})
-// 		.catch(error =>
-// 			res.status(500).json({ error, message: "Authorization issue" })
-// 		);
-// };

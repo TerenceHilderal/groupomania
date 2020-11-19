@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { withRouter } from "react-router-dom";
 import "./Post.scss";
 import PostComponent from "./PostComponent";
 import Alert from "../Alert";
 import Loading from "../utils/loading";
 import { addPost, getPost, getPosts, moderate } from "../../api/posts";
+// import { UserContext } from "../Context";
 
 const Post = ({ match }) => {
 	// recupérer les posts
@@ -126,7 +127,6 @@ const Post = ({ match }) => {
 						)}
 					</form>
 				</div>
-				{/* <hr /> */}
 				<>
 					{posts && (
 						<>
@@ -135,7 +135,6 @@ const Post = ({ match }) => {
 								<PostComponent
 									key={post.id}
 									post={post}
-									// handleDeletePost={handleDeletePost}
 									handlePostsByUserId={handlePostsByUserId}
 									moderatePost={moderatePost}
 									success={success}

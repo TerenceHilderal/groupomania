@@ -19,7 +19,6 @@ function SignUp() {
 	const submitHandler = e => {
 		e.preventDefault();
 		inputTest(e, username_regex, email_regex, password_regex);
-
 		handleSignUp(signUp)
 			.then(res => {
 				localStorage.setItem("token", res.data.token);
