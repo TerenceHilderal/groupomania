@@ -20,6 +20,7 @@ const PostComponent = ({
 	const postProfileId = post.UserId;
 	const { profile } = useContext(UserContext);
 	console.log(profile);
+	const profileAdmin = profile.isAdmin;
 
 	// create a comment
 	const handleNewComment = e => {
@@ -51,7 +52,7 @@ const PostComponent = ({
 	return (
 		<div className="container posted">
 			<div className="post__username">
-				{/* {profileAdmin ? (
+				{profileAdmin ? (
 					<p onClick={() => history.push(`/wall/${postProfileId}`)}>
 						<b>{post.User.username}</b>
 					</p>
@@ -67,7 +68,7 @@ const PostComponent = ({
 						fontSize="large"
 						onClick={() => moderatePost(post.id)}
 					/>
-				) : null} */}
+				) : null}
 			</div>
 
 			<div className="container post__body">

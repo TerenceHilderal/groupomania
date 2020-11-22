@@ -10,7 +10,7 @@ function Comment(comment) {
 	console.log(profile);
 
 	// const myProfile = JSON.parse(localStorage.getItem("profile"));
-	// const profileId = profile.id;
+	const profileId = profile.id;
 	const idUserComment = comment.comment.UserId;
 
 	// reqûete pour supprimer un commentaire
@@ -31,7 +31,7 @@ function Comment(comment) {
 			<div class="comment-body">
 				<p>{comment.comment.comments}</p>{" "}
 			</div>
-			{/* {idUserComment === profileId ? (
+			{idUserComment === profileId ? (
 				<button
 					type="button"
 					className="close"
@@ -40,7 +40,7 @@ function Comment(comment) {
 				>
 					<span aria-hidden="true">&times;</span>
 				</button>
-			) : null} */}
+			) : null}
 		</div>
 	);
 }
