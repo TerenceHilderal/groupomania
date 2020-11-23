@@ -5,7 +5,8 @@ import PanToolIcon from "@material-ui/icons/PanTool";
 import Comment from "../Comment";
 import { UserContext } from "../Context";
 import { handleNewCom, handleCom } from "../../api/posts";
-import { handleProfile, token } from "../../api/users";
+import Loading from "../utils/loading";
+// import { handleProfile, token } from "../../api/users";
 import handleAlert from "../../App";
 
 const PostComponent = ({
@@ -21,7 +22,6 @@ const PostComponent = ({
 	const [newComment, setNewComment] = useState("");
 	const postProfileId = post.UserId;
 	const { profile, setProfile } = useContext(UserContext);
-	const profileAdmin = profile.isAdmin;
 
 	// create a comment
 	const handleNewComment = e => {
@@ -50,87 +50,91 @@ const PostComponent = ({
 		}
 	}, [match.params.UserId]);
 
-	console.log(profile.isAdmin);
-
 	return (
-		<div className="container posted">
-			<div className="post__username">
-				{profileAdmin ? (
-					<p onClick={() => history.push(`/wall/${postProfileId}`)}>
-						<b>{post.User.username}</b>
-					</p>
-				) : (
-					<p>
-						<b>{post.User.username}</b>
-					</p>
-				)}
-				<span> {date} </span>
-				{/* {profileAdmin ? (
-					<PanToolIcon
-						color="action"
-						fontSize="large"
-						onClick={() => moderatePost(post.id)}
-					/>
-				) : null} */}
-			</div>
+		<>
+			{profile ? (
+				<div className="container posted">
+					<div className="post__username">
+						{profile.isAdmin ? (
+							<p onClick={() => history.push(`/wall/${postProfileId}`)}>
+								<b>{post.User.username}</b>
+							</p>
+						) : (
+							<p>
+								<b>{post.User.username}</b>
+							</p>
+						)}
+						<span> {date} </span>
+						{profile.isAdmin ? (
+							<PanToolIcon
+								color="action"
+								fontSize="large"
+								onClick={() => moderatePost(post.id)}
+							/>
+						) : null}
+					</div>
 
-			<div className="container post__body">
-				<h2>{post.title}</h2>
-				<h3>{post.content}</h3>
-				<img src={post.attachment} width="55%" alt="image1" />
-				<hr />
-				<div className="post__footer">
-					{!post.isModerate ? (
-						<ChatBubbleOutlineIconRounded
-							className="icon"
-							color="secondary"
-							fontSize="large"
-							onClick={() =>
-								seeComment
-									? setCommentNow(false)
-									: setCommentNow(true) + handleComments(post.id)
-							}
-						/>
-					) : (
-						<p style={{ color: "red" }}>
-							Moderated post , you couldn't comment
-						</p>
-					)}
-					{seeComment && comments ? (
-						<>
-							<div class="input-group mb-3">
-								<input
-									type="text"
-									class="form-control"
-									placeholder="Comments..."
-									aria-label="comments"
-									aria-describedby="basic-addon2"
-									name="comments"
-									onChange={e => handleComment(e)}
+					<div className="container post__body">
+						<h2>{post.title}</h2>
+						<h3>{post.content}</h3>
+						<img src={post.attachment} width="55%" alt="image1" />
+						<hr />
+						<div className="post__footer">
+							{!post.isModerate ? (
+								<ChatBubbleOutlineIconRounded
+									className="icon"
+									color="secondary"
+									fontSize="large"
+									onClick={() =>
+										seeComment
+											? setCommentNow(false)
+											: setCommentNow(true) + handleComments(post.id)
+									}
 								/>
-								<div class="input-group-append">
-									<button
-										class="btn btn-outline-secondary"
-										type="submit"
-										onClick={e => handleNewComment(e)}
-									>
-										Send-it
-									</button>
-								</div>
-							</div>
+							) : (
+								<p style={{ color: "red" }}>
+									Moderated post , you couldn't comment
+								</p>
+							)}
+							{seeComment && comments ? (
+								<>
+									<div class="input-group mb-3">
+										<input
+											type="text"
+											class="form-control"
+											placeholder="Comments..."
+											aria-label="comments"
+											aria-describedby="basic-addon2"
+											name="comments"
+											onChange={e => handleComment(e)}
+										/>
+										<div class="input-group-append">
+											<button
+												class="btn btn-outline-secondary"
+												type="submit"
+												onClick={e => handleNewComment(e)}
+											>
+												Send-it
+											</button>
+										</div>
+									</div>
 
-							{comments.map(comment => (
-								<Comment
-									key={comment.id}
-									comment={comment}
-									handleComments={handleComments}
-								/>
-							))}
-						</>
-					) : null}
+									{comments.map(comment => (
+										<Comment
+											key={comment.id}
+											comment={comment}
+											handleComments={handleComments}
+										/>
+									))}
+								</>
+							) : null}
+						</div>
+					</div>
 				</div>
-			</div>
-		</div>
+			) : (
+				<Loading />
+			)}
+		</>
 	);
 };
 export default withRouter(PostComponent);
