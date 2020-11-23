@@ -5,6 +5,8 @@ import PanToolIcon from "@material-ui/icons/PanTool";
 import Comment from "../Comment";
 import { UserContext } from "../Context";
 import { handleNewCom, handleCom } from "../../api/posts";
+import { handleProfile, token } from "../../api/users";
+import handleAlert from "../../App";
 
 const PostComponent = ({
 	post,
@@ -18,8 +20,7 @@ const PostComponent = ({
 	const [comments, setComments] = useState(null);
 	const [newComment, setNewComment] = useState("");
 	const postProfileId = post.UserId;
-	const { profile } = useContext(UserContext);
-	console.log(profile);
+	const { profile, setProfile } = useContext(UserContext);
 	const profileAdmin = profile.isAdmin;
 
 	// create a comment
@@ -49,6 +50,8 @@ const PostComponent = ({
 		}
 	}, [match.params.UserId]);
 
+	console.log(profile.isAdmin);
+
 	return (
 		<div className="container posted">
 			<div className="post__username">
@@ -62,13 +65,13 @@ const PostComponent = ({
 					</p>
 				)}
 				<span> {date} </span>
-				{profileAdmin ? (
+				{/* {profileAdmin ? (
 					<PanToolIcon
 						color="action"
 						fontSize="large"
 						onClick={() => moderatePost(post.id)}
 					/>
-				) : null}
+				) : null} */}
 			</div>
 
 			<div className="container post__body">

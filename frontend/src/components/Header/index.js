@@ -13,7 +13,6 @@ function Header({ history }) {
 	};
 
 	const { profile } = useContext(UserContext);
-	// console.log(profile);
 
 	const token = localStorage.getItem("token");
 

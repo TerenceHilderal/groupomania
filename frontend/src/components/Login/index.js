@@ -3,11 +3,22 @@ import "../SignUp/SignUp.scss";
 import { handleLogin } from "../../api/users";
 import { withRouter, NavLink, Redirect } from "react-router-dom";
 import { UserContext } from "../Context";
+import { handleProfile, token } from "../../api/users";
 
 const LogIn = () => {
 	const [login, setLogin] = useState({ email: "", password: "" });
 	const { profile, setProfile } = useContext(UserContext);
 	const [redirect, setRedirect] = useState(false);
+
+	// useEffect(() => {
+	// 	if (!profile && token) {
+	// 		handleProfile()
+	// 			.then(res => {
+	// 				setProfile(res.data.user);
+	// 			})
+	// 			.catch(error => console.log(error));
+	// 	}
+	// });
 
 	const submitHandler = e => {
 		e.preventDefault();
@@ -22,7 +33,8 @@ const LogIn = () => {
 					"Your email or password is incorrect , please try again";
 			});
 	};
-	console.log(redirect);
+	console.log(profile);
+
 	return (
 		<>
 			<div className="containerSignup">
@@ -60,7 +72,7 @@ const LogIn = () => {
 					<NavLink to="/"> Click here</NavLink>
 				</form>
 			</div>
-			{redirect && <Redirect to="/myprofile" />}
+			{redirect && profile ? <Redirect to="/myprofile" /> : null}
 		</>
 	);
 };

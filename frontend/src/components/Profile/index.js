@@ -1,14 +1,15 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import "./Account.scss";
 import Alert from "../Alert";
 import { handleDelete } from "../../api/users";
+import { handleProfile, token } from "../../api/users";
 import { withRouter } from "react-router-dom";
 import { UserContext } from "../Context";
 
 function Profile({ history }) {
 	const [success, setSuccess] = useState(false);
 
-	const { profile } = useContext(UserContext);
+	const { profile, setProfile } = useContext(UserContext);
 	console.log(profile);
 
 	const handleDeleteUser = () => {
@@ -24,7 +25,7 @@ function Profile({ history }) {
 	};
 
 	// const profile = useContext(UserContext);
-	const admin = JSON.stringify(profile.isAdmin);
+	// const admin = JSON.stringify(profile.isAdmin);
 
 	return (
 		<div className="container-fluid">
@@ -34,7 +35,7 @@ function Profile({ history }) {
 					<h1>My profile</h1>
 				</div>
 				<div className="introduction">
-					<h2>Welcome {profile.username}</h2>
+					{/* <h2>Welcome {profile.username}</h2> */}
 					<p>
 						You are in your private space , here will be displayed some
 						information about you , only those you enter during your
@@ -45,10 +46,10 @@ function Profile({ history }) {
 				<div className="informations">
 					<h3>Your informations:</h3>
 					<ul>
-						<li>Email:{profile.email}</li>
-						<li>Username:{profile.username} </li>
-						<li>Your role in our company :{profile.role} </li>
-						<li>Advantage administrator : {admin} </li>
+						{/* <li>Email:{profile.email}</li> */}
+						{/* <li>Username:{profile.username} </li> */}
+						{/* <li>Your role in our company :{profile.role} </li> */}
+						{/* <li>Advantage administrator : {admin} </li> */}
 					</ul>
 				</div>
 				<div className="button">

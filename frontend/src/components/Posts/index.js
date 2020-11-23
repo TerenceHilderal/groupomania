@@ -5,13 +5,14 @@ import PostComponent from "./PostComponent";
 import Alert from "../Alert";
 import Loading from "../utils/loading";
 import { addPost, getPost, getPosts, moderate } from "../../api/posts";
-// import { UserContext } from "../Context";
+import { UserContext } from "../Context";
 
 const Post = ({ match }) => {
 	// recupérer les posts
 	const [posts, setPosts] = useState(null);
 	const [active, setActive] = useState(false);
 	const [success, setSuccess] = useState(false);
+	const { profile, handleAlert } = useContext(UserContext);
 
 	// créer un post
 	const [newPost, setNewPost] = useState({
@@ -57,7 +58,8 @@ const Post = ({ match }) => {
 		addPost(formData)
 			.then(response => {
 				handlePosts();
-				setSuccess(true);
+				handleAlert("succes", "Your post has been sent");
+				// setSuccess(true);
 			})
 			.catch(error => setSuccess(false));
 	};
@@ -74,10 +76,12 @@ const Post = ({ match }) => {
 		moderate(id)
 			.then(response => {
 				handlePosts();
-				setSuccess(true);
+				// handleAlert("danger", "something gone wrong");
+				// setSuccess(true);
 			})
 			.catch(error => setSuccess(false));
 	};
+
 	if (posts) {
 		return (
 			<div className="post container">

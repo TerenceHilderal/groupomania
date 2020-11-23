@@ -109,7 +109,7 @@ function SignUp() {
 					<NavLink to="/login"> Click here</NavLink>
 				</form>
 			</div>
-			{redirect && <Redirect to="/myprofile/" />}
+			{redirect && profile ? <Redirect to="/myprofile" /> : null}
 		</>
 	);
 }

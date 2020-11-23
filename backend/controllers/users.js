@@ -15,8 +15,6 @@ exports.signup = async (req, res) => {
 	const password_regex = /^(?=.*[\d])(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*])[\w!@#$%^&*]{8,}$/;
 
 	// verifications
-	// const emailTest = email_regex.test(email);
-	// const passwordTest = password_regex.test(||);
 
 	// On cherche l'utilisateur dans la bdd
 
@@ -83,6 +81,7 @@ exports.login = async (req, res) => {
 		if (!user) {
 			throw new Error("It's seems that you don't have an account");
 		}
+
 		const isMatch = await bcrypt.compare(req.body.password, user.password);
 		if (!isMatch) {
 			throw new Error("Incorrect password");
@@ -108,7 +107,7 @@ exports.userProfile = async (req, res) => {
 		});
 		res.status(200).json({ user });
 	} catch (error) {
-		res.status(400).json({ error });
+		throw new Error("Something gone wrong,try again later");
 	}
 };
 
@@ -125,9 +124,9 @@ exports.deleteProfile = async (req, res) => {
 			latent: 0
 		});
 
-		if (!notLatent) {
-			throw new Error("Something gone wrong");
-		}
+		// if (!notLatent) {
+		// 	throw new Error("Something gone wrong");
+		// }
 		res.status(200).json({
 			message: "Your account has been successfully deleted"
 		});
