@@ -20,13 +20,13 @@ export const inputTest = (e, username_regex, email_regex, password_regex) => {
 			test[name] = false;
 		}
 	};
-	testField(
-		username_regex,
-		role.value,
-		role,
-		"role",
-		"This field must contain only ASCII letters and digits, with hyphens, underscores and spaces as internal separators"
-	);
+	// testField(
+	// 	username_regex,
+	// 	role.value,
+	// 	role,
+	// 	"role",
+	// 	"This field must contain only ASCII letters and digits, with hyphens, underscores and spaces as internal separators"
+	// );
 	testField(
 		username_regex,
 		username.value,

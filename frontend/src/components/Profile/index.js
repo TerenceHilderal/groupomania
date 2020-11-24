@@ -1,30 +1,31 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import "./Account.scss";
 import Alert from "../Alert";
 import { handleDelete } from "../../api/users";
-import { handleProfile, token } from "../../api/users";
 import { withRouter } from "react-router-dom";
 import { UserContext } from "../Context";
 
-function Profile({ history }) {
-	const [success, setSuccess] = useState(false);
+const Profile = ({ history }) => {
+	const [success] = useState(false);
 
-	const { profile, setProfile } = useContext(UserContext);
+	const { profile, handleAlert } = useContext(UserContext);
 
 	const handleDeleteUser = () => {
 		handleDelete()
 			.then(response => {
-				setSuccess(true);
+				handleAlert(
+					"success",
+					"Your account has been delete , you'll not be able to connect again ,until you create a new account"
+				);
 				setTimeout(() => {
 					history.push("/");
 				}, 5000);
 				localStorage.clear();
 			})
-			.catch(err => setSuccess(false));
+			.catch(err =>
+				handleAlert("danger", "Sorry,something gone wrong try again later")
+			);
 	};
-
-	// const profile = useContext(UserContext);
-	// const admin = JSON.stringify(profile.isAdmin);
 
 	return (
 		<>
@@ -70,6 +71,6 @@ function Profile({ history }) {
 			) : null}
 		</>
 	);
-}
+};
 
 export default withRouter(Profile);

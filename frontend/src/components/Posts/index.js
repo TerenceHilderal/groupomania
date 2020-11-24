@@ -1,18 +1,14 @@
 import React, { useState, useEffect, useContext } from "react";
-import { withRouter } from "react-router-dom";
 import "./Post.scss";
 import PostComponent from "./PostComponent";
-import Alert from "../Alert";
 import Loading from "../utils/loading";
 import { addPost, getPost, getPosts, moderate } from "../../api/posts";
 import { UserContext } from "../Context";
 
-const Post = ({ match }) => {
-	// recupérer les posts
+const Post = () => {
 	const [posts, setPosts] = useState(null);
 	const [active, setActive] = useState(false);
-	const [success, setSuccess] = useState(false);
-	const { profile, handleAlert } = useContext(UserContext);
+	const { handleAlert } = useContext(UserContext);
 
 	// créer un post
 	const [newPost, setNewPost] = useState({
@@ -26,7 +22,7 @@ const Post = ({ match }) => {
 			.then(response => {
 				setPosts(response.data);
 			})
-			.catch(error => setSuccess(false));
+			.catch(error => console.log(error));
 	};
 	useEffect(() => {
 		if (!posts) {
@@ -40,13 +36,14 @@ const Post = ({ match }) => {
 		}
 	}, [newPost]);
 
-	// récupérer un post par id
 	const handlePostsByUserId = UserId => {
 		getPost(UserId)
 			.then(response => {
 				setPosts(response.data);
 			})
-			.catch(error => setSuccess(false));
+			.catch(error =>
+				handleAlert("danger", "Sorry,something gone wrong try again later")
+			);
 	};
 
 	const submitHandler = e => {
@@ -58,10 +55,11 @@ const Post = ({ match }) => {
 		addPost(formData)
 			.then(response => {
 				handlePosts();
-				handleAlert("succes", "Your post has been sent");
-				// setSuccess(true);
+				handleAlert("success", "Your post has been sent");
 			})
-			.catch(error => setSuccess(false));
+			.catch(error =>
+				handleAlert("danger", "Sorry,something gone wrong try again later")
+			);
 	};
 
 	const handlePost = e => {
@@ -76,10 +74,14 @@ const Post = ({ match }) => {
 		moderate(id)
 			.then(response => {
 				handlePosts();
-				// handleAlert("danger", "something gone wrong");
-				// setSuccess(true);
+				handleAlert(
+					"success",
+					"This post is now moderate , comments are blocked"
+				);
 			})
-			.catch(error => setSuccess(false));
+			.catch(error =>
+				handleAlert("danger", "Sorry,something gone wrong try again later")
+			);
 	};
 
 	if (posts) {
@@ -131,26 +133,24 @@ const Post = ({ match }) => {
 						)}
 					</form>
 				</div>
-				<>
+				<div>
 					{posts && (
 						<>
-							{success ? <Alert /> : null}
 							{posts.map(post => (
 								<PostComponent
 									key={post.id}
 									post={post}
 									handlePostsByUserId={handlePostsByUserId}
 									moderatePost={moderatePost}
-									success={success}
 								/>
 							))}
 						</>
 					)}
-				</>
+				</div>
 			</div>
 		);
 	} else {
 		return <Loading />;
 	}
 };
-export default withRouter(Post);
+export default Post;

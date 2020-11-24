@@ -1,31 +1,15 @@
 import React from "react";
 
-const Alert = ({ status, text, error }) => {
+const Alert = ({ status, text }) => {
 	return (
 		<>
-			{!status ? (
-				<div className="alert alert-success alert-dismissible">
-					<a
-						href="none"
-						className="close"
-						data-dismiss="alert"
-						aria-label="close"
-					>
-						&times;
-					</a>
-					<strong>{text}</strong>
+			{status === "success" && text ? (
+				<div className="alert alert-success" role="alert">
+					{text}
 				</div>
 			) : (
-				<div className="alert alert-danger alert-dismissible">
-					<a
-						href="none"
-						className="close"
-						data-dismiss="alert"
-						aria-label="close"
-					>
-						&times;
-					</a>
-					<strong>{error}</strong>
+				<div className="alert alert-danger" role="alert">
+					{text}
 				</div>
 			)}
 		</>

@@ -6,8 +6,7 @@ import Comment from "../Comment";
 import { UserContext } from "../Context";
 import { handleNewCom, handleCom } from "../../api/posts";
 import Loading from "../utils/loading";
-// import { handleProfile, token } from "../../api/users";
-import handleAlert from "../../App";
+import Avatar from "@material-ui/core/Avatar";
 
 const PostComponent = ({
 	post,
@@ -21,28 +20,31 @@ const PostComponent = ({
 	const [comments, setComments] = useState(null);
 	const [newComment, setNewComment] = useState("");
 	const postProfileId = post.UserId;
-	const { profile, setProfile } = useContext(UserContext);
+	const { profile, handleAlert } = useContext(UserContext);
 
-	// create a comment
 	const handleNewComment = e => {
 		handleNewCom(post, newComment)
 			.then(response => {
 				setNewComment("");
 				handleComments();
+				handleAlert("success", "Your comment has been sent");
 			})
-			.catch(error => console.log(error));
+			.catch(error =>
+				handleAlert("danger", "Something gone wrong ,please try again later")
+			);
 	};
 	const handleComment = e => {
 		setNewComment({ comments: e.target.value });
 	};
 
-	//  récupérer tous les commentaires d'un post
 	const handleComments = () => {
 		handleCom(post)
 			.then(response => {
 				setComments(response.data.message);
 			})
-			.catch(error => console.log(error));
+			.catch(error =>
+				handleAlert("danger", "Sorry,something gone wrong try again later")
+			);
 	};
 	useEffect(() => {
 		if (match.params.UserId) {
@@ -57,6 +59,7 @@ const PostComponent = ({
 					<div className="post__username">
 						{profile.isAdmin ? (
 							<p onClick={() => history.push(`/wall/${postProfileId}`)}>
+								<Avatar>{post.User.username.charAt(0)}</Avatar>
 								<b>{post.User.username}</b>
 							</p>
 						) : (
@@ -73,7 +76,6 @@ const PostComponent = ({
 							/>
 						) : null}
 					</div>
-
 					<div className="container post__body">
 						<h2>{post.title}</h2>
 						<h3>{post.content}</h3>
@@ -93,7 +95,7 @@ const PostComponent = ({
 								/>
 							) : (
 								<p style={{ color: "red" }}>
-									Moderated post , you couldn't comment
+									Moderated post , you can not comment
 								</p>
 							)}
 							{seeComment && comments ? (

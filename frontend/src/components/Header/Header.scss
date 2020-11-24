@@ -3,7 +3,6 @@ header {
 	height: 80px;
 	border-bottom: 1px solid #d1515a;
 	width: 100%;
-	// position: fixed;
 	li {
 		padding-left: 5rem;
 	}
@@ -24,4 +23,8 @@ header {
 	.btn-success:hover {
 		background-color: green;
 	}
+}
+.alert {
+	position: fixed;
+	width: 100%;
 }

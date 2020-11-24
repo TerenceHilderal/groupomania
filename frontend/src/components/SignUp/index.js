@@ -1,8 +1,7 @@
 import React, { useState, useContext } from "react";
-import { NavLink } from "react-router-dom";
 import inputTest from "../TestInputs";
 import { handleSignUp } from "../../api/users";
-import { withRouter, Redirect } from "react-router-dom";
+import { withRouter, Redirect, NavLink } from "react-router-dom";
 import { UserContext } from "../Context";
 
 function SignUp() {
@@ -12,7 +11,7 @@ function SignUp() {
 		username: "",
 		role: ""
 	});
-	const { profile, setProfile } = useContext(UserContext);
+	const { profile, setProfile, handleAlert } = useContext(UserContext);
 	const [redirect, setRedirect] = useState(false);
 
 	const email_regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -21,7 +20,9 @@ function SignUp() {
 
 	const submitHandler = e => {
 		e.preventDefault();
+
 		inputTest(e, username_regex, email_regex, password_regex);
+
 		handleSignUp(signUp)
 			.then(res => {
 				localStorage.setItem("token", res.data.token);
@@ -34,11 +35,13 @@ function SignUp() {
 				};
 				setProfile(user);
 				setRedirect(true);
-				// localStorage.setItem("profile", JSON.stringify(profile));
-				// window.location = "/myprofile/";
+				handleAlert("success", "Your account is now created");
 			})
 			.catch(error => {
-				console.log(error.error);
+				handleAlert(
+					"danger",
+					"Sorry something gone wrong,please try again later"
+				);
 			});
 	};
 
@@ -105,8 +108,8 @@ function SignUp() {
 					<button type="submit" className="btn btn-danger">
 						Sign-up
 					</button>
-					<p>Already have an account?</p>
-					<NavLink to="/login"> Click here</NavLink>
+					{/* <p>Already have an account?</p>
+					<NavLink to="/login"> Click here</NavLink> */}
 				</form>
 			</div>
 			{redirect && profile ? <Redirect to="/myprofile" /> : null}

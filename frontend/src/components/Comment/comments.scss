@@ -8,6 +8,10 @@
 	.comment-header {
 		display: flex;
 		justify-content: space-between;
+		.avatarCom {
+			height: 30px;
+			width: 30px;
+		}
 	}
 	.comment-body {
 		justify-content: center;

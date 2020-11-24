@@ -9,6 +9,8 @@ import Alert from "./components/Alert";
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 import { UserContext } from "./components/Context";
 import { handleProfile } from "./api/users";
+import { isExpired } from "react-jwt";
+
 import "./App.css";
 
 // dotenv
@@ -30,33 +32,33 @@ const App = () => {
 	const [profile, setProfile] = useState(null);
 	const [alert, setAlert] = useState(null);
 
-	// const handleAlert = (status, text, error) => {
-	// 	setAlert({ status, text, error });
-	// };
+	const handleAlert = (status, text) => {
+		setAlert({ status, text });
+		setTimeout(() => {
+			setAlert(null);
+		}, 3000);
+	};
+
+	const isMyTokenExpired = isExpired(token);
 
 	useEffect(() => {
-		if (!profile && token) {
+		if (!profile && !isMyTokenExpired) {
 			handleProfile()
 				.then(res => {
 					setProfile(res.data.user);
-				}, [])
+				})
 				.catch(error => console.log(error));
 		}
 	});
-	console.log(profile);
 
 	return (
 		<Router>
 			<div className="App">
-				<UserContext.Provider value={{ profile, setProfile }}>
+				<UserContext.Provider
+					value={{ profile, setProfile, handleAlert, alert }}
+				>
 					<Header />
-					{/* {alert && (
-						<Alert
-							status={alert.status}
-							text={alert.text}
-							error={alert.error}
-						/>
-					)} */}
+					{alert && <Alert status={alert.status} text={alert.text} />}
 					<Route exact path="/" component={SignUp} />
 					<Route exact path="/login" component={LogIn} />
 					<PrivateRoute exact path="/myprofile/" component={Profile} />

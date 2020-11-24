@@ -33,7 +33,6 @@ const LogIn = () => {
 					"Your email or password is incorrect , please try again";
 			});
 	};
-	console.log(profile);
 
 	return (
 		<>

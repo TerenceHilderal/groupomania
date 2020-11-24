@@ -1,17 +1,17 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import axios from "axios";
 import "./comments.scss";
 import { UserContext } from "../Context";
+import Avatar from "@material-ui/core/Avatar";
+import DeleteIcon from "@material-ui/icons/Delete";
 
-function Comment(comment) {
+const Comment = (comment, handleComments) => {
 	const date = new Date(comment.comment.createdAt).toLocaleString();
-	// const profile = useContext(UserContext);
-	const { profile } = useContext(UserContext);
-	console.log(profile);
-
-	// const myProfile = JSON.parse(localStorage.getItem("profile"));
+	const { profile, handleAlert } = useContext(UserContext);
 	const profileId = profile.id;
+
 	const idUserComment = comment.comment.UserId;
+	console.log(comment);
 
 	// reqûete pour supprimer un commentaire
 	const handleDeleteComment = id => {
@@ -19,29 +19,46 @@ function Comment(comment) {
 			.delete(
 				`http://localhost:3000/api/posts/${id}/comment/${comment.comment.id}`
 			)
-			.then(res => {})
-			.catch(err => console.log(err));
+			.then(res => {
+				handleAlert("success", "Your comment has been deleted");
+			})
+			.catch(err =>
+				handleAlert(
+					"danger",
+					"Sorry something gone wrong,please try again later"
+				)
+			);
 	};
+
 	return (
-		<div class="comment">
-			<div className="comment-header">
-				<p>By :{comment.comment.User.username}</p>
-				<span>{date}</span>
-			</div>
-			<div class="comment-body">
-				<p>{comment.comment.comments}</p>{" "}
-			</div>
-			{idUserComment === profileId ? (
-				<button
-					type="button"
-					className="close"
-					aria-label="Close"
-					onClick={() => handleDeleteComment(comment.comment.id)}
-				>
-					<span aria-hidden="true">&times;</span>
-				</button>
+		<>
+			{profile ? (
+				<div class="comment">
+					<div className="comment-header">
+						<p>
+							<Avatar className="avatarCom">
+								{comment.comment.User.username.charAt(0)}
+							</Avatar>
+							{comment.comment.User.username}
+						</p>
+						<span>{date}</span>
+					</div>
+					<div class="comment-body">
+						<p>{comment.comment.comments}</p>{" "}
+					</div>
+					{idUserComment === profileId ? (
+						<button
+							type="button"
+							className="close"
+							aria-label="Close"
+							onClick={() => handleDeleteComment(comment.comment.id)}
+						>
+							<DeleteIcon />
+						</button>
+					) : null}
+				</div>
 			) : null}
-		</div>
+		</>
 	);
-}
+};
 export default Comment;
