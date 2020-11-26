@@ -64,6 +64,7 @@ const PostComponent = ({
 							</p>
 						) : (
 							<p>
+								<Avatar>{post.User.username.charAt(0)}</Avatar>
 								<b>{post.User.username}</b>
 							</p>
 						)}
@@ -78,7 +79,7 @@ const PostComponent = ({
 					</div>
 					<div className="container post__body">
 						<h2>{post.title}</h2>
-						<h3>{post.content}</h3>
+						<h4>{post.content}</h4>
 						<img src={post.attachment} width="55%" alt="image1" />
 						<hr />
 						<div className="post__footer">

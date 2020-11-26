@@ -65,7 +65,7 @@ const LogIn = () => {
 					</div>{" "}
 					<h2 id="emailHelp" className="form-text"></h2>
 					<button type="submit" className="btn btn-danger">
-						Submit
+						LogIn
 					</button>
 					<p>Don't already have an account?</p>
 					<NavLink to="/"> Click here</NavLink>
