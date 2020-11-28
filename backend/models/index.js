@@ -5,8 +5,17 @@ const path = require("path");
 const Sequelize = require("sequelize");
 const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || "development";
-const config = require(__dirname + "/../config/config.json")[env];
+// const config = require(__dirname + "/../config/config.json")[env];
 const db = {};
+const config = {
+	test: {
+		username: "root",
+		password: "process.env.DB_PASSWORD",
+		database: "groupomania_test",
+		host: "127.0.0.1",
+		dialect: "mysql"
+	}
+};
 
 let sequelize;
 if (config.use_env_variable) {
