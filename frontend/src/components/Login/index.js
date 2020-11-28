@@ -71,7 +71,7 @@ const LogIn = () => {
 					<NavLink to="/"> Click here</NavLink>
 				</form>
 			</div>
-			{redirect && profile ? <Redirect to="/myprofile" /> : null}
+			{redirect && <Redirect to="/myprofile" />}
 		</>
 	);
 };

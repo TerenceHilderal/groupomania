@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import inputTest from "../TestInputs";
 import { handleSignUp } from "../../api/users";
 import { withRouter, Redirect, NavLink } from "react-router-dom";
@@ -11,7 +11,7 @@ function SignUp() {
 		username: "",
 		role: ""
 	});
-	const { profile, setProfile, handleAlert } = useContext(UserContext);
+	const { setProfile, handleAlert } = useContext(UserContext);
 	const [redirect, setRedirect] = useState(false);
 
 	const email_regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -21,7 +21,7 @@ function SignUp() {
 	const submitHandler = e => {
 		e.preventDefault();
 
-		inputTest(e, username_regex, email_regex, password_regex);
+		// inputTest(e, username_regex, email_regex, password_regex);
 
 		handleSignUp(signUp)
 			.then(res => {
@@ -44,7 +44,36 @@ function SignUp() {
 				);
 			});
 	};
+	const [emailNotValid, setEmailNotValid] = useState(true);
+	const [passwordNotValid, setPasswordNotValid] = useState(true);
+	const [usernameNotValid, setUsernameNotValid] = useState(true);
+	// const [active, setActive] = useState(false);
 
+	const handleChange = e => {
+		if (e) {
+			setSignUp({ ...signUp, [e.target.name]: e.target.value });
+		}
+
+		if (e.target.name === "email" && email_regex.test(e.target.value)) {
+			setEmailNotValid(false);
+		} else {
+			setEmailNotValid(true);
+		}
+		if (e.target.name === "password" && password_regex.test(e.target.value)) {
+			setPasswordNotValid(false);
+		} else {
+			setPasswordNotValid(true);
+		}
+		if (e.target.name === "username" && username_regex.test(e.target.value)) {
+			setUsernameNotValid(false);
+		} else {
+			setUsernameNotValid(true);
+		}
+	};
+
+	console.log(emailNotValid);
+
+	// e => setSignUp({ ...signUp, email: e.target.value })
 	return (
 		<>
 			<div className="containerSignup">
@@ -57,11 +86,17 @@ function SignUp() {
 							name="email"
 							id="email"
 							value={signUp.email}
-							onChange={e => setSignUp({ ...signUp, email: e.target.value })}
+							onChange={handleChange}
 							aria-describedby="emailHelp"
 							placeholder="Enter email"
 						/>
-						<small id="emailHelp" className="form-text "></small>
+						{emailNotValid ? (
+							<small id="emailHelp" className="form-text ">
+								Your email must have a format like : exemple@blablabla.com
+							</small>
+						) : (
+							<p>Votre email est valide</p>
+						)}
 					</div>
 
 					<div className="form-group">
@@ -72,10 +107,18 @@ function SignUp() {
 							name="password"
 							id="password"
 							value={signUp.password}
-							onChange={e => setSignUp({ ...signUp, password: e.target.value })}
+							onChange={handleChange}
 							placeholder="Password"
 						/>
-						<small id="smallPassword"></small>
+						{passwordNotValid ? (
+							<small id="smallPassword">
+								-At least 8 characters long - Include at least 1 lowercase
+								letter - 1 capital letter - 1 number - 1 special character =
+								!@#$%^&* )
+							</small>
+						) : (
+							<p>It's all good</p>
+						)}
 					</div>
 
 					<div className="form-group">
@@ -86,10 +129,14 @@ function SignUp() {
 							name="username"
 							id="username"
 							value={signUp.username}
-							onChange={e => setSignUp({ ...signUp, username: e.target.value })}
+							onChange={handleChange}
 							placeholder="username"
 						/>
-						<small></small>
+						{usernameNotValid ? (
+							<small>Username lenght must be 4-13</small>
+						) : (
+							<p>Almost finish, one last question</p>
+						)}
 					</div>
 
 					<div className="form-group">
@@ -100,19 +147,21 @@ function SignUp() {
 							name="role"
 							id="role"
 							value={signUp.role}
-							onChange={e => setSignUp({ ...signUp, role: e.target.value })}
+							onChange={handleChange}
 							placeholder="CEO,Developer..."
 						/>
 						<small></small>
 					</div>
-					<button type="submit" className="btn btn-danger">
+
+					<button type="submit" className="btn btn-danger" disabled>
 						Sign-up
 					</button>
+
 					{/* <p>Already have an account?</p>
 					<NavLink to="/login"> Click here</NavLink> */}
 				</form>
 			</div>
-			{redirect && profile ? <Redirect to="/myprofile" /> : null}
+			{redirect && <Redirect to="/myprofile" />}
 		</>
 	);
 }

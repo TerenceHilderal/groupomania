@@ -23,10 +23,6 @@ exports.signup = async (req, res) => {
 			throw new Error("Missing parameters");
 		}
 
-		if (username.length >= 13 || username.length <= 4) {
-			throw new Error("Username lenght must be 4-13");
-		}
-
 		if (!email_regex.test(email)) {
 			throw new Error("Wrong email format");
 		}
@@ -54,7 +50,7 @@ exports.signup = async (req, res) => {
 		});
 		const token =
 			"Bearer " +
-			jwt.sign({ id: newUser.id }, "SECRET_KEY", { expiresIn: "24h" });
+			jwt.sign({ id: newUser.id }, "SECRET_KEY", { expiresIn: "24H" });
 		res.status(201).json({
 			user_id: newUser.id,
 			email: newUser.email,
@@ -87,7 +83,7 @@ exports.login = async (req, res) => {
 			throw new Error("Incorrect password");
 		}
 		const token =
-			"Bearer " + jwt.sign({ id: user.id }, "SECRET_KEY", { expiresIn: "24h" });
+			"Bearer " + jwt.sign({ id: user.id }, "SECRET_KEY", { expiresIn: "2h" });
 		res.status(200).json({
 			user: user,
 			token
