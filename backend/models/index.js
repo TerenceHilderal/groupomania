@@ -6,23 +6,20 @@ const Sequelize = require("sequelize");
 const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || "development";
 // const config = require(__dirname + "/../config/config.json")[env];
+
+require("dotenv").config();
+
 const db = {};
+
 const config = {
-	test: {
+	development: {
 		username: "root",
-		password: "process.env.DB_PASSWORD",
-		database: "groupomania_test",
-		host: "127.0.0.1",
-		dialect: "mysql"
-	},
-	production: {
-		username: "root",
-		password: "process.env.DB_PASSWORD",
-		database: "groupomania_production",
+		password: process.env.DB_PASSWORD,
+		database: "groupomania_development",
 		host: "127.0.0.1",
 		dialect: "mysql"
 	}
-};
+}[env];
 
 let sequelize;
 if (config.use_env_variable) {
