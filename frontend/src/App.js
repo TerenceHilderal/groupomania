@@ -13,7 +13,6 @@ import { handleProfile } from "./api/users";
 import "./App.css";
 
 const dotenv = require("dotenv");
-
 dotenv.config();
 
 const token = localStorage.getItem("token");
@@ -38,7 +37,6 @@ const PrivateRoute = ({ component: Component, path }) => {
 		></Route>
 	);
 };
-
 const App = () => {
 	const [profile, setProfile] = useState(null);
 	const [alert, setAlert] = useState(null);

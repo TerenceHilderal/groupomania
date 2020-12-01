@@ -15,15 +15,14 @@ const LogIn = () => {
 			.then(res => {
 				localStorage.setItem("token", res.data.token);
 				setProfile(res.data.user);
-				setRedirect(true);
+				// setRedirect(true);
+				window.location = "/myprofile";
 			})
 			.catch(error => {
 				document.getElementById("emailHelp").innerHTML =
 					"Your email or password is incorrect , please try again";
 			});
 	};
-	console.log(redirect);
-	console.log(profile);
 
 	return (
 		<>

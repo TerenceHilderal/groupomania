@@ -6,11 +6,12 @@ import { NavLink, withRouter } from "react-router-dom";
 import { UserContext } from "../Context";
 
 const Header = ({ history }) => {
-	const { profile, handleAlert } = useContext(UserContext);
+	const { profile, handleAlert, setProfile } = useContext(UserContext);
 	const token = localStorage.getItem("token");
 
 	const handleLogout = () => {
 		localStorage.clear();
+		setProfile("null");
 		history.push("/");
 		handleAlert("success", "You Logout is a success");
 	};
