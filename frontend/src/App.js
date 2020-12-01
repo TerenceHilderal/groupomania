@@ -12,7 +12,9 @@ import { UserContext } from "./components/Context";
 import { handleProfile } from "./api/users";
 import "./App.css";
 
-require("dotenv").config();
+const dotenv = require("dotenv");
+
+dotenv.config();
 
 const token = localStorage.getItem("token");
 const isMyTokenValid = () => {
