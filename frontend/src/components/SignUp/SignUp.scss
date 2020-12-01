@@ -3,7 +3,7 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	background-image: url("/images/icon.png");
+	// background-image: url("/images/icon.png");
 	background-repeat: no-repeat;
 	background-position: center;
 	background-size: 50%;
@@ -19,12 +19,18 @@
 	box-shadow: 8px 8px 8px 8px #d1515a;
 
 	label {
-		color: #d1515a;
+		color: black;
 		font-size: larger;
-		font-weight: bold;
 	}
 
 	p {
 		color: green;
+	}
+
+	.error {
+		border: 1px solid red;
+	}
+	.valid {
+		border: 2px solid green;
 	}
 }

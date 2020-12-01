@@ -1,24 +1,13 @@
 import React, { useState, useContext, useEffect } from "react";
 import "../SignUp/SignUp.scss";
 import { handleLogin } from "../../api/users";
-import { withRouter, NavLink, Redirect } from "react-router-dom";
+import { NavLink, Redirect } from "react-router-dom";
 import { UserContext } from "../Context";
-import { handleProfile, token } from "../../api/users";
 
 const LogIn = () => {
 	const [login, setLogin] = useState({ email: "", password: "" });
 	const { profile, setProfile } = useContext(UserContext);
 	const [redirect, setRedirect] = useState(false);
-
-	// useEffect(() => {
-	// 	if (!profile && token) {
-	// 		handleProfile()
-	// 			.then(res => {
-	// 				setProfile(res.data.user);
-	// 			})
-	// 			.catch(error => console.log(error));
-	// 	}
-	// });
 
 	const submitHandler = e => {
 		e.preventDefault();
@@ -76,4 +65,4 @@ const LogIn = () => {
 	);
 };
 
-export default withRouter(LogIn);
+export default LogIn;

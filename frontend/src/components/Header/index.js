@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import "./Header.scss";
 import HomeIcon from "@material-ui/icons/Home";
 import PersonIcon from "@material-ui/icons/Person";
@@ -23,7 +23,15 @@ const Header = ({ history }) => {
 					height="45"
 					color="red"
 				/>
-				<button className="navbar-toggler">
+				<button
+					className="navbar-toggler"
+					type="button"
+					data-toggle="collapse"
+					data-target="#navbarTogglerDemo01"
+					aria-controls="navbarTogglerDemo01"
+					aria-expanded="false"
+					aria-label="Toggle navigation"
+				>
 					<span className="navbar-toggler-icon"></span>
 				</button>
 				{token ? (
@@ -67,6 +75,42 @@ const Header = ({ history }) => {
 				)}
 			</header>
 			<div className="alert"></div>
+
+			{/* <nav class="navbar navbar-expand-lg navbar-light bg-light">
+				<button
+					class="navbar-toggler"
+					type="button"
+					data-toggle="collapse"
+					data-target="#navbarTogglerDemo01"
+					aria-controls="navbarTogglerDemo01"
+					aria-expanded="false"
+					aria-label="Toggle navigation"
+				>
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+					<a class="navbar-brand" href="#">
+						Hidden brand
+					</a>
+					<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+						<li class="nav-item active">
+							<a class="nav-link" href="#">
+								Home <span class="sr-only">(current)</span>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="#">
+								Link
+							</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link disabled" href="#">
+								Disabled
+							</a>
+						</li>
+					</ul>
+				</div>
+			</nav> */}
 		</>
 	);
 };

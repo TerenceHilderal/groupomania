@@ -10,7 +10,7 @@
 
 # production
 /build
-
+SKIP_PREFLIGHT_CHECK=true
 # misc
 .DS_Store
 .env.local
