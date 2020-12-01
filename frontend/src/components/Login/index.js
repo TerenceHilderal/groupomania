@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import "../SignUp/SignUp.scss";
 import { handleLogin } from "../../api/users";
-import { NavLink, Redirect } from "react-router-dom";
+import { NavLink, Redirect, Link } from "react-router-dom";
 import { UserContext } from "../Context";
 
 const LogIn = () => {
@@ -22,6 +22,8 @@ const LogIn = () => {
 					"Your email or password is incorrect , please try again";
 			});
 	};
+	console.log(redirect);
+	console.log(profile);
 
 	return (
 		<>
