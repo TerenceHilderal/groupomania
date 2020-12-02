@@ -5,6 +5,8 @@ const app = express();
 const usersRoutes = require("./routes/users");
 const postsRoutes = require("./routes/posts");
 const commentsRoutes = require("./routes/comments");
+const rateLimit = require("express-rate-limit");
+
 const path = require("path");
 
 // dotenv
@@ -23,6 +25,11 @@ app.use((req, res, next) => {
 	next();
 });
 
+const limiter = rateLimit({
+	windowMs: 15 * 60 * 1000, // 15 minutes
+	max: 100 // limit each IP to 100 requests per windowMs
+});
+
 /* BODY PARSER */
 app.use(bodyParser.json()); //.json est une méthode de l'objet bodyParser qui va transformer le corps des requêtes en objets JSON
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -30,10 +37,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(helmet());
 /*MULTER*/
 app.use("/images", express.static(path.join(__dirname, "images")));
-// app.use("/videos", express.static(path.join(__dirname, "videos")));
 
 // routes
-
+app.use(limiter);
 app.use("/api/users/", usersRoutes);
 app.use("/api/posts/", postsRoutes);
 app.use("/api/posts/", commentsRoutes);

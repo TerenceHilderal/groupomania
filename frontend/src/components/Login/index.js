@@ -15,14 +15,27 @@ const LogIn = () => {
 			.then(res => {
 				localStorage.setItem("token", res.data.token);
 				setProfile(res.data.user);
-				// setRedirect(true);
-				window.location = "/myprofile";
+				setRedirect(true);
 			})
 			.catch(error => {
 				document.getElementById("emailHelp").innerHTML =
 					"Your email or password is incorrect , please try again";
 			});
 	};
+
+	// useEffect(() => {
+	// 	if (profile !== null) {
+	// 		console.log("maintenant redirect a true");
+	// 		setRedirect(true);
+	// 		console.log(redirect);
+	// 	} else {
+	// 		console.log("je suis passé par ici");
+	// 	}
+	// }, [profile, redirect]);
+
+	// if (profile) {
+	// 	console.log("maintenant redirect a true");
+	// }
 
 	return (
 		<>

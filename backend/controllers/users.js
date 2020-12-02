@@ -96,7 +96,7 @@ exports.login = async (req, res) => {
 exports.userProfile = async (req, res) => {
 	try {
 		const user = await models.User.findOne({
-			attributes: ["id", "email", "username", "role", "isAdmin"],
+			attributes: ["id", "email", "username", "role", "isAdmin", "latent"],
 			where: {
 				id: req.user.id
 			}

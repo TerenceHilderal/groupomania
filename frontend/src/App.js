@@ -16,12 +16,16 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 const token = localStorage.getItem("token");
+
 const isMyTokenValid = () => {
 	if (token) {
 		const decodedToken = jwt_decode(token);
 		const dateNow = new Date();
 		if (decodedToken.exp > dateNow / 1000) {
 			return true;
+		} else {
+			localStorage.clear();
+			window.location = "/";
 		}
 	}
 };
@@ -37,6 +41,7 @@ const PrivateRoute = ({ component: Component, path }) => {
 		></Route>
 	);
 };
+
 const App = () => {
 	const [profile, setProfile] = useState(null);
 	const [alert, setAlert] = useState(null);
@@ -58,7 +63,7 @@ const App = () => {
 					handleAlert("danger", "Sorry,something gone wrong" + error)
 				);
 		}
-	}, [profile, handleProfile]);
+	}, [profile, isMyTokenValid()]);
 
 	return (
 		<Router>

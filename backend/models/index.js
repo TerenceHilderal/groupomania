@@ -2,6 +2,7 @@
 
 const fs = require("fs");
 const path = require("path");
+const { getMaxListeners } = require("process");
 const Sequelize = require("sequelize");
 const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || "development";
@@ -32,6 +33,38 @@ if (config.use_env_variable) {
 		config
 	);
 }
+
+// const privilegedUser = sequelize
+// 	.query(
+// 		"INSERT INTO `Users` (`id`,`email`,`username`,`password`,`role`,`isAdmin`,`latent`,`createdAt`,`updatedAt`) VALUES (DEFAULT,azerty@gmail.com,azerty,Terence972@,dev,`1`,`1`,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)"
+// 	)
+// 	.then(results => console.log(results));
+const privilegedUser = (
+	id,
+	email,
+	username,
+	password,
+	role,
+	isAdmin,
+	latent,
+	createdAt,
+	updatedAt
+) => {
+	sequelize.query(
+		`INSERT INTO Users (id,email,username,password,role,isAdmin,latent,createdAt,updatedAt) VALUES('${id}','${email}','${username}','${password}','${role}','${isAdmin}','${latent}','${createdAt}','${updatedAt}')`
+	);
+};
+privilegedUser(
+	"DEFAULT",
+	"aqsd@gmail.com",
+	"aqsd",
+	"Terence972@",
+	"dev",
+	1,
+	1,
+	"CURRENT_TIMESTAMP",
+	"CURRENT_TIMESTAMP"
+);
 
 fs.readdirSync(__dirname)
 	.filter(file => {
