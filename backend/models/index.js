@@ -7,14 +7,14 @@ const Sequelize = require("sequelize");
 const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || "development";
 // const config = require(__dirname + "/../config/config.json")[env];
-
+const bcrypt = require("bcrypt");
 require("dotenv").config();
 
 const db = {};
 
 const config = {
 	development: {
-		username: "root",
+		username: process.env.DB_USERNAME,
 		password: process.env.DB_PASSWORD,
 		database: "groupomania_development",
 		host: "127.0.0.1",
@@ -33,33 +33,16 @@ if (config.use_env_variable) {
 		config
 	);
 }
-const users = sequelize
-	.query("SELECT * FROM Users")
-	.then(response => console.log(response));
 
-// const privilegedUser = sequelize
-// 	.query(
-// 		`INSERT INTO Users (id,email,username,password,role,isAdmin,latent,createdAt,updatedAt) VALUES (DEFAULT,"azerty@gmail.com","azerty","Terence972@","dev",1,1,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)`
-// 	)
-// 	.then(results => console.log(results));
+//je veux hasher mon password et avoir ensuite acces a sa valeur
 
-// const privilegedUser = (
-// 	id,
-// 	email,
-// 	username,
-// 	password,
-// 	role,
-// 	isAdmin,
-// 	latent,
-// 	createdAt,
-// 	updatedAt
-// ) => {
-// 	sequelize
-// 		.query(
-// 			`INSERT INTO Users (id,email,username,password,role,isAdmin,latent,createdAt,updatedAt) VALUES('DE','${email}','${username}','${password}','${role}','${isAdmin}','${latent}','${createdAt}','${updatedAt}')`
-// 		)
-// 		.then(response => console.log(response));
-// };
+// const password = pw => bcrypt.hashSync(pw, 10);
+// const privilegedUser = sequelize.query(
+// 	`INSERT INTO Users (id,email,username,password,role,isAdmin,latent,createdAt,updatedAt) VALUES (DEFAULT,"xxx@gmail.com","xxx","${password(
+// 		"Terence972@"
+// 	)}"
+// 		,"dev",1,1,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)`
+// );
 
 fs.readdirSync(__dirname)
 	.filter(file => {

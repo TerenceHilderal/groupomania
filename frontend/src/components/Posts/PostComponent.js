@@ -58,15 +58,15 @@ const PostComponent = ({
 				<div className="container posted">
 					<div className="post__username">
 						{profile.isAdmin ? (
-							<p onClick={() => history.push(`/wall/${postProfileId}`)}>
+							<span onClick={() => history.push(`/wall/${postProfileId}`)}>
 								<Avatar>{post.User.username.charAt(0)}</Avatar>
 								<b>{post.User.username}</b>
-							</p>
+							</span>
 						) : (
-							<p>
+							<span>
 								<Avatar>{post.User.username.charAt(0)}</Avatar>
-								<b>{post.User.username}</b>
-							</p>
+								<p>{post.User.username}</p>
+							</span>
 						)}
 						<span> {date} </span>
 						{profile.isAdmin ? (
@@ -104,7 +104,7 @@ const PostComponent = ({
 									<div class="input-group mb-3">
 										<input
 											type="text"
-											class="form-control"
+											className="form-control"
 											placeholder="Comments..."
 											aria-label="comments"
 											aria-describedby="basic-addon2"

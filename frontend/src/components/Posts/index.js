@@ -10,7 +10,6 @@ const Post = () => {
 	const [active, setActive] = useState(false);
 	const { handleAlert } = useContext(UserContext);
 
-	// créer un post
 	const [newPost, setNewPost] = useState({
 		title: "",
 		content: "",
@@ -22,7 +21,7 @@ const Post = () => {
 			.then(response => {
 				setPosts(response.data);
 			})
-			.catch(error => console.log(error));
+			.catch(error => handleAlert("danger", error.response.data.error));
 	};
 	useEffect(() => {
 		if (!posts) {
@@ -41,9 +40,7 @@ const Post = () => {
 			.then(response => {
 				setPosts(response.data);
 			})
-			.catch(error =>
-				handleAlert("danger", "Sorry,something gone wrong try again later")
-			);
+			.catch(error => handleAlert("danger", error.response.data.error));
 	};
 
 	const submitHandler = e => {
@@ -52,6 +49,7 @@ const Post = () => {
 		formData.append("title", newPost.title);
 		formData.append("content", newPost.content);
 		formData.append("attachment", newPost.attachment, newPost.attachment.name);
+
 		addPost(formData)
 			.then(response => {
 				handlePosts();
@@ -83,7 +81,6 @@ const Post = () => {
 				handleAlert("danger", "Sorry,something gone wrong try again later")
 			);
 	};
-
 	if (posts) {
 		return (
 			<div className="post container">

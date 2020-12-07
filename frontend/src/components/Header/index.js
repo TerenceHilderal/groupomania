@@ -23,6 +23,7 @@ const Header = ({ history }) => {
 					src="/images/icon-left-font-monochrome-white.svg"
 					height="45"
 					color="red"
+					alt="brand"
 				/>
 				<button
 					className="navbar-toggler"

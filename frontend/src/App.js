@@ -15,9 +15,7 @@ import "./App.css";
 const dotenv = require("dotenv");
 dotenv.config();
 
-const token = localStorage.getItem("token");
-
-const isMyTokenValid = () => {
+const isMyTokenValid = token => {
 	if (token) {
 		const decodedToken = jwt_decode(token);
 		const dateNow = new Date();
@@ -36,7 +34,11 @@ const PrivateRoute = ({ component: Component, path }) => {
 			exact
 			path={path}
 			render={() =>
-				isMyTokenValid() ? <Component /> : <Redirect to="/login" />
+				isMyTokenValid(localStorage.getItem("token")) ? (
+					<Component />
+				) : (
+					<Redirect to="/login" />
+				)
 			}
 		></Route>
 	);
@@ -54,16 +56,14 @@ const App = () => {
 	};
 
 	useEffect(() => {
-		if (!profile && isMyTokenValid()) {
+		if (!profile && isMyTokenValid(localStorage.getItem("token"))) {
 			handleProfile()
 				.then(res => {
 					setProfile(res.data.user);
 				})
-				.catch(error =>
-					handleAlert("danger", "Sorry,something gone wrong" + error)
-				);
+				.catch(error => handleAlert("danger", error.response.data.error));
 		}
-	}, [profile, isMyTokenValid()]);
+	}, [profile]);
 
 	return (
 		<Router>

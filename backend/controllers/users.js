@@ -4,17 +4,14 @@ const jwt = require("jsonwebtoken");
 const models = require("../models");
 
 exports.signup = async (req, res) => {
-	// params
 	const email = req.body.email;
 	const username = req.body.username;
 	const password = req.body.password;
 	const role = req.body.role;
 
-	// regex
 	const email_regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 	const password_regex = /^(?=.*[\d])(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*])[\w!@#$%^&*]{8,}$/;
-
-	// verifications
+	const username_regex = /^[A-Za-z0-9]+(?:[ _-][A-Za-z0-9]+)*$/;
 
 	// On cherche l'utilisateur dans la bdd
 
@@ -29,9 +26,16 @@ exports.signup = async (req, res) => {
 
 		if (!password_regex.test(password)) {
 			throw new Error(
-				"Password must be between 4 and 8 digits long and include at least one numeric digit"
+				"-At least 8 characters long - Include at least 1 lowercase letter - 1 capital letter - 1 number - 1 special character = !@#$%^&*"
 			);
 		}
+		// if (username_regex.test(username)) {
+		// 	throw new Error("max 20 characters");
+		// }
+		// if (username_regex.test(role)) {
+		// 	throw new Error("max 20 characters");
+		// }
+
 		const oldUser = await models.User.findOne({
 			attributes: ["email"],
 			where: { email: email }
@@ -50,7 +54,7 @@ exports.signup = async (req, res) => {
 		});
 		const token =
 			"Bearer " +
-			jwt.sign({ id: newUser.id }, "SECRET_KEY", { expiresIn: "24H" });
+			jwt.sign({ id: newUser.id }, "SECRET_KEY", { expiresIn: "2H" });
 		res.status(201).json({
 			user_id: newUser.id,
 			email: newUser.email,
@@ -61,7 +65,7 @@ exports.signup = async (req, res) => {
 			token
 		});
 	} catch (error) {
-		throw new Error(error);
+		res.status(400).json({ error: error.message });
 	}
 };
 
@@ -75,7 +79,7 @@ exports.login = async (req, res) => {
 		});
 
 		if (!user) {
-			throw new Error("It's seems that you don't have an account");
+			throw new Error("Sorry,can't find your account");
 		}
 
 		const isMatch = await bcrypt.compare(req.body.password, user.password);
@@ -88,8 +92,11 @@ exports.login = async (req, res) => {
 			user: user,
 			token
 		});
+		if (!token) {
+			throw new Error("Something gone wrong try again later");
+		}
 	} catch (error) {
-		res.status(400).json({ error });
+		res.status(400).json({ error: error.message });
 	}
 };
 
@@ -101,14 +108,16 @@ exports.userProfile = async (req, res) => {
 				id: req.user.id
 			}
 		});
+		if (!user) {
+			throw new Error("Sorry,can't find your account");
+		}
 		res.status(200).json({ user });
 	} catch (error) {
-		throw new Error("Something gone wrong,try again later");
+		res.status(400).json({ error: error.message });
 	}
 };
 
 exports.deleteProfile = async (req, res) => {
-	// params
 	try {
 		const userToFind = await models.User.findOne({
 			where: { id: req.user.id }
@@ -120,9 +129,6 @@ exports.deleteProfile = async (req, res) => {
 			latent: 0
 		});
 
-		// if (!notLatent) {
-		// 	throw new Error("Something gone wrong");
-		// }
 		res.status(200).json({
 			message: "Your account has been successfully deleted"
 		});
@@ -132,7 +138,6 @@ exports.deleteProfile = async (req, res) => {
 };
 
 exports.updateProfile = async (req, res, next) => {
-	// Modification du Profil Utilisateur
 	try {
 		const userToFind = await models.User.findOne({
 			attributes: ["role", "id", "isAdmin", "username"],

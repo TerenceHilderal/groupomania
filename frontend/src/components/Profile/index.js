@@ -22,10 +22,10 @@ const Profile = ({ history }) => {
 				}, 5000);
 				localStorage.clear();
 			})
-			.catch(err =>
-				handleAlert("danger", "Sorry,something gone wrong try again later")
-			);
+			.catch(error => handleAlert("danger", error.response.data.error));
 	};
+
+	console.log(profile);
 
 	return (
 		<>
@@ -52,11 +52,11 @@ const Profile = ({ history }) => {
 								<li>Username:{profile.username} </li>
 								<li>Your role in our company :{profile.role} </li>
 								<li>
-									Advantage administrator : {JSON.stringify(profile.isAdmin)}{" "}
+									Advantage administrator : {JSON.stringify(profile.isAdmin)}
 								</li>
 							</ul>
 						</div>
-						v
+
 						<div className="button">
 							<button
 								type="button"

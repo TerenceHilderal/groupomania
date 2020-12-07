@@ -1,41 +1,26 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import "../SignUp/SignUp.scss";
 import { handleLogin } from "../../api/users";
-import { NavLink, Redirect, Link } from "react-router-dom";
+import { NavLink, Redirect } from "react-router-dom";
 import { UserContext } from "../Context";
 
 const LogIn = () => {
 	const [login, setLogin] = useState({ email: "", password: "" });
-	const { profile, setProfile } = useContext(UserContext);
+	const { setProfile, handleAlert } = useContext(UserContext);
 	const [redirect, setRedirect] = useState(false);
 
 	const submitHandler = e => {
 		e.preventDefault();
 		handleLogin(login)
 			.then(res => {
-				localStorage.setItem("token", res.data.token);
 				setProfile(res.data.user);
+				localStorage.setItem("token", res.data.token);
 				setRedirect(true);
 			})
 			.catch(error => {
-				document.getElementById("emailHelp").innerHTML =
-					"Your email or password is incorrect , please try again";
+				handleAlert("danger", error.response.data.error);
 			});
 	};
-
-	// useEffect(() => {
-	// 	if (profile !== null) {
-	// 		console.log("maintenant redirect a true");
-	// 		setRedirect(true);
-	// 		console.log(redirect);
-	// 	} else {
-	// 		console.log("je suis passé par ici");
-	// 	}
-	// }, [profile, redirect]);
-
-	// if (profile) {
-	// 	console.log("maintenant redirect a true");
-	// }
 
 	return (
 		<>
@@ -66,7 +51,7 @@ const LogIn = () => {
 							placeholder="Password"
 						/>
 					</div>{" "}
-					<h2 id="emailHelp" className="form-text"></h2>
+					<h2 id="emailHelp" className="form-text" aria-hidden="true"></h2>
 					<button type="submit" className="btn btn-danger">
 						LogIn
 					</button>

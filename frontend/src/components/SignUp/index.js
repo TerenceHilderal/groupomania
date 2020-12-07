@@ -16,12 +16,11 @@ function SignUp() {
 
 	const email_regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 	const password_regex = /^(?=.*[\d])(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*])[\w!@#$%^&*]{8,}$/;
-	const username_regex = /^[a-zA-Z]+[a-zA-Z]+$/;
-	//  /^[A-Za-z0-9]+(?:[ _-][A-Za-z0-9]+)*$/;
+	const username_regex = /^[A-Za-z0-9]+(?:[ _-][A-Za-z0-9]+)*$/;
+
+	// /^[a-zA-Z]+[a-zA-Z]+$/;
 	const submitHandler = e => {
 		e.preventDefault();
-
-		// inputTest(e, username_regex, email_regex, password_regex);
 
 		handleSignUp(signUp)
 			.then(res => {
@@ -38,10 +37,7 @@ function SignUp() {
 				handleAlert("success", "Your account is now created");
 			})
 			.catch(error => {
-				handleAlert(
-					"danger",
-					"Sorry something gone wrong,please try again later"
-				);
+				handleAlert("danger", error.response.data.error);
 			});
 	};
 	const [emailNotValid, setEmailNotValid] = useState(true);
@@ -68,12 +64,12 @@ function SignUp() {
 					: setPasswordNotValid(true);
 				break;
 			case "username":
-				username_regex.test(value)
+				username_regex.test(value) && value.length <= 20
 					? setUsernameNotValid(false)
 					: setUsernameNotValid(true);
 				break;
 			case "role":
-				username_regex.test(value)
+				username_regex.test(value) && value.length <= 20
 					? setRoleNotValid(false)
 					: setRoleNotValid(true);
 			default:
