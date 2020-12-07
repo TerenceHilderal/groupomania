@@ -34,12 +34,16 @@ if (config.use_env_variable) {
 	);
 }
 
-//je veux hasher mon password et avoir ensuite acces a sa valeur
+// UNE FOIS LA BASE DE DONNEES CREE MERCI DE DECOMMENTER LE BOUT DE CODE CI-DESSOUS AVANT DE LANCER LE SERVEUR,
+// ET REMPLACER LES VALEURS SOUHAITEES POUR CREER UN COMPTE MODERATEUR
+// !! LA VALEUR DEFAULT , ET LES 4 DERNIERES VALEURS DOIVENT RESTER TELS QUELLES
+// Par sécurité le mot de passe doit contenir au minimum une lettre majuscule,une minuscule,un chiffre et un caractere special(voir l'exemple)
 
 // const password = pw => bcrypt.hashSync(pw, 10);
+
 // const privilegedUser = sequelize.query(
-// 	`INSERT INTO Users (id,email,username,password,role,isAdmin,latent,createdAt,updatedAt) VALUES (DEFAULT,"xxx@gmail.com","xxx","${password(
-// 		"Terence972@"
+// 	`INSERT INTO Users (id,email,username,password,role,isAdmin,latent,createdAt,updatedAt) VALUES (DEFAULT,"www@gmail.com","xxx","${password(
+// 		"Unmot2passe@"
 // 	)}"
 // 		,"dev",1,1,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)`
 // );
