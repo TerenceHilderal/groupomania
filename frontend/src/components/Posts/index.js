@@ -23,6 +23,7 @@ const Post = () => {
 			})
 			.catch(error => handleAlert("danger", error.response.data.error));
 	};
+
 	useEffect(() => {
 		if (!posts) {
 			handlePosts();

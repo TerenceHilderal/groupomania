@@ -1,5 +1,4 @@
 import React, { useState, useContext, useEffect } from "react";
-import inputTest from "../TestInputs";
 import { handleSignUp } from "../../api/users";
 import { withRouter, Redirect, NavLink } from "react-router-dom";
 import { UserContext } from "../Context";
@@ -11,14 +10,12 @@ function SignUp() {
 		username: "",
 		role: ""
 	});
-	const { setProfile, handleAlert } = useContext(UserContext);
+	const { profile, setProfile, handleAlert } = useContext(UserContext);
 	const [redirect, setRedirect] = useState(false);
-
 	const email_regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 	const password_regex = /^(?=.*[\d])(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*])[\w!@#$%^&*]{8,}$/;
 	const username_regex = /^[A-Za-z0-9]+(?:[ _-][A-Za-z0-9]+)*$/;
 
-	// /^[a-zA-Z]+[a-zA-Z]+$/;
 	const submitHandler = e => {
 		e.preventDefault();
 
@@ -44,6 +41,7 @@ function SignUp() {
 	const [passwordNotValid, setPasswordNotValid] = useState(true);
 	const [usernameNotValid, setUsernameNotValid] = useState(true);
 	const [roleNotValid, setRoleNotValid] = useState(true);
+	console.log(profile);
 
 	const handleChange = e => {
 		e.preventDefault();
@@ -75,22 +73,6 @@ function SignUp() {
 			default:
 				break;
 		}
-
-		// if (e.target.name === "email" && email_regex.test(e.target.value)) {
-		// 	setEmailNotValid(false);
-		// } else {
-		// 	setEmailNotValid(true);
-		// }
-		// if (e.target.name === "password" && password_regex.test(e.target.value)) {
-		// 	setPasswordNotValid(false);
-		// } else {
-		// 	setPasswordNotValid(true);
-		// }
-		// if (e.target.name === "username" && username_regex.test(e.target.value)) {
-		// 	setUsernameNotValid(false);
-		// } else {
-		// 	setUsernameNotValid(true);
-		// }
 	};
 
 	return (
@@ -109,14 +91,6 @@ function SignUp() {
 							aria-describedby="emailHelp"
 							placeholder="Enter email"
 						/>
-						{/* {emailNotValid ? (
-							<small id="emailHelp" className="form-text ">
-								{" "}
-								wrong email
-							</small>
-						) : (
-							<p>Votre email est valide</p>
-						)} */}
 					</div>
 
 					<div className="form-group">
@@ -156,11 +130,6 @@ function SignUp() {
 							onChange={handleChange}
 							placeholder="username"
 						/>
-						{/* {usernameNotValid ? (
-							<small>Username lenght must be 4-13</small>
-						) : (
-							<p>Almost finish, one last question</p>
-						)} */}
 					</div>
 
 					<div className="form-group">

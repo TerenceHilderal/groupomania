@@ -3,7 +3,7 @@
 const models = require("../models");
 const fs = require("fs");
 const { RSA_NO_PADDING } = require("constants");
-const { post } = require("../app");
+// const { post } = require("../app");
 
 // create a post
 exports.createPost = async (req, res) => {
@@ -44,8 +44,8 @@ exports.getAllPosts = async (req, res) => {
 		const order = req.query.order;
 
 		const posts = await models.Post.findAll({
-			order: [order != null ? order.split(":") : ["createdAt", "DESC"]], // on test
-			attributes: fields != "*" && fields != null ? fields.split(",") : null, //idem ici
+			order: [order != null ? order.split(":") : ["createdAt", "DESC"]],
+			attributes: fields != "*" && fields != null ? fields.split(",") : null,
 			include: [
 				{
 					model: models.User,

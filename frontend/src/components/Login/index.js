@@ -13,8 +13,8 @@ const LogIn = () => {
 		e.preventDefault();
 		handleLogin(login)
 			.then(res => {
-				setProfile(res.data.user);
 				localStorage.setItem("token", res.data.token);
+				setProfile(res.data.user);
 				setRedirect(true);
 			})
 			.catch(error => {

@@ -25,8 +25,6 @@ const Profile = ({ history }) => {
 			.catch(error => handleAlert("danger", error.response.data.error));
 	};
 
-	console.log(profile);
-
 	return (
 		<>
 			{profile ? (

@@ -11,7 +11,7 @@ const Header = ({ history }) => {
 
 	const handleLogout = () => {
 		localStorage.clear();
-		setProfile("null");
+		setProfile(null);
 		history.push("/");
 		handleAlert("success", "You Logout is a success");
 	};
