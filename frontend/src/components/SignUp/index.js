@@ -134,10 +134,15 @@ function SignUp() {
 						/>
 						<small></small>
 					</div>
-
-					<button type="submit" className="btn btn-danger">
-						Sign-up
-					</button>
+					{emailValid && passwordValid && usernameValid && roleValid ? (
+						<button type="submit" className="btn btn-danger">
+							Sign-up
+						</button>
+					) : (
+						<button type="submit" className="btn btn-danger" disabled>
+							Sign-up
+						</button>
+					)}
 
 					<p>Already have an account?</p>
 					<NavLink to="/login"> Click here</NavLink>
