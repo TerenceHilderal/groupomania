@@ -5,29 +5,27 @@ import { UserContext } from "../Context";
 import Avatar from "@material-ui/core/Avatar";
 import DeleteIcon from "@material-ui/icons/Delete";
 
-const Comment = (comment, handleComments) => {
+const Comment = comment => {
 	const date = new Date(comment.comment.createdAt).toLocaleString();
 	const { profile, handleAlert } = useContext(UserContext);
 	const profileId = profile.id;
-
 	const idUserComment = comment.comment.UserId;
-	console.log(comment);
 
 	// reqûete pour supprimer un commentaire
 	const handleDeleteComment = id => {
 		axios
 			.delete(
-				`http://localhost:3000/api/posts/${id}/comment/${comment.comment.id}`
+				`http://localhost:3000/api/posts/${id}/comment/${comment.comment.id}`,
+				{
+					headers: {
+						Authorization: localStorage.getItem("token")
+					}
+				}
 			)
-			.then(res => {
+			.then(response => {
 				handleAlert("success", "Your comment has been deleted");
 			})
-			.catch(err =>
-				handleAlert(
-					"danger",
-					"Sorry something gone wrong,please try again later"
-				)
-			);
+			.catch(error => handleAlert("danger", error.response.data.error));
 	};
 
 	return (

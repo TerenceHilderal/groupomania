@@ -44,9 +44,6 @@ const App = () => {
 	const [profile, setProfile] = useState(null);
 	const [alert, setAlert] = useState(null);
 
-	console.log(localStorage.getItem("token"));
-	console.log(isMyTokenValid());
-
 	const handleAlert = (status, text) => {
 		setAlert({ status, text });
 		setTimeout(() => {
@@ -59,7 +56,7 @@ const App = () => {
 				.then(res => {
 					setProfile(res.data.user);
 				})
-				.catch(error => handleAlert("danger", error.response.data.error));
+				.catch(error => handleAlert("danger", "Something gone wrong"));
 		}
 	}, [profile]);
 
@@ -67,7 +64,7 @@ const App = () => {
 		<Router>
 			<div className="App">
 				<UserContext.Provider
-					value={{ profile, setProfile, handleAlert, alert }}
+					value={{ profile, setProfile, handleAlert, alert, isMyTokenValid }}
 				>
 					<Header />
 					{alert && <Alert status={alert.status} text={alert.text} />}

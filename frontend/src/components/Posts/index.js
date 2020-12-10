@@ -56,9 +56,7 @@ const Post = () => {
 				handlePosts();
 				handleAlert("success", "Your post has been sent");
 			})
-			.catch(error =>
-				handleAlert("danger", "Sorry,something gone wrong try again later")
-			);
+			.catch(error => handleAlert("danger", error.response.data.error));
 	};
 
 	const handlePost = e => {
@@ -78,9 +76,7 @@ const Post = () => {
 					"This post is now moderate , comments are blocked"
 				);
 			})
-			.catch(error =>
-				handleAlert("danger", "Sorry,something gone wrong try again later")
-			);
+			.catch(error => handleAlert("danger", error.response.data.error));
 	};
 	if (posts) {
 		return (

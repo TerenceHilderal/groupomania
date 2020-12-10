@@ -37,11 +37,10 @@ function SignUp() {
 				handleAlert("danger", error.response.data.error);
 			});
 	};
-	const [emailNotValid, setEmailNotValid] = useState(true);
-	const [passwordNotValid, setPasswordNotValid] = useState(true);
-	const [usernameNotValid, setUsernameNotValid] = useState(true);
-	const [roleNotValid, setRoleNotValid] = useState(true);
-	console.log(profile);
+	const [emailValid, setEmailValid] = useState(false);
+	const [passwordValid, setPasswordValid] = useState(false);
+	const [usernameValid, setUsernameValid] = useState(false);
+	const [roleValid, setRoleValid] = useState(false);
 
 	const handleChange = e => {
 		e.preventDefault();
@@ -52,24 +51,22 @@ function SignUp() {
 
 		switch (name) {
 			case "email":
-				email_regex.test(value)
-					? setEmailNotValid(false)
-					: setEmailNotValid(true);
+				email_regex.test(value) ? setEmailValid(true) : setEmailValid(false);
 				break;
 			case "password":
 				password_regex.test(value)
-					? setPasswordNotValid(false)
-					: setPasswordNotValid(true);
+					? setPasswordValid(true)
+					: setPasswordValid(false);
 				break;
 			case "username":
 				username_regex.test(value) && value.length <= 20
-					? setUsernameNotValid(false)
-					: setUsernameNotValid(true);
+					? setUsernameValid(true)
+					: setUsernameValid(false);
 				break;
 			case "role":
 				username_regex.test(value) && value.length <= 20
-					? setRoleNotValid(false)
-					: setRoleNotValid(true);
+					? setRoleValid(true)
+					: setRoleValid(false);
 			default:
 				break;
 		}
@@ -83,7 +80,7 @@ function SignUp() {
 						<label htmlFor="email">Email address</label>
 						<input
 							type="email"
-							className={`form-control ${emailNotValid ? "error" : "valid"} `}
+							className={`form-control ${emailValid ? "valid" : "error"} `}
 							name="email"
 							id="email"
 							value={signUp.email}
@@ -97,33 +94,25 @@ function SignUp() {
 						<label htmlFor="password">Password</label>
 						<input
 							type="password"
-							className={`form-control ${
-								passwordNotValid ? "error" : "valid"
-							} `}
+							className={`form-control ${passwordValid ? "valid" : "error"} `}
 							name="password"
 							id="password"
 							value={signUp.password}
 							onChange={handleChange}
 							placeholder="Password"
 						/>
-						{passwordNotValid ? (
-							<small id="smallPassword">
-								-At least 8 characters long - Include at least 1 lowercase
-								letter - 1 capital letter - 1 number - 1 special character =
-								!@#$%^&*
-							</small>
-						) : (
-							<p>It's all good</p>
-						)}
+
+						<small id="smallPassword">
+							-At least 8 characters long - Include at least 1 lowercase letter
+							- 1 capital letter - 1 number - 1 special character = !@#$%^&*
+						</small>
 					</div>
 
 					<div className="form-group">
 						<label htmlFor="username">Username</label>
 						<input
 							type="text"
-							className={`form-control ${
-								usernameNotValid ? "error" : "valid"
-							} `}
+							className={`form-control ${usernameValid ? "valid" : "error"} `}
 							name="username"
 							id="username"
 							value={signUp.username}
@@ -136,7 +125,7 @@ function SignUp() {
 						<label htmlFor="role">Your role</label>
 						<input
 							type="textt"
-							className={`form-control ${roleNotValid ? "error" : "valid"} `}
+							className={`form-control ${roleValid ? "valid" : "error"} `}
 							name="role"
 							id="role"
 							value={signUp.role}

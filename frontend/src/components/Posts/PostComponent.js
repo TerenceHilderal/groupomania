@@ -19,6 +19,7 @@ const PostComponent = ({
 	const [seeComment, setCommentNow] = useState(false);
 	const [comments, setComments] = useState(null);
 	const [newComment, setNewComment] = useState("");
+	const [count, setCount] = useState(" ");
 	const postProfileId = post.UserId;
 	const { profile, handleAlert } = useContext(UserContext);
 
@@ -42,9 +43,7 @@ const PostComponent = ({
 			.then(response => {
 				setComments(response.data.message);
 			})
-			.catch(error =>
-				handleAlert("danger", "Sorry,something gone wrong try again later")
-			);
+			.catch(error => handleAlert("danger", error.response.data.error));
 	};
 	useEffect(() => {
 		if (match.params.UserId) {
@@ -111,9 +110,9 @@ const PostComponent = ({
 											name="comments"
 											onChange={e => handleComment(e)}
 										/>
-										<div class="input-group-append">
+										<div className="input-group-append">
 											<button
-												class="btn btn-outline-secondary"
+												className="btn btn-outline-secondary"
 												type="submit"
 												onClick={e => handleNewComment(e)}
 											>
@@ -126,6 +125,8 @@ const PostComponent = ({
 										<Comment
 											key={comment.id}
 											comment={comment}
+											comments={comments}
+											setComments={setComments}
 											handleComments={handleComments}
 										/>
 									))}

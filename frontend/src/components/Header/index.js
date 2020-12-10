@@ -18,40 +18,42 @@ const Header = ({ history }) => {
 
 	return (
 		<>
-			<header className="navbar sticky-top navbar-expand-lg navbar-light">
-				<img
-					src="/images/icon-left-font-monochrome-white.svg"
-					height="45"
-					color="red"
-					alt="brand"
-				/>
+			<header class="navbar sticky-top navbar-expand-lg navbar-light ">
+				<a class="navbar-brand" href="/wall">
+					<img
+						src="/images/icon-left-font-monochrome-white.svg"
+						height="45"
+						color="red"
+						alt="brand"
+					/>
+				</a>
 				<button
-					className="navbar-toggler"
+					class="navbar-toggler"
 					type="button"
 					data-toggle="collapse"
-					data-target="#navbarTogglerDemo01"
-					aria-controls="navbarTogglerDemo01"
+					data-target="#navbarNav"
+					aria-controls="navbarNav"
 					aria-expanded="false"
 					aria-label="Toggle navigation"
 				>
-					<span className="navbar-toggler-icon"></span>
+					<span class="navbar-toggler-icon"></span>
 				</button>
 				{token ? (
-					<div className="collapse navbar-collapse">
-						<ul className="navbar-nav ml-auto">
-							<li>
+					<div class="collapse navbar-collapse" id="navbarNav">
+						<ul class="navbar-nav">
+							<li class="nav-item active">
 								<NavLink to="/wall">
 									<HomeIcon fontSize="large" />
 									<p>Home</p>
 								</NavLink>
 							</li>
-							<li>
+							<li class="nav-item">
 								<NavLink to="/myprofile/">
 									<PersonIcon fontSize="large" />
 									{profile ? <p>{profile.username}</p> : null}
 								</NavLink>
 							</li>
-							<li>
+							<li class="nav-item">
 								<button
 									type="button"
 									onClick={handleLogout}
@@ -63,56 +65,21 @@ const Header = ({ history }) => {
 						</ul>
 					</div>
 				) : (
-					<div className="collapse navbar-collapse">
-						<ul className="navbar-nav ml-auto">
-							<button
-								type="button"
-								className="btn btn-success"
-								onClick={() => history.push("/login")}
-							>
-								Login
-							</button>
+					<div class="collapse navbar-collapse" id="navbarNav">
+						<ul class="navbar-nav">
+							<li class="nav-item">
+								<button
+									type="button"
+									onClick={() => history.push("/login")}
+									className="btn btn-success"
+								>
+									Login
+								</button>
+							</li>
 						</ul>
 					</div>
 				)}
 			</header>
-			<div className="alert"></div>
-
-			{/* <nav class="navbar navbar-expand-lg navbar-light bg-light">
-				<button
-					class="navbar-toggler"
-					type="button"
-					data-toggle="collapse"
-					data-target="#navbarTogglerDemo01"
-					aria-controls="navbarTogglerDemo01"
-					aria-expanded="false"
-					aria-label="Toggle navigation"
-				>
-					<span class="navbar-toggler-icon"></span>
-				</button>
-				<div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-					<a class="navbar-brand" href="#">
-						Hidden brand
-					</a>
-					<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-						<li class="nav-item active">
-							<a class="nav-link" href="#">
-								Home <span class="sr-only">(current)</span>
-							</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="#">
-								Link
-							</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link disabled" href="#">
-								Disabled
-							</a>
-						</li>
-					</ul>
-				</div>
-			</nav> */}
 		</>
 	);
 };
