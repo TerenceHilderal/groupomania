@@ -18,8 +18,8 @@ const Header = ({ history }) => {
 
 	return (
 		<>
-			<header class="navbar sticky-top navbar-expand-lg navbar-light ">
-				<a class="navbar-brand" href="/wall">
+			<header className="navbar sticky-top navbar-expand-lg navbar-light ">
+				<a className="navbar-brand" href="/wall">
 					<img
 						src="/images/icon-left-font-monochrome-white.svg"
 						height="45"
@@ -28,7 +28,7 @@ const Header = ({ history }) => {
 					/>
 				</a>
 				<button
-					class="navbar-toggler"
+					className="navbar-toggler"
 					type="button"
 					data-toggle="collapse"
 					data-target="#navbarNav"
@@ -36,24 +36,24 @@ const Header = ({ history }) => {
 					aria-expanded="false"
 					aria-label="Toggle navigation"
 				>
-					<span class="navbar-toggler-icon"></span>
+					<span className="navbar-toggler-icon"></span>
 				</button>
 				{token ? (
-					<div class="collapse navbar-collapse" id="navbarNav">
-						<ul class="navbar-nav">
-							<li class="nav-item active">
+					<div className="collapse navbar-collapse" id="navbarNav">
+						<ul className="navbar-nav">
+							<li className="nav-item active">
 								<NavLink to="/wall">
 									<HomeIcon fontSize="large" />
 									<p>Home</p>
 								</NavLink>
 							</li>
-							<li class="nav-item">
+							<li className="nav-item">
 								<NavLink to="/myprofile/">
 									<PersonIcon fontSize="large" />
 									{profile ? <p>{profile.username}</p> : null}
 								</NavLink>
 							</li>
-							<li class="nav-item">
+							<li className="nav-item">
 								<button
 									type="button"
 									onClick={handleLogout}
@@ -65,9 +65,9 @@ const Header = ({ history }) => {
 						</ul>
 					</div>
 				) : (
-					<div class="collapse navbar-collapse" id="navbarNav">
-						<ul class="navbar-nav">
-							<li class="nav-item">
+					<div className="collapse navbar-collapse" id="navbarNav">
+						<ul className="navbar-nav">
+							<li className="nav-item">
 								<button
 									type="button"
 									onClick={() => history.push("/login")}

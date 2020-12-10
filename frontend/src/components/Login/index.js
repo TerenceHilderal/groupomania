@@ -8,7 +8,6 @@ const LogIn = () => {
 	const [login, setLogin] = useState({ email: "", password: "" });
 	const { setProfile, handleAlert } = useContext(UserContext);
 	const [redirect, setRedirect] = useState(false);
-	const [active, setActive] = useState(false);
 
 	const submitHandler = e => {
 		e.preventDefault();
