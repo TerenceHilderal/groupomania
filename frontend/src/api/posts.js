@@ -8,12 +8,14 @@ export const getPosts = () =>
 			Authorization: localStorage.getItem("token")
 		}
 	});
+
 export const getPost = UserId =>
 	axios.get(`${url}/user/${UserId}`, {
 		headers: {
 			Authorization: localStorage.getItem("token")
 		}
 	});
+
 export const addPost = formData =>
 	axios.post(`${url}/new`, formData, {
 		headers: {
@@ -21,20 +23,16 @@ export const addPost = formData =>
 			Authorization: localStorage.getItem("token")
 		}
 	});
+
 export const moderate = id =>
 	axios.put(`${url}/${id}/moderate`, {
 		headers: {
 			Authorization: localStorage.getItem("token")
 		}
 	});
-export const handleNewCom = (post, newComment) =>
-	axios.post(`http://localhost:3000/api/posts/${post.id}/comment`, newComment, {
-		headers: {
-			Authorization: localStorage.getItem("token")
-		}
-	});
-export const handleCom = post =>
-	axios.get(`${url}/${post.id}/comments`, {
+
+export const deletePost = id =>
+	axios.delete(`${url}/${id}`, {
 		headers: {
 			Authorization: localStorage.getItem("token")
 		}

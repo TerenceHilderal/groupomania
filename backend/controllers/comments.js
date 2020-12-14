@@ -64,6 +64,10 @@ exports.deleteComment = async (req, res) => {
 			where: { id: req.params.id }
 		});
 
+		if (!commentFound) {
+			throw new Error("Can't find your comment");
+		}
+
 		await models.Comment.destroy({
 			where: { id: req.params.id }
 		});

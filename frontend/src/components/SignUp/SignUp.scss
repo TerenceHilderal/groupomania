@@ -1,5 +1,4 @@
 .containerSignup {
-	height: 100vh;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -7,9 +6,11 @@
 	background-repeat: no-repeat;
 	background-position: center;
 	background-size: 50%;
+	margin-bottom: 5rem;
 }
+
 .signUp {
-	margin-top: 1rem;
+	margin-top: 2rem;
 	margin-bottom: 1rem;
 	margin-left: auto;
 	margin-right: auto;

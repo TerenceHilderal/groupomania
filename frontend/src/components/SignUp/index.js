@@ -23,7 +23,7 @@ function SignUp() {
 			.then(res => {
 				localStorage.setItem("token", res.data.token);
 				const user = {
-					user_id: res.data.user_id,
+					id: res.data.user_id,
 					username: res.data.username,
 					role: res.data.role,
 					email: res.data.email,
@@ -67,8 +67,9 @@ function SignUp() {
 				username_regex.test(value) && value.length <= 20
 					? setRoleValid(true)
 					: setRoleValid(false);
-			default:
 				break;
+			default:
+				handleAlert("danger", "Something gone wrong , please try again later");
 		}
 	};
 

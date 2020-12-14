@@ -51,9 +51,19 @@ exports.signup = async (req, res) => {
 			isAdmin: 0,
 			latent: 1
 		});
+
+		if (!newUser) {
+			throw new Error("Sorry,something gone wrong,please try again later");
+		}
+
 		const token =
 			"Bearer " +
 			jwt.sign({ id: newUser.id }, "SECRET_KEY", { expiresIn: "2H" });
+
+		if (!token) {
+			throw new Error("Sorry,something gone wrong,please try again later");
+		}
+
 		res.status(201).json({
 			user_id: newUser.id,
 			email: newUser.email,
@@ -82,15 +92,18 @@ exports.login = async (req, res) => {
 		}
 
 		const isMatch = await bcrypt.compare(req.body.password, user.password);
+
 		if (!isMatch) {
 			throw new Error("Incorrect password");
 		}
+
 		const token =
 			"Bearer " + jwt.sign({ id: user.id }, "SECRET_KEY", { expiresIn: "2h" });
 		res.status(200).json({
 			user: user,
 			token
 		});
+
 		if (!token) {
 			throw new Error("Something gone wrong try again later");
 		}
@@ -107,6 +120,7 @@ exports.userProfile = async (req, res) => {
 				id: req.user.id
 			}
 		});
+
 		if (!user) {
 			throw new Error("Sorry,can't find your account");
 		}
@@ -124,9 +138,14 @@ exports.deleteProfile = async (req, res) => {
 		if (!userToFind) {
 			throw new Error("Sorry,can't find your account");
 		}
+
 		const notLatent = userToFind.update({
 			latent: 0
 		});
+
+		if (!notLatent) {
+			throw new Error("Sorry,something gone wrong , please try again later");
+		}
 
 		res.status(200).json({
 			message: "Your account has been successfully deleted"
@@ -136,7 +155,7 @@ exports.deleteProfile = async (req, res) => {
 	}
 };
 
-exports.updateProfile = async (req, res, next) => {
+exports.updateProfile = async (req, res) => {
 	try {
 		const userToFind = await models.User.findOne({
 			attributes: ["role", "id", "isAdmin", "username"],
@@ -157,6 +176,10 @@ exports.updateProfile = async (req, res, next) => {
 				where: { id: req.user.id }
 			}
 		);
+
+		if (!userToUpdate) {
+			throw new Error("Sorry,something gone wrong,please try again later");
+		}
 		res.status(200).json({
 			user: userToUpdate.isAdmin,
 			message: "Your account has been update"

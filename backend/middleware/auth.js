@@ -6,7 +6,6 @@ module.exports = async (req, res, next) => {
 		const token = req.headers.authorization.split(" ")[1];
 		const decodedToken = jwt.verify(token, "SECRET_KEY");
 		const user = await models.User.findOne({ where: { id: decodedToken.id } });
-		console.log(token);
 		if (!user) {
 			throw new Error("invalid");
 		}

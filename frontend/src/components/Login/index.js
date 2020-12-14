@@ -22,8 +22,6 @@ const LogIn = () => {
 			});
 	};
 
-	console.log(login);
-
 	return (
 		<>
 			<div className="containerSignup">

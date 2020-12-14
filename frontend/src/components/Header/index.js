@@ -19,14 +19,14 @@ const Header = ({ history }) => {
 	return (
 		<>
 			<header className="navbar sticky-top navbar-expand-lg navbar-light ">
-				<a className="navbar-brand" href="/wall">
+				<NavLink className="navbar-brand" to="/wall">
 					<img
 						src="/images/icon-left-font-monochrome-white.svg"
 						height="45"
 						color="red"
 						alt="brand"
 					/>
-				</a>
+				</NavLink>
 				<button
 					className="navbar-toggler"
 					type="button"
@@ -40,14 +40,14 @@ const Header = ({ history }) => {
 				</button>
 				{token ? (
 					<div className="collapse navbar-collapse" id="navbarNav">
-						<ul className="navbar-nav">
-							<li className="nav-item active">
+						<ul className="navbar-nav ">
+							<li className=" nav-item active" aria-current="true">
 								<NavLink to="/wall">
 									<HomeIcon fontSize="large" />
 									<p>Home</p>
 								</NavLink>
 							</li>
-							<li className="nav-item">
+							<li className=" nav-item ">
 								<NavLink to="/myprofile/">
 									<PersonIcon fontSize="large" />
 									{profile ? <p>{profile.username}</p> : null}
@@ -71,7 +71,7 @@ const Header = ({ history }) => {
 								<button
 									type="button"
 									onClick={() => history.push("/login")}
-									className="btn btn-success"
+									className="btn btn-warning"
 								>
 									Login
 								</button>

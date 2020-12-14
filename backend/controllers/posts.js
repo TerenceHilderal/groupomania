@@ -5,22 +5,27 @@ const fs = require("fs");
 const { RSA_NO_PADDING } = require("constants");
 // const { post } = require("../app");
 
-// create a post
 exports.createPost = async (req, res) => {
 	try {
+		// attachment
 		const attachmentURL = `${req.protocol}://${req.get("host")}/images/${
 			req.file.filename
 		}`;
+
 		if (!attachmentURL) {
 			throw new Error(" Sorry, missing parameters");
 		}
+
+		// user
 		const findUser = await models.User.findOne({
 			attributes: ["username", "role"],
 			where: { id: req.user.id }
 		});
+
 		if (!findUser) {
 			throw new Error("Sorry,we can't find your account");
 		}
+		// post
 		const newPost = await models.Post.create({
 			title: req.body.title,
 			content: req.body.content,
@@ -28,16 +33,17 @@ exports.createPost = async (req, res) => {
 			UserId: req.user.id,
 			isModerate: 0
 		});
+
 		if (!newPost) {
 			throw new Error(" Sorry, missing parameters");
 		}
+
 		res.status(200).json({ newPost });
 	} catch (error) {
 		res.status(400).json({ error: error.message });
 	}
 };
 
-// get all posts
 exports.getAllPosts = async (req, res) => {
 	try {
 		const fields = req.query.fields;
@@ -78,25 +84,27 @@ exports.getPostProfile = async (req, res) => {
 				}
 			]
 		});
-		res.status(200).json(postProfile);
 		if (!postProfile) {
 			throw new Error(" This user has posted nothing ");
 		}
+
+		res.status(200).json(postProfile);
 	} catch (error) {
 		res.status(400).json({ error: error.message });
 	}
 };
 
-// moderate a post
 exports.moderatePost = async (req, res) => {
 	try {
 		const postToModerate = await models.Post.findOne({
 			where: { id: req.params.id }
 		});
+
 		if (!postToModerate) {
 			throw new Error(" Couldn't find your post");
 		}
-		postToModerate.isModerate
+
+		const moderatedPost = (await postToModerate.isModerate)
 			? postToModerate.update({
 					isModerate: 0
 			  })
@@ -104,54 +112,82 @@ exports.moderatePost = async (req, res) => {
 					isModerate: 1
 			  });
 
-		res.status(200).json({
-			message: "This post is now moderate",
-			postModerate: postToModerate
-		});
+		if (!moderatedPost) {
+			throw new Error("Sorry,something gone wrong,please try again later");
+		} else {
+			res.status(200).json({
+				message: "This post is now moderate",
+				postModerate: postToModerate
+			});
+		}
 	} catch (error) {
 		res.status(400).json({ error: error.message });
 	}
 };
 
-// delete a post
 exports.deletePost = async (req, res) => {
 	try {
-		const post = await models.Post.findOne({ where: { id: req.params.id } });
+		const post = await models.Post.findOne({
+			where: { id: req.params.id }
+		});
 
+		// attachment
 		if (post.attachment !== null) {
-			const filename = post.attachment.split("/images/")[1];
-			fs.unlink(`images/${filename}`, err => {
-				if (err) throw new Error({ err });
+			const filename = post.attachment.split("/images")[1];
+			fs.unlink(`images/${filename}`, error => {
+				error ? console.log(error) : console.log("file has been deleted");
 			});
 		}
+
 		if (!post) {
 			throw new Error("Sorry,your post doesn't exist ");
 		}
 
-		await models.Post.destroy({
+		// post
+		const destroyedPost = await models.Post.destroy({
 			where: { id: req.params.id }
 		});
-		res.status(200).json({ message: "Post has been deleted " });
-		await models.Comment.destroy({
+
+		if (!destroyedPost) {
+			throw new Error("Sorry,something gone wrong,please try again later");
+		} else {
+			res.status(200).json({ message: "Post has been deleted " });
+		}
+
+		// comment
+		const destroyedComment = await models.Comment.destroy({
 			where: { id: req.params.id }
 		});
-		res.status(200).json({ message: "Your comment has been deleted" });
+
+		if (!destroyedComment) {
+			throw new Error("Sorry,something gone wrong,please try again later");
+		} else {
+			res.status(200).json({ message: "Your comment has been deleted" });
+		}
 	} catch (error) {
 		res.status(404).json({ error: error.message });
 	}
 };
 
 // PROJET AMELIORATION
-
 exports.updatePost = async (req, res) => {
 	try {
 		const attachmentURL = `${req.protocol}://${req.get("host")}/images/${
 			req.file.filename
 		}`;
 
+		if (!attachmentURL) {
+			throw new Error("Sorry,something gone wrong , please try aagain later");
+		}
+
 		const postFound = await models.Post.findOne({
 			where: { id: req.params.id }
 		});
+
+		if (!postFound) {
+			throw new Error("Sorry,can't find your post");
+		}
+
 		if (postFound && postFound.UserId !== req.user.id) {
 			res.status(400).json({ error: error.message });
 		}

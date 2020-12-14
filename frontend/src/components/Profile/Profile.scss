@@ -1,0 +1,17 @@
+.container-fluid {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	max-width: 750px;
+	margin: auto;
+	margin-top: 3rem;
+	.card {
+		border-radius: 40px;
+	}
+	li {
+		list-style: none;
+	}
+	.btn {
+		margin-top: 1rem;
+	}
+}

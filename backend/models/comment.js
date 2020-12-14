@@ -14,11 +14,15 @@ module.exports = (sequelize, DataTypes) => {
 					allowNull: false
 				}
 			});
-			models.Comment.belongsTo(models.Post, {
-				foreignKey: {
-					allowNull: false
-				}
-			});
+			models.Comment.belongsTo(
+				models.Post,
+				{
+					foreignKey: {
+						allowNull: false
+					}
+				},
+				{ onDelete: "cascade" }
+			);
 		}
 	}
 	Comment.init(

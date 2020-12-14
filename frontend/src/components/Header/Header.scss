@@ -1,6 +1,5 @@
 header {
 	background-color: #192947;
-	// height: 100px;
 	border-bottom: 1px solid #d1515a;
 	width: 100%;
 
@@ -15,17 +14,18 @@ header {
 	}
 	a {
 		font-size: large;
-		color: #d1515a;
+		color: white;
 	}
 	a:hover {
-		color: wheat;
+		color: #d1515a;
 		text-decoration: none;
 	}
+
 	.btn-warning {
-		// margin-right: 200px;
 		margin-top: 1rem;
+	}
+	.btn-warning:hover {
 		background-color: #d1515a;
-		color: #192947;
 	}
 
 	.btn-success:hover {

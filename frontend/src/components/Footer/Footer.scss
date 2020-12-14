@@ -1,16 +1,18 @@
 .footer {
 	display: flex;
 	justify-content: space-between;
-	align-items: center;
-	height: 80px;
-	background-color: #d1515a;
+	height: 50px;
+	background-color: #192947;
 	padding: 1rem;
 	bottom: 0;
 	width: 100%;
 	border-top: 1px solid black;
+	margin-top: 4rem;
+	position: fixed;
+	bottom: 0;
 
 	a {
-		color: #192947;
+		color: #ffc107;
 		text-decoration: none;
 	}
 }

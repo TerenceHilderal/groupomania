@@ -2,7 +2,13 @@ import React, { useState, useEffect, useContext } from "react";
 import "./Post.scss";
 import PostComponent from "./PostComponent";
 import Loading from "../utils/loading";
-import { addPost, getPost, getPosts, moderate } from "../../api/posts";
+import {
+	addPost,
+	deletePost,
+	getPost,
+	getPosts,
+	moderate
+} from "../../api/posts";
 import { UserContext } from "../Context";
 
 const Post = () => {
@@ -67,84 +73,103 @@ const Post = () => {
 		}
 	};
 
+	const handleDeletePost = id => {
+		deletePost(id)
+			.then(response => {
+				const data = posts.filter(post => post.id !== id);
+				setPosts(data);
+				handleAlert("success", response.data.message);
+			})
+
+			.catch(error => handleAlert("danger", error.response.data.error));
+	};
+
 	const moderatePost = id => {
 		moderate(id)
 			.then(response => {
 				handlePosts();
-				handleAlert(
-					"success",
-					"This post is now moderate , comments are blocked"
-				);
+				handleAlert("success", response.data.message);
 			})
 			.catch(error => handleAlert("danger", error.response.data.error));
 	};
-	if (posts) {
-		return (
-			<div className="post container">
-				<div className="postForm">
-					<form
-						onSubmit={submitHandler}
-						method="post"
-						encType="multipart/form-data"
-						className="postForm"
-					>
-						<input
-							className="title"
-							placeholder="title"
-							type="text"
-							value={newPost.title}
-							onChange={e => handlePost(e)}
-							id="title"
-							name="title"
-						/>
 
-						<textarea
-							className="formInput"
-							placeholder="content"
-							value={newPost.content}
-							onChange={e => handlePost(e)}
-							id="content"
-							name="content"
-							type="text"
-						/>
-
-						<input
-							className="attachment"
-							placeholder="attachment"
-							onChange={e => handlePost(e)}
-							id="attachment"
-							name="attachment"
-							type="file"
-						/>
-						{active ? (
-							<button className="btn btn-success " type="submit">
-								Post-it!
-							</button>
-						) : (
-							<button disabled className="btn btn-success " type="submit">
-								Post-it!
-							</button>
-						)}
-					</form>
-				</div>
-				<div>
-					{posts && (
-						<>
-							{posts.map(post => (
-								<PostComponent
-									key={post.id}
-									post={post}
-									handlePostsByUserId={handlePostsByUserId}
-									moderatePost={moderatePost}
+	return (
+		<>
+			{posts ? (
+				<>
+					<div className="card postform">
+						<form
+							onSubmit={submitHandler}
+							method="post"
+							encType="multipart/form-data"
+							className="postForm"
+						>
+							<div className="card-header">
+								<label htmlFor="title">Title</label>
+								<input
+									type="text"
+									className="form-control title"
+									value={newPost.title}
+									onChange={e => handlePost(e)}
+									id="title"
+									name="title"
+									placeholder="Your title"
+									aria-label="Your title"
+									aria-describedby="basic-addon1"
 								/>
-							))}
-						</>
-					)}
-				</div>
-			</div>
-		);
-	} else {
-		return <Loading />;
-	}
+							</div>
+
+							<div className="card-body">
+								<label htmlFor="content">Your post</label>
+								<textarea
+									className="form-control formInput"
+									value={newPost.content}
+									onChange={e => handlePost(e)}
+									placeholder="Tell us something..."
+									id="content"
+									name="content"
+								/>
+								<input
+									className="form-control attachment"
+									onChange={e => handlePost(e)}
+									id="attachment"
+									name="attachment"
+									type="file"
+								/>
+
+								{active ? (
+									<button className="btn btn-primary " type="submit">
+										Post-it!
+									</button>
+								) : (
+									<button disabled className="btn btn-primary " type="submit">
+										Post-it!
+									</button>
+								)}
+							</div>
+						</form>
+					</div>
+
+					<div className="post">
+						{posts && (
+							<>
+								{posts.map(post => (
+									<PostComponent
+										key={post.id}
+										post={post}
+										handlePostsByUserId={handlePostsByUserId}
+										moderatePost={moderatePost}
+										handleDeletePost={handleDeletePost}
+									/>
+								))}
+							</>
+						)}
+					</div>
+				</>
+			) : (
+				<Loading />
+			)}
+		</>
+	);
 };
 export default Post;

@@ -1,82 +1,70 @@
 body {
+	background-color: whitesmoke;
+}
+
+.card {
+	img {
+		border-radius: 40px;
+		width: 300px;
+		height: 300px;
+	}
+	.badge {
+		font-size: 1.3rem;
+	}
+	.badge:hover {
+		cursor: pointer;
+	}
+	.delete {
+		margin-right: 80%;
+	}
+	margin-top: 5rem;
+	border-radius: 40px;
+}
+.card-footer {
 	background-color: white;
+	margin-bottom: 5rem;
+	padding: none;
+}
+.card-footer:last-child {
+	border-radius: 40px;
 }
 
 .post {
+	max-width: 800px;
+	margin: 0 auto 0 auto;
+	border-radius: 40px;
+}
+
+.postform {
 	max-width: 750px;
-	p,
-	span,
-	h2,
-	h3 {
-		color: white;
-	}
-	hr {
-		background-color: #d1515a;
-		height: 2px;
-		width: 100%;
-	}
-	img:hover {
-		overflow: hidden;
-		transition: 0.5s;
-		transform: scale(1.5);
-	}
-}
-.posted {
-	background-image: linear-gradient(#4a6597, #403ab3, #192947);
-	box-shadow: 12px 12px 2px 1px rgba(0, 0, 0, 0.2);
-	border-radius: 10px;
-	margin-top: 1.5rem;
-	margin-bottom: 3rem;
-	padding: 2rem;
-}
-.post__username {
 	display: flex;
-	justify-content: space-between;
-	:hover {
-		cursor: pointer;
+	margin: 3rem auto 0 auto;
+	border-radius: 40px;
+	#title {
+		border-radius: 40px;
+	}
+	#attachment {
+		border: none;
+	}
+	textarea {
+		margin-bottom: 1.5rem;
+		border-radius: 40px;
+	}
+	.card-header {
+		border-bottom: none;
+		background-color: white;
+		border-radius: 40px;
+	}
+	.btn {
+		margin-top: 1.5rem;
+		border-radius: 40px;
 	}
 }
 
-textarea[name="content"] {
-	resize: none;
-	width: 400px;
-	height: 200px;
-}
-
-.postForm {
-	p {
-		color: black;
-	}
-	border-radius: 10px;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-
-	.title {
-		margin-top: 2rem;
-		border-radius: 5%;
-		border-style: none;
-		border: 1px solid black;
-	}
-	.formInput {
-		margin: 1rem;
-		border-radius: 2%;
-		border: 1px solid black;
-	}
-
-	.attachment {
-		margin: 0;
-		margin-bottom: 0.5rem;
-	}
-}
-.icon {
-	margin-top: 1rem;
-}
 .icon:hover {
 	cursor: pointer;
-	color: wheat;
+	color: #d1515a;
 }
 .btn {
 	margin: none !important;
-	// margin-bottom: 2rem;
 }
