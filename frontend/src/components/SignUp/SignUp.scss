@@ -1,37 +1,29 @@
-.containerSignup {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	// background-image: url("/frontend/public/logo192.png");
-	background-repeat: no-repeat;
-	background-position: center;
-	background-size: 50%;
-	margin-bottom: 5rem;
-}
-
 .signUp {
-	margin-top: 2rem;
-	margin-bottom: 1rem;
-	margin-left: auto;
-	margin-right: auto;
-	text-align: center;
-	width: 60%;
 	padding: 1.5rem;
-	box-shadow: 8px 8px 8px 8px #d1515a;
+	max-width: 500px;
+	margin: auto;
+	h2 {
+		font-family: "Montserrat", sans-serif;
+		font-size: 400;
+	}
 
 	label {
 		color: black;
-		font-size: larger;
-	}
-
-	p {
-		color: green;
 	}
 
 	.error {
-		border: 1px solid red;
+		border: 2px solid red;
 	}
 	.valid {
 		border: 2px solid green;
+	}
+}
+.login {
+	max-width: 500px;
+	margin: auto;
+	margin-top: 5rem;
+	h2 {
+		font-family: "Montserrat", sans-serif;
+		font-size: 400;
 	}
 }

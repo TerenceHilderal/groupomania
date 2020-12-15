@@ -1,17 +1,20 @@
 body {
-	background-color: whitesmoke;
+	background-color: white;
 }
-
+.police {
+	font-family: "Montserrat", sans-serif;
+	font-size: 300;
+}
 .card {
 	img {
 		border-radius: 40px;
-		width: 300px;
-		height: 300px;
+		width: 200px;
+		height: 200px;
 	}
 	.badge {
 		font-size: 1.3rem;
 	}
-	.badge:hover {
+	.seePost:hover {
 		cursor: pointer;
 	}
 	.delete {
@@ -19,11 +22,14 @@ body {
 	}
 	margin-top: 5rem;
 	border-radius: 40px;
+	border-color: #d1515a;
 }
 .card-footer {
 	background-color: white;
 	margin-bottom: 5rem;
 	padding: none;
+	border-color: #d1515a;
+	border-bottom: 1px solid #d1515a;
 }
 .card-footer:last-child {
 	border-radius: 40px;
@@ -33,9 +39,24 @@ body {
 	max-width: 800px;
 	margin: 0 auto 0 auto;
 	border-radius: 40px;
+	h3 {
+		font-family: "Montserrat", sans-serif;
+		font-size: 400;
+	}
+	p {
+		font-family: "Montserrat", sans-serif;
+		font-size: 200;
+	}
+	.text-primary {
+		font-family: "Montserrat", sans-serif;
+		font-size: 400;
+		font-weight: bold;
+	}
 }
 
 .postform {
+	font-family: "Montserrat", sans-serif;
+	font-size: 300;
 	max-width: 750px;
 	display: flex;
 	margin: 3rem auto 0 auto;
@@ -60,7 +81,9 @@ body {
 		border-radius: 40px;
 	}
 }
-
+.icon:focus {
+	border: 1px solid #d1515a;
+}
 .icon:hover {
 	cursor: pointer;
 	color: #d1515a;

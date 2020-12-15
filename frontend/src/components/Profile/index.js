@@ -4,6 +4,7 @@ import Alert from "../Alert";
 import { handleDelete } from "../../api/users";
 import { withRouter } from "react-router-dom";
 import { UserContext } from "../Context";
+import Loading from "../utils/loading";
 
 const Profile = ({ history }) => {
 	const [success] = useState(false);
@@ -28,41 +29,34 @@ const Profile = ({ history }) => {
 	return (
 		<>
 			{profile ? (
-				<div className="container-fluid">
+				<div className="card welcome">
 					{success ? <Alert /> : null}
-					<div>
-						<h1>My profile</h1>
-					</div>
-					<div className="card">
-						<h2>Welcome {profile.username}</h2>
-						<p>
-							You are in your private space , here will be displayed some
-							information about you , only those you enter during your
-							inscription. * We will not keep information about you without your
-							consentment.
+					<div className="card-body">
+						<h5 className="card-title text-primary">Hi! {profile.username}</h5>
+						<p className="card-text">
+							Welcome to your Groupomania's private space
 						</p>
-
-						<h3>Your informations:</h3>
-						<ul>
-							<li>Email:{profile.email}</li>
-							<li>Username:{profile.username} </li>
-							<li>Your role in our company :{profile.role} </li>
-							<li>
-								Advantage administrator : {JSON.stringify(profile.isAdmin)}
-							</li>
-						</ul>
 					</div>
-
-					<button
-						type="button"
-						onClick={handleDeleteUser}
-						className="btn btn-danger"
-					>
-						Delete my account
-					</button>
-					{/* </div> */}
+					<ul className="list-group list-group-flush">
+						<li className="list-group-item">Email : {profile.email}</li>
+						<li className="list-group-item">Role: {profile.role}</li>
+						<li className="list-group-item">
+							Administrator :{JSON.stringify(profile.isAdmin)}
+						</li>
+					</ul>
+					<div className="card-body">
+						<button
+							type="button"
+							onClick={handleDeleteUser}
+							className="btn btn-danger"
+						>
+							Delete your account
+						</button>
+					</div>
 				</div>
-			) : null}
+			) : (
+				<Loading />
+			)}
 		</>
 	);
 };

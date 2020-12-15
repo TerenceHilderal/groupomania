@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { handleSignUp } from "../../api/users";
 import { withRouter, Redirect, NavLink } from "react-router-dom";
 import { UserContext } from "../Context";
@@ -10,7 +10,7 @@ function SignUp() {
 		username: "",
 		role: ""
 	});
-	const { profile, setProfile, handleAlert } = useContext(UserContext);
+	const { setProfile, handleAlert } = useContext(UserContext);
 	const [redirect, setRedirect] = useState(false);
 	const email_regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 	const password_regex = /^(?=.*[\d])(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*])[\w!@#$%^&*]{8,}$/;
@@ -75,41 +75,36 @@ function SignUp() {
 
 	return (
 		<>
-			<div className="containerSignup">
-				<form className="signUp" onSubmit={submitHandler}>
-					<div className="form-group">
-						<label htmlFor="email">Email address</label>
-						<input
-							type="email"
-							className={`form-control ${emailValid ? "valid" : "error"} `}
-							name="email"
-							id="email"
-							value={signUp.email}
-							onChange={handleChange}
-							aria-describedby="emailHelp"
-							placeholder="Enter email"
-						/>
-					</div>
+			<div className="container">
+				<form className="signUp " onSubmit={submitHandler}>
+					<h2>Welcome to Groupomania Social Network</h2>
+					<label htmlFor="email">Email address</label>
+					<input
+						type="email"
+						className={`form-control ${emailValid ? "valid" : "error"} `}
+						name="email"
+						id="email"
+						value={signUp.email}
+						onChange={handleChange}
+						aria-describedby="emailHelp"
+						placeholder="Enter email"
+					/>
 
-					<div className="form-group">
-						<label htmlFor="password">Password</label>
-						<input
-							type="password"
-							className={`form-control ${passwordValid ? "valid" : "error"} `}
-							name="password"
-							id="password"
-							value={signUp.password}
-							onChange={handleChange}
-							placeholder="Password"
-						/>
-
-						<small id="smallPassword">
-							-At least 8 characters long - Include at least 1 lowercase letter
-							- 1 capital letter - 1 number - 1 special character = !@#$%^&*
-						</small>
-					</div>
-
-					<div className="form-group">
+					<label htmlFor="password">Password</label>
+					<input
+						type="password"
+						className={`form-control ${passwordValid ? "valid" : "error"} `}
+						name="password"
+						id="password"
+						value={signUp.password}
+						onChange={handleChange}
+						placeholder="Password"
+					/>
+					<small id="smallPassword" className="mb-2 text-muted">
+						-At least 8 characters long - Include at least 1 lowercase letter -
+						1 capital letter - 1 number - 1 special character = !@#$%^&*
+					</small>
+					<div>
 						<label htmlFor="username">Username</label>
 						<input
 							type="text"
@@ -122,33 +117,33 @@ function SignUp() {
 						/>
 					</div>
 
-					<div className="form-group">
-						<label htmlFor="role">Your role</label>
-						<input
-							type="textt"
-							className={`form-control ${roleValid ? "valid" : "error"} `}
-							name="role"
-							id="role"
-							value={signUp.role}
-							onChange={handleChange}
-							placeholder="CEO,Developer..."
-						/>
-						<small></small>
-					</div>
+					<label htmlFor="role">Your role</label>
+					<input
+						type="text"
+						className={`form-control ${roleValid ? "valid" : "error"} `}
+						name="role"
+						id="role"
+						value={signUp.role}
+						onChange={handleChange}
+						placeholder="CEO,Developer..."
+					/>
+
 					{emailValid && passwordValid && usernameValid && roleValid ? (
-						<button type="submit" className="btn btn-danger">
+						<button type="submit" className="btn btn-danger pt-1">
 							Sign-up
 						</button>
 					) : (
-						<button type="submit" className="btn btn-danger" disabled>
+						<button type="submit" className="btn btn-danger mt-3" disabled>
 							Sign-up
 						</button>
 					)}
-
-					<p>Already have an account?</p>
-					<NavLink to="/login"> Click here</NavLink>
+					<div>
+						<p>Already have an account?</p>
+						<NavLink to="/login"> Click here</NavLink>
+					</div>
 				</form>
 			</div>
+
 			{redirect && <Redirect to="/myprofile" />}
 		</>
 	);

@@ -7,6 +7,7 @@ import { UserContext } from "../Context";
 import { handleNewCom, handleComs } from "../../api/comment";
 import Loading from "../utils/loading";
 import DeleteIcon from "@material-ui/icons/Delete";
+import StarRateIcon from "@material-ui/icons/StarRate";
 
 const PostComponent = ({
 	post,
@@ -63,19 +64,22 @@ const PostComponent = ({
 									className="icon delete infobulle"
 									style={{ fontSize: 30 }}
 									onClick={() => handleDeletePost(post.id)}
+									autoFocus
 								/>
 							) : null}
 
-							<strong className="d-flex mb-2 text-primary">
+							<div className="d-flex mb-2 text-primary">
+								{post.User.isAdmin ? <StarRateIcon /> : null}
 								{profile.isAdmin ? (
 									<span
 										onClick={() => history.push(`/wall/${postProfileId}`)}
-										className="badge rounded-pill bg-light"
+										className="badge rounded-pill bg-light seePost "
+										autoFocus
 									>
 										{post.User.username}
 									</span>
 								) : (
-									<span className="badge rounded-pill bg-light ">
+									<span className="badge rounded-pill bg-light">
 										{post.User.username}
 									</span>
 								)}
@@ -86,10 +90,10 @@ const PostComponent = ({
 										style={{ fontSize: 30 }}
 										onClick={() => moderatePost(post.id)}
 										className="icon"
+										autoFocus
 									/>
 								) : null}
-							</strong>
-
+							</div>
 							<h3 className="mb-0">{post.title}</h3>
 							<span className="mb-1 text-muted">{date}</span>
 							<p className="card-text mb-auto">{post.content}</p>
@@ -99,6 +103,7 @@ const PostComponent = ({
 							src={post.attachment}
 							className="card-img-right mx-auto d-block p-1 "
 							alt="post-capture"
+							autoFocus
 						/>
 					</div>
 
@@ -132,6 +137,7 @@ const PostComponent = ({
 										aria-describedby="basic-addon2"
 										name="comments"
 										onChange={e => handleComment(e)}
+										autoFocus
 									/>
 									<div className="input-group-append">
 										{newComment === "" ? (
@@ -140,6 +146,7 @@ const PostComponent = ({
 												disabled
 												type="submit"
 												onClick={e => handleNewComment(e)}
+												autoFocus
 											>
 												Send-it
 											</button>
@@ -148,6 +155,7 @@ const PostComponent = ({
 												className="btn btn-info "
 												type="submit"
 												onClick={e => handleNewComment(e)}
+												autoFocus
 											>
 												Send-it
 											</button>
