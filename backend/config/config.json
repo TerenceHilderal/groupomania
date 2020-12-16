@@ -2,8 +2,8 @@
 
 {
 	"development": {
-		"username": "root",
-		"password": "Terence972",
+		"username": "username",
+		"password": "yourpw",
 		"database": "groupomania_development",
 		"host": "127.0.0.1",
 		"dialect": "mysql"
