@@ -80,6 +80,9 @@ body {
 		margin-top: 1.5rem;
 		border-radius: 40px;
 	}
+	input#file-upload-button {
+		content: null;
+	}
 }
 .icon:focus {
 	border: 1px solid #d1515a;

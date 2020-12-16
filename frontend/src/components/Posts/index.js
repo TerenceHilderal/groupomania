@@ -129,12 +129,14 @@ const Post = () => {
 									id="content"
 									name="content"
 								/>
+								<label class="" htmlFor="attachment"></label>
 								<input
 									className="form-control attachment"
 									onChange={e => handlePost(e)}
 									id="attachment"
 									name="attachment"
 									type="file"
+									width="30%"
 								/>
 
 								{active ? (

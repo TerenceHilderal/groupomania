@@ -34,12 +34,17 @@ const Profile = ({ history }) => {
 					<div className="card-body">
 						<h5 className="card-title text-primary">Hi! {profile.username}</h5>
 						<p className="card-text">
-							Welcome to your Groupomania's private space
+							Welcome to your Groupomania private space: By clicking on Home
+							button you will be able to post messages please courteous
+							moderators reserve the right to block comments or delete your
+							posts
 						</p>
 					</div>
 					<ul className="list-group list-group-flush">
 						<li className="list-group-item">Email : {profile.email}</li>
+						<li className="list-group-item">Username : {profile.username}</li>
 						<li className="list-group-item">Role: {profile.role}</li>
+
 						<li className="list-group-item">
 							Administrator :{JSON.stringify(profile.isAdmin)}
 						</li>

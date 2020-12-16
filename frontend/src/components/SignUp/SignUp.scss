@@ -10,6 +10,9 @@
 	label {
 		color: black;
 	}
+	.btn {
+		margin-top: 1rem;
+	}
 
 	.error {
 		border: 2px solid red;
@@ -22,6 +25,7 @@
 	max-width: 500px;
 	margin: auto;
 	margin-top: 5rem;
+	padding: 1.5rem;
 	h2 {
 		font-family: "Montserrat", sans-serif;
 		font-size: 400;

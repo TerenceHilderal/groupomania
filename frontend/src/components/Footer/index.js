@@ -1,14 +1,13 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 import "./Footer.scss";
 function Footer() {
 	return (
 		<footer className=" footer">
-			<a href="#">About </a>
-			<a href="#">Assistance center</a>
-			<a href="#">Conditions</a>
-			<a href="#">Privacy policies</a>
-			<a href="#">Cookies</a>
-			<a href="#">Settings</a>
+			<NavLink to="#">About </NavLink>
+			<NavLink to="#">Conditions</NavLink>
+			<NavLink to="#">Privacy policies</NavLink>
+			<NavLink to="#">Settings</NavLink>
 		</footer>
 	);
 }
