@@ -70,19 +70,14 @@ const PostComponent = ({
 
 							<div className="d-flex mb-2 text-primary">
 								{post.User.isAdmin ? <StarRateIcon /> : null}
-								{profile.isAdmin ? (
-									<span
-										onClick={() => history.push(`/wall/${postProfileId}`)}
-										className="badge rounded-pill bg-light seePost "
-										autoFocus
-									>
-										{post.User.username}
-									</span>
-								) : (
-									<span className="badge rounded-pill bg-light">
-										{post.User.username}
-									</span>
-								)}
+
+								<span
+									onClick={() => history.push(`/wall/${postProfileId}`)}
+									className="badge rounded-pill bg-light seePost "
+									autoFocus
+								>
+									{post.User.username}
+								</span>
 
 								{profile.isAdmin ? (
 									<PanToolIcon
