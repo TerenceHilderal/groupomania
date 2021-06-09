@@ -1,25 +1,23 @@
 // import
 
-const models = require("../models");
-const fs = require("fs");
-const { RSA_NO_PADDING } = require("constants");
-// const { post } = require("../app");
+const models = require('../models');
+const fs = require('fs');
 
 exports.createPost = async (req, res) => {
 	try {
 		// attachment
-		const attachmentURL = `${req.protocol}://${req.get("host")}/images/${
+		const attachmentURL = `${req.protocol}://${req.get('host')}/images/${
 			req.file.filename
 		}`;
 
 		if (!attachmentURL) {
-			throw new Error(" Sorry, missing parameters");
+			throw new Error(' Sorry, missing parameters');
 		}
 
 		// user
 		const findUser = await models.User.findOne({
-			attributes: ["username", "role"],
-			where: { id: req.user.id }
+			attributes: ['username', 'role'],
+			where: { id: req.user.id },
 		});
 
 		if (!findUser) {
@@ -31,11 +29,11 @@ exports.createPost = async (req, res) => {
 			content: req.body.content,
 			attachment: attachmentURL,
 			UserId: req.user.id,
-			isModerate: 0
+			isModerate: 0,
 		});
 
 		if (!newPost) {
-			throw new Error(" Sorry, missing parameters");
+			throw new Error(' Sorry, missing parameters');
 		}
 
 		res.status(200).json({ newPost });
@@ -50,17 +48,17 @@ exports.getAllPosts = async (req, res) => {
 		const order = req.query.order;
 
 		const posts = await models.Post.findAll({
-			order: [order != null ? order.split(":") : ["createdAt", "DESC"]],
-			attributes: fields != "*" && fields != null ? fields.split(",") : null,
+			order: [order != null ? order.split(':') : ['createdAt', 'DESC']],
+			attributes: fields != '*' && fields != null ? fields.split(',') : null,
 			include: [
 				{
 					model: models.User,
-					attributes: ["username", "isAdmin"]
-				}
-			]
+					attributes: ['username', 'isAdmin'],
+				},
+			],
 		});
 		if (!posts) {
-			throw new Error(" Sorry , nothing to fetch");
+			throw new Error(' Sorry , nothing to fetch');
 		}
 		res.status(200).send(posts);
 	} catch (error) {
@@ -74,18 +72,18 @@ exports.getPostProfile = async (req, res) => {
 		const fields = req.query.fields;
 
 		const postProfile = await models.Post.findAll({
-			order: [order != null ? order.split(":") : ["createdAt", "DESC"]],
-			attributes: fields != "*" && fields != null ? fields.split(",") : null,
+			order: [order != null ? order.split(':') : ['createdAt', 'DESC']],
+			attributes: fields != '*' && fields != null ? fields.split(',') : null,
 			include: [
 				{
 					model: models.User,
-					attributes: ["username"],
-					where: { id: req.params.id }
-				}
-			]
+					attributes: ['username'],
+					where: { id: req.params.id },
+				},
+			],
 		});
 		if (!postProfile) {
-			throw new Error(" This user has posted nothing ");
+			throw new Error(' This user has posted nothing ');
 		}
 
 		res.status(200).json(postProfile);
@@ -97,7 +95,7 @@ exports.getPostProfile = async (req, res) => {
 exports.moderatePost = async (req, res) => {
 	try {
 		const postToModerate = await models.Post.findOne({
-			where: { id: req.params.id }
+			where: { id: req.params.id },
 		});
 
 		if (!postToModerate) {
@@ -106,18 +104,18 @@ exports.moderatePost = async (req, res) => {
 
 		const moderatedPost = (await postToModerate.isModerate)
 			? postToModerate.update({
-					isModerate: 0
+					isModerate: 0,
 			  })
 			: postToModerate.update({
-					isModerate: 1
+					isModerate: 1,
 			  });
 
 		if (!moderatedPost) {
-			throw new Error("Sorry,something gone wrong,please try again later");
+			throw new Error('Sorry,something gone wrong,please try again later');
 		} else {
 			res.status(200).json({
-				message: "This post is now moderate",
-				postModerate: postToModerate
+				message: 'This post is now moderate',
+				postModerate: postToModerate,
 			});
 		}
 	} catch (error) {
@@ -128,14 +126,14 @@ exports.moderatePost = async (req, res) => {
 exports.deletePost = async (req, res) => {
 	try {
 		const post = await models.Post.findOne({
-			where: { id: req.params.id }
+			where: { id: req.params.id },
 		});
 
 		// attachment
 		if (post.attachment !== null) {
-			const filename = post.attachment.split("/images")[1];
-			fs.unlink(`images/${filename}`, error => {
-				error ? console.log(error) : console.log("file has been deleted");
+			const filename = post.attachment.split('/images')[1];
+			fs.unlink(`images/${filename}`, (error) => {
+				error ? console.log(error) : console.log('file has been deleted');
 			});
 		}
 
@@ -145,24 +143,24 @@ exports.deletePost = async (req, res) => {
 
 		// post
 		const destroyedPost = await models.Post.destroy({
-			where: { id: req.params.id }
+			where: { id: req.params.id },
 		});
 
 		if (!destroyedPost) {
-			throw new Error("Sorry,something gone wrong,please try again later");
+			throw new Error('Sorry,something gone wrong,please try again later');
 		} else {
-			res.status(200).json({ message: "Post has been deleted " });
+			res.status(200).json({ message: 'Post has been deleted ' });
 		}
 
 		// comment
 		const destroyedComment = await models.Comment.destroy({
-			where: { id: req.params.id }
+			where: { id: req.params.id },
 		});
 
 		if (!destroyedComment) {
-			throw new Error("Sorry,something gone wrong,please try again later");
+			throw new Error('Sorry,something gone wrong,please try again later');
 		} else {
-			res.status(200).json({ message: "Your comment has been deleted" });
+			res.status(200).json({ message: 'Your comment has been deleted' });
 		}
 	} catch (error) {
 		res.status(404).json({ error: error.message });
@@ -172,16 +170,16 @@ exports.deletePost = async (req, res) => {
 // PROJET AMELIORATION
 exports.updatePost = async (req, res) => {
 	try {
-		const attachmentURL = `${req.protocol}://${req.get("host")}/images/${
+		const attachmentURL = `${req.protocol}://${req.get('host')}/images/${
 			req.file.filename
 		}`;
 
 		if (!attachmentURL) {
-			throw new Error("Sorry,something gone wrong , please try aagain later");
+			throw new Error('Sorry,something gone wrong , please try aagain later');
 		}
 
 		const postFound = await models.Post.findOne({
-			where: { id: req.params.id }
+			where: { id: req.params.id },
 		});
 
 		if (!postFound) {
@@ -196,12 +194,12 @@ exports.updatePost = async (req, res) => {
 			title: req.body.title,
 			content: req.body.content,
 			attachment: attachmentURL,
-			userId: req.user.id
+			userId: req.user.id,
 		});
 
 		res.status(201).json({
-			message: " Your post has been updated",
-			PostUpdated: postFound
+			message: ' Your post has been updated',
+			PostUpdated: postFound,
 		});
 	} catch (error) {
 		res.status(400).json({ error: error.message });
