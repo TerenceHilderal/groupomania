@@ -50,6 +50,7 @@ const App = () => {
 			setAlert(null);
 		}, 3000);
 	};
+
 	useEffect(() => {
 		if (!profile && isMyTokenValid()) {
 			handleProfile()

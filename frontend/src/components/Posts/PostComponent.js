@@ -64,7 +64,6 @@ const PostComponent = ({
 									className="icon delete infobulle"
 									style={{ fontSize: 30 }}
 									onClick={() => handleDeletePost(post.id)}
-									autoFocus
 								/>
 							) : null}
 
