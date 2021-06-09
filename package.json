@@ -2,8 +2,9 @@
   "name": "groupomania",
   "version": "1.0.0",
   "description": "P7 Openclassrooms",
-  "main": "index.js",
+  "main": "backend/server.js",
   "scripts": {
+    "start":"cd backend && node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
