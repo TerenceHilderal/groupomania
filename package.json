@@ -4,7 +4,7 @@
   "description": "P7 Openclassrooms",
   "main": "backend/server.js",
   "scripts": {
-    "start":"cd backend && node server.js",
+    "start": "cd backend && node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/TerenceHilderal/groupomania/issues"
   },
-  "homepage": "https://github.com/TerenceHilderal/groupomania#readme"
+  "homepage": "https://github.com/TerenceHilderal/groupomania#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
