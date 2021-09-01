@@ -1,26 +1,26 @@
-"use strict";
+'use strict';
 
-const fs = require("fs");
-const path = require("path");
-const { getMaxListeners } = require("process");
-const Sequelize = require("sequelize");
+const fs = require('fs');
+const path = require('path');
+const { getMaxListeners } = require('process');
+const Sequelize = require('sequelize');
 const basename = path.basename(__filename);
-const env = process.env.NODE_ENV || "development";
-const config = require(__dirname + "/../config/config.json")[env];
-const bcrypt = require("bcrypt");
-require("dotenv").config();
+const env = process.env.NODE_ENV || 'development';
+const config = require(__dirname + '/../config/config.json')[env];
+const bcrypt = require('bcrypt');
+require('dotenv').config();
 
 const db = {};
 
-// const config = {
-// 	development: {
-// 		username: process.env.DB_USERNAME,
-// 		password: process.env.DB_PASSWORD,
-// 		database: "groupomania_development",
-// 		host: "127.0.0.1",
-// 		dialect: "mysql"
-// 	}
-// }[env];
+const config = {
+	production: {
+		username: process.env.DB_USERNAME,
+		password: process.env.DB_PASSWORD,
+		database: 'groupomania_development',
+		host: '127.0.0.1',
+		dialect: 'mysql',
+	},
+}[env];
 
 let sequelize;
 if (config.use_env_variable) {
@@ -30,7 +30,7 @@ if (config.use_env_variable) {
 		config.database,
 		config.username,
 		config.password,
-		config
+		config,
 	);
 }
 
@@ -51,20 +51,20 @@ if (config.use_env_variable) {
 // *********************************************************Fin**************************************************************************************
 
 fs.readdirSync(__dirname)
-	.filter(file => {
+	.filter((file) => {
 		return (
-			file.indexOf(".") !== 0 && file !== basename && file.slice(-3) === ".js"
+			file.indexOf('.') !== 0 && file !== basename && file.slice(-3) === '.js'
 		);
 	})
-	.forEach(file => {
+	.forEach((file) => {
 		const model = require(path.join(__dirname, file))(
 			sequelize,
-			Sequelize.DataTypes
+			Sequelize.DataTypes,
 		);
 		db[model.name] = model;
 	});
 
-Object.keys(db).forEach(modelName => {
+Object.keys(db).forEach((modelName) => {
 	if (db[modelName].associate) {
 		db[modelName].associate(db);
 	}
