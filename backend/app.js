@@ -25,7 +25,9 @@ app.use((req, res, next) => {
 	); // on autorise certaines méthod
 	next();
 });
-
+app.get('/', (req, res) => {
+	res.send(' it works');
+});
 /* BODY PARSER */
 app.use(bodyParser.json()); //.json est une méthode de l'objet bodyParser qui va transformer le corps des requêtes en objets JSON
 app.use(bodyParser.urlencoded({ extended: true }));
