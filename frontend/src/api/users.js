@@ -17,11 +17,15 @@ export const handleDelete = () =>
 		},
 	});
 export const handleSignUp = (signUp) =>
-	axios.post(`${url_users}/signup`, signUp, {
-		headers: {
-			Authorization: localStorage.getItem('token'),
+	axios.post(
+		'https://groupomania-master.herokuapp.com/api/users/signup',
+		signUp,
+		{
+			headers: {
+				Authorization: localStorage.getItem('token'),
+			},
 		},
-	});
+	);
 export const handleProfile = () =>
 	axios.get(`${url_users}/myprofile`, {
 		headers: {
